@@ -7,6 +7,7 @@ import DiagnosisScreen from './tabs/diagnosis';
 import HistoryScreen from './tabs/history';
 import AboutScreen from './tabs/about';
 import SettingScreen from './tabs/settings';
+import CameraTestScreen from './tabs/camera-test';
 import { useColorScheme } from "react-native";
 import { useCallback, useEffect } from "react";
 import { get, save } from "./tools/storage";
@@ -23,6 +24,7 @@ export default function App() {
       <Drawer.Screen name="My History" component={HistoryScreen} options={{drawerIcon:()=><Ionicons name="folder-open-outline" size={22} color="green" />}}/>
       <Drawer.Screen name="About" component={AboutScreen} options={{drawerIcon:()=><Ionicons name="help-circle-outline" size={22} color="green" />}}/>
       <Drawer.Screen name="Settings" component={SettingScreen} options={{drawerIcon:()=><Ionicons name="settings-outline" size={22} color="green" />}}/>
+      <Drawer.Screen name="Camera-test" component={CameraTestScreen}/>
     </Drawer.Navigator>
   );
 }

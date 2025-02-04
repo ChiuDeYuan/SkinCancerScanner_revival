@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+    <!-- 針對特定域名允許 cleartext -->
+    <domain-config cleartextTrafficPermitted="true">
+         <domain includeSubdomains="true">116.241.64.125</domain>
+    </domain-config>
+</network-security-config>
