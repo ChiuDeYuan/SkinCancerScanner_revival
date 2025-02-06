@@ -1,0 +1,47 @@
+{
+    "intro":[
+        "Melanoma is a kind of skin cancer.Although Melanoma only accounts for 1-2% of skin cancer cases, it is easily the most deadly type of skin cancer. It can grow rapidly over weeks or months and it may spread to other parts of the body and potentially become fatal.",
+        "According to the American Cancer Society, melanoma has on average a 94% 5-year relative survival rate. For reference, the most common type of skin cancer, Basal Cell Carcinoma, has a 100% 5-year relative survival rate.",
+        "Melanoma is also among one of the most common cancers in young people under 30 years old, especially in young women (#3 most diagnosed cancer among ages 25 to 39 in the United States).",
+        "Despite Melanoma's deadliness, it is highly curable if caught early. By spreading awareness of the symptoms of Melanoma, more cases of Melanoma can be spotted in early stages when it can be easily treated. The American Cancer Society’s estimates for melanoma in the United States for 2024 are:",
+        "• About 100,640 new melanomas will be diagnosed (about 59,170 in men and 41,470 in women)",
+        "• About 8,290 people are expected to die of melanoma (about 5,430 men and 2,860 women).",
+        "The most important sign of potential Melanoma is a new spot on the skin or a spot that is changing in size, shape or color. A spot that looks different from all of the other spots on the skin could also be an important sign.",
+        "One of the key rules to be on the lookout for early signs of Melanoma is called The ABCDE rule, it helps us by examining spots or moles and determining whether it is a sign of Melanoma or not.",
+        "A. Asymmetry: One half of a hole or birthmark does not match the other.",
+        "B. Border: The edges are irregular, ragged, notched, or blurred.",
+        "C. Color: The color is not the same all over and may include different shades of brown or black, or sometimes with patches of pink, red, white or blue.",
+        "D. Diameter: The spot is larger than 6 millimeters across (about 1/4 inch or the size of a pencil eraser), although Melanomas can sometimes be smaller than this.",
+        "E. Evolving: The mole is changing in size, shape, or color.",
+        "A risk factor is anything that raises your risk of getting a disease such as cancer. Risk factors include a variety of things such as personal lifestyle, age or family history.The major risk factors of Melanoma are as follows:",
+        "1. UV Light Exposure",
+        "2. Moles",
+        "3. History of Melanoma",
+        "4. Weakened Immune System",
+        "5. Being Older",
+        "The information and predicted resaults are for reference only. Seek professional medical assistance if you need it."
+    ],
+    "about":[
+        "The model is based on Mobile-ViT",
+        "Training metrics of the model",
+        "Test on Test set(n=1000)",
+        "Accuracy: 89.4%",
+        "Loss(categorical cross-entropy): 0.345",
+        "AUC(ROC): 0.949",
+        "Below is the training history",
+        "You can get source code and other informations on GitHub"
+    ],
+    "diagnosis":{
+        "start":"",
+        "questions-title":[
+
+        ],
+        "questions-description":[
+
+        ],
+        "questions-answers":[  
+        
+        ],
+        "scanner":" "
+    }
+}

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useContext } from 'react';
 import DarkModeContext from '../settings/darkmode-context';
 

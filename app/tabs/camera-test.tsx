@@ -1,12 +1,15 @@
 import { View, Text, StyleSheet, Button, Image, Dimensions } from 'react-native';
 import { useContext, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker'
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system'
+import * as ImageManipulator from 'expo-image-manipulator'
+;
+import uploadImage from '../tools/networking';
 
 const { width, height } = Dimensions.get('window');
 
 const CameraTestScreen = () => {
-    const [image, setImage] = useState<string | null>(null);
+    const [image, setImage] = useState<[string, string] | null>(null);
 
     const openRoll = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -17,7 +20,7 @@ const CameraTestScreen = () => {
         });
 
         if (result != null && !result.canceled) {
-            setImage(result.assets[0].uri);
+            resizeImage(result.assets[0].uri!);
         }
     };
 
@@ -37,38 +40,35 @@ const CameraTestScreen = () => {
         });
         
         if (result != null && !result.canceled) {
-          setImage(result.assets[0].uri);
+            resizeImage(result.assets[0].uri!);
         }
     }
 
-    const uploadImage = async () => {
-        const formData = new FormData();
-        const blob = await (await fetch(image!)).blob();
-        console.log(blob);
-        formData.append('image', blob, 'image.jpg');
-        var testData = {data:'test'};
+    const resizeImage = async (uri: string) => {
+        if(!uri) return;
+        try{
+            const resizedImage = await ImageManipulator.manipulateAsync(
+                uri, 
+                [{resize: {width: 256, height: 256}}],
+                {compress: 1, format: ImageManipulator.SaveFormat.JPEG, base64: true}
+            );
+            setImage([uri, resizedImage.base64!]);
 
-        fetch('http://116.241.64.125:8080/test', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            body: JSON.stringify(testData),
-        })
-        .then(response => response.json())
-        .then( data => console.log(data))
-        .catch(error => console.log(error));
+        }catch(e){
+            console.log("error while resizing image: ", e);
+        }
     }
+
+    
 
     return (
         <View style={styles.container}>
             <View style={styles.photoFrame}>
-                {image && <Image source={{ uri: image }} style={styles.image} />}
+                {image && <Image source={{ uri: image[0] }} style={styles.image} />}
             </View>
             <Button title="camera" onPress={openCamera} />
             <Button title="camera roll" onPress={openRoll} />
-            <Button title="OK" onPress={uploadImage} />
+            <Button title="Predict" onPress={() => uploadImage(image![1])} />
         </View>
     );
 };
