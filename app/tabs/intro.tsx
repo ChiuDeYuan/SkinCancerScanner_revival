@@ -1,7 +1,21 @@
-import { View, Text, StyleSheet, ScrollView, Dimensions, BoxShadowValue } from 'react-native';
-import { useContext } from 'react';
-import DarkModeContext from '../settings/darkmode-context';
+import {
+  View, 
+  Text, 
+  StyleSheet, 
+  ScrollView, 
+  Dimensions, 
+  Button, 
+  TouchableHighlight, 
+  TouchableOpacity 
+} from 'react-native';
+import { useState, useRef, useEffect } from 'react';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import Animated, {
+   useAnimatedStyle, 
+   withTiming,
+   Easing
+} from 'react-native-reanimated';
+import { Ionicons } from "@expo/vector-icons";
 
 import Card from '../conponents/card';
 
@@ -10,20 +24,31 @@ const info = require('../constants/information_basic.json');
 const ThemeColors = require('../constants/colors.json');
 
 const IntroScreen = () => {
-  const {isEnabled, toggleSwitch} = useContext(DarkModeContext);
-  
+  const scrollViewRef = useRef<ScrollView>(null);
+  const [scrollable, setScrollable] = useState(true);
+
+  const scrollToPosition = (y:number) => {
+    scrollViewRef.current?.scrollTo({ y, animated: true });
+  };
+
+  const toggleScroll = (t:boolean) => {
+    setScrollable(t);
+  };
+
   return (
     <View style={styles.mainView}>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView scrollEnabled={scrollable} style={styles.scrollView} ref={scrollViewRef} fadingEdgeLength={scrollable ? 10 : 0}>
         <View style={styles.container}>
-          <Card title="卡片 1" content="這是卡片 1 的完整內容。" />
-          <Card title="卡片 2" content="這是卡片 2 的完整內容。" />
-          <Card title="卡片 3" content="這是卡片 3 的完整內容。" />
+          <View style={{height:20}}></View>
+          <Card toggleScroll={toggleScroll} scrollToPosition={scrollToPosition}></Card>
+          <Card toggleScroll={toggleScroll} scrollToPosition={scrollToPosition}></Card>
+          <Card toggleScroll={toggleScroll} scrollToPosition={scrollToPosition}></Card>
+          <Button title='to top' onPress={()=>scrollToPosition(0)}/>
         </View>
-        <View style={styles.container}>
-          <Text>Copy Right</Text>
-          <Text>Copy Right</Text>
-          <Text>Copy Right</Text>
+        <View style={styles.bottomView}>
+          <Text style = {styles.mainText}>Copy Right</Text>
+          <Text style = {styles.mainText}>Copy Right</Text>
+          <Text style = {styles.mainText}>Copy Right</Text>
         </View>
       </ScrollView>
     </View>
@@ -43,20 +68,29 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
     width: width,
+    backgroundColor: ThemeColors['white']
   },
   container:{
     marginHorizontal: 20,
-    marginVertical: 10,
+    marginVertical: 0,
     backgroundColor: ThemeColors['white'],
     alignItems: "center",
   },
+  bottomView:{
+    marginHorizontal: 20,
+    marginVertical: 0,
+    backgroundColor: 'red',
+    alignItems: "center",
+    position: "static"
+  },
   mainText: {
     fontSize: RFPercentage(2.5),
+    position: "static"
   },
   h1Title: {
 
   },
   h2Title: {
 
-  },
+  }
 });

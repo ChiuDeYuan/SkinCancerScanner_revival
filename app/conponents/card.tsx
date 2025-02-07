@@ -1,92 +1,92 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Dimensions, StyleSheet, TouchableHighlight } from "react-native";
+import {
+  View, 
+  Text, 
+  StyleSheet, 
+  ScrollView, 
+  Dimensions, 
+  Button, 
+  TouchableHighlight, 
+  TouchableOpacity 
+} from 'react-native';
+import { useState, useRef, useEffect } from 'react';
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-} from "react-native-reanimated";
+   useAnimatedStyle, 
+   withTiming,
+   Easing
+} from 'react-native-reanimated';
 import { Ionicons } from "@expo/vector-icons";
 
-const { width, height } = Dimensions.get("window");
-const ThemeColors = require("../constants/colors.json");
+const { width, height } = Dimensions.get('window');
+const info = require('../constants/information_basic.json');
+const ThemeColors = require('../constants/colors.json');
 
-const Card = ({ title, content }: { title: string; content: string }) => {
-    const [expanded, setExpanded] = useState(false);
-    const scale = useSharedValue(1);
-    const borderRadius = useSharedValue(20);
+const Card = ({ scrollToPosition, toggleScroll }: { scrollToPosition: (y: number) => void , toggleScroll: (t: boolean) => void }) =>{
+  const [toggleCard, setToggleCard] = useState(false);
+  const cardRef = useRef<View>(null);
+  const [cardY, setCardY] = useState(0);
 
-    const handlePress = () => {
-    setExpanded(!expanded);
-    scale.value = withTiming(expanded ? 1 : 1, { duration: 300 });
-    borderRadius.value = withTiming(expanded ? 20 : 0, { duration: 300 });
+  useEffect(() => {
+    if(toggleCard){
+      scrollToPosition(cardY);
+    }
+    else{
+      scrollToPosition(cardY-height*0.2);
+    }
+  }, [toggleCard]);
+
+  const CardStyle = useAnimatedStyle(()=>{
+    return { 
+      width: withTiming(toggleCard? width : width*0.6, {duration:300, easing:Easing.bezier(0.5, 0.01, 0, 1)}),
+      height: withTiming(toggleCard? height : height*0.5, {duration:300, easing:Easing.bezier(0.5, 0.01, 0, 1)}),
+      borderRadius: withTiming(toggleCard ? 0 : 20, { duration: 300 })
     };
+  })
 
-    const animatedStyle = useAnimatedStyle(() => ({
-        width: expanded ? width : width * 0.7,
-        height: expanded ? height : 200,
-        borderRadius: borderRadius.value,
-        transform: [{ scale: scale.value }],
-        elevation: 5,
-    }));
-
-    return (
-        <Animated.View style={[styles.card, animatedStyle]}>
-            {expanded ? (
-                <>
-                <TouchableOpacity onPress={handlePress} style={styles.backButton}>
-                    <Ionicons name="arrow-back" size={24} color="#eff0f1" />
-                </TouchableOpacity>
-                <Text style={styles.fullscreenText}>{content}</Text>
-                </>
-            ) : (
-                <TouchableHighlight style={styles.unexpandedCard} underlayColor="#6caccf" onPress = {handlePress}>
-                    <Text style={styles.cardTitle}>{title}</Text>
-                </TouchableHighlight>
-            )}
-        </Animated.View>
-    );
-};
-
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: ThemeColors['babyBlue'],
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-    marginVertical: 20,
-  },
-  touchable: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  cardTitle: {
-    fontSize: 18,
-    color: "white",
-    fontWeight: "bold",
-  },
-  fullscreenText: {
-    fontSize: 20,
-    color: "white",
-    padding: 20,
-    textAlign: "center",
-  },
-  backButton: {
-    position: "absolute",
-    top: 40,
-    left: 20,
-    backgroundColor: "rgba(0,0,0,0.5)",
-    borderRadius: 20,
-    padding: 10,
-  },
-  unexpandedCard: {
-    borderRadius: 20,
-    width: width * 0.7,
-    height: 200,
-    backgroundColor:'transparent',
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-});
+  return(
+    <Animated.View ref={cardRef} onLayout={(event) => setCardY(event.nativeEvent.layout.y)} style={[styles.CardStyle, CardStyle]}>
+      {toggleCard ? 
+      (
+        <View>
+          <TouchableOpacity onPress={() => {setToggleCard(false); toggleScroll(true)}} 
+          style={{
+            position: "absolute",
+            top: 40,
+            left: 20,
+            backgroundColor: ThemeColors['aquamarine'],
+            borderRadius: 20,
+            padding: 10,
+          }}>
+              <Ionicons name="arrow-back" size={24} color="#eff0f1" />
+          </TouchableOpacity>
+          <Text>Toggled!</Text>
+        </View>
+      ) : 
+      (
+        <TouchableHighlight underlayColor="#6caccf" onPress={() => {setToggleCard(true); toggleScroll(false);}} style={{width: width*0.5,
+          height: height*0.5,
+          borderRadius: 20,
+          backgroundColor: ThemeColors['babyBlue'],
+          alignItems: "center",}}>
+        <Text>
+          Test
+        </Text>
+       </TouchableHighlight>
+      )}
+    </Animated.View>
+  );
+}
 
 export default Card;
+
+const styles = StyleSheet.create({
+  CardStyle: {
+    width: width*0.6,
+    height: height*0.5,
+    borderRadius: 20,
+    backgroundColor: ThemeColors['babyBlue'],
+    alignItems: "center",
+    marginBottom: 40,
+    elevation: 10,
+  }
+});
