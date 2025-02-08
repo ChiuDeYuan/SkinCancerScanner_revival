@@ -5,16 +5,10 @@ import {
   ScrollView, 
   Dimensions, 
   Button, 
-  TouchableHighlight, 
-  TouchableOpacity 
+  TouchableHighlight
 } from 'react-native';
 import { useState, useRef, useEffect } from 'react';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import Animated, {
-   useAnimatedStyle, 
-   withTiming,
-   Easing
-} from 'react-native-reanimated';
 import { Ionicons } from "@expo/vector-icons";
 
 import Card from '../conponents/card';
@@ -37,18 +31,36 @@ const IntroScreen = () => {
 
   return (
     <View style={styles.mainView}>
+      <View style={{flex: 1, marginVertical: 30, position: "absolute", top: 0}}>
+        <Text style={{color: ThemeColors['border'], fontFamily: "MerriweatherBoldItalic", fontSize: 40, marginBottom: 100}}>
+          Touch To Expand
+        </Text>
+        <Text style={{color: ThemeColors['border'], fontFamily: "MerriweatherBoldItalic", fontSize: 40, marginBottom: 100}}>
+          Touch To Expand
+        </Text>
+        <Text style={{color: ThemeColors['border'], fontFamily: "MerriweatherBoldItalic", fontSize: 40, marginBottom: 100}}>
+          Touch To Expand
+        </Text>
+        <Text style={{color: ThemeColors['border'], fontFamily: "MerriweatherBoldItalic", fontSize: 40, marginBottom: 100}}>
+          Touch To Expand
+        </Text>
+        <Text style={{color: ThemeColors['border'], fontFamily: "MerriweatherBoldItalic", fontSize: 40, marginBottom: 100}}>
+          Touch To Expand
+        </Text>
+      </View>
       <ScrollView scrollEnabled={scrollable} style={styles.scrollView} ref={scrollViewRef} fadingEdgeLength={scrollable ? 10 : 0}>
         <View style={styles.container}>
-          <View style={{height:20}}></View>
-          <Card toggleScroll={toggleScroll} scrollToPosition={scrollToPosition}></Card>
-          <Card toggleScroll={toggleScroll} scrollToPosition={scrollToPosition}></Card>
-          <Card toggleScroll={toggleScroll} scrollToPosition={scrollToPosition}></Card>
-          <Button title='to top' onPress={()=>scrollToPosition(0)}/>
+          <View style={{height: 100}}></View>
+          <Card toggleScroll={toggleScroll} scrollToPosition={scrollToPosition} idx={'card1'}></Card>
+          <Card toggleScroll={toggleScroll} scrollToPosition={scrollToPosition} idx={'card2'}></Card>
+          <Card toggleScroll={toggleScroll} scrollToPosition={scrollToPosition} idx={'card3'}></Card>
+          <Card toggleScroll={toggleScroll} scrollToPosition={scrollToPosition} idx={'card4'}></Card>
+          <TouchableHighlight underlayColor={ThemeColors['aquamarine']} onPress={() => {scrollToPosition(0)}} style={styles.toTop}>
+            <Ionicons name="arrow-up-circle-outline" size={36} color={ThemeColors['white']} />
+          </TouchableHighlight>
         </View>
         <View style={styles.bottomView}>
-          <Text style = {styles.mainText}>Copy Right</Text>
-          <Text style = {styles.mainText}>Copy Right</Text>
-          <Text style = {styles.mainText}>Copy Right</Text>
+          <Text style = {styles.bottomText}>Copy Right</Text>
         </View>
       </ScrollView>
     </View>
@@ -68,29 +80,32 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
     width: width,
-    backgroundColor: ThemeColors['white']
+    backgroundColor: 'transparent'
   },
   container:{
     marginHorizontal: 20,
     marginVertical: 0,
-    backgroundColor: ThemeColors['white'],
+    backgroundColor: 'transparent',
     alignItems: "center",
   },
   bottomView:{
-    marginHorizontal: 20,
-    marginVertical: 0,
-    backgroundColor: 'red',
+    marginHorizontal: 40,
+    marginVertical: 40,
     alignItems: "center",
-    position: "static"
+    borderTopWidth: 1,
+    borderColor: ThemeColors['border']
   },
-  mainText: {
+  bottomText: {
     fontSize: RFPercentage(2.5),
-    position: "static"
   },
-  h1Title: {
-
-  },
-  h2Title: {
-
+  toTop: {
+    backgroundColor: ThemeColors['babyBlue'],
+    borderRadius: 30,
+    padding: 5,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    elevation: 10,
+    marginTop: 30
   }
 });

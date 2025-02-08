@@ -3,7 +3,7 @@ import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { View, Text, Image, Dimensions, StatusBar } from 'react-native';
 import { useFonts } from "expo-font";
-import { Merriweather_300Light_Italic, Merriweather_400Regular, Merriweather_400Regular_Italic,  } from '@expo-google-fonts/merriweather';
+import { Merriweather_400Regular, Merriweather_700Bold, Merriweather_700Bold_Italic} from '@expo-google-fonts/merriweather';
 import { PlayfairDisplay_400Regular } from '@expo-google-fonts/playfair-display';
 import { LibreBaskerville_400Regular } from '@expo-google-fonts/libre-baskerville';
 import * as SplashScreen from 'expo-splash-screen'
@@ -36,8 +36,8 @@ function CustomDrawerContent(props: any) {
             marginHorizontal: 20,
             marginBottom: 10,
             color: "gray",
-            borderBottomWidth:1,
-            borderColor:"#ddd",
+            borderBottomWidth: 1,
+            borderColor: ThemeColors['border'],
           }}
         >
         </Text>
@@ -53,8 +53,8 @@ function CustomDrawerContent(props: any) {
             marginHorizontal: 20,
             marginBottom: 10,
             color: "gray",
-            borderBottomWidth:1,
-            borderColor:"#ddd",
+            borderBottomWidth: 1,
+            borderColor: ThemeColors['border'],
           }}
         >
         </Text>
@@ -85,12 +85,12 @@ const screenOpts = {
   },
   headerStyle:{
     backgroundColor: ThemeColors['white'],
-    borderColor: "#ddd",
+    borderColor: ThemeColors['border'],
     borderBottomWidth: 1
   },
   headerTitleStyle:{
     fontFamily: "MerriweatherRegular",
-    color: "#444444"
+    color: ThemeColors['black']
   }
 };
 
@@ -99,6 +99,8 @@ export default function App() {
   useFonts({
     LibreRegular: LibreBaskerville_400Regular,
     MerriweatherRegular: Merriweather_400Regular,
+    MerriweatherBoldItalic: Merriweather_700Bold_Italic,
+    MerriweatherBold: Merriweather_700Bold,
     PlayfairRegular: PlayfairDisplay_400Regular
   });
 
