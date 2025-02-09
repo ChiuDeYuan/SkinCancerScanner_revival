@@ -4,5 +4,6 @@
     "aquamarine": "#6caccf",
     "white": "#eff0f1",
     "black": "#444444",
-    "border": "#ddd"
+    "border": "#ddd",
+    "touchable": "#aaaaaa"
 }

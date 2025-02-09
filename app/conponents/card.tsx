@@ -129,7 +129,7 @@ const Card = ({ scrollToPosition, toggleScroll, idx }: { scrollToPosition: (y: n
 
         <Animated.View style={[{position: "absolute", width: width, height: height-50, flex: 1}, AnimatedCardContentStyle]}>
           <View style={{flex: 2}}>
-            <TouchableHighlight underlayColor={ThemeColors['aquamarine']} onPress={() => {setToggleCard(false); toggleScroll(true); setPageIdx(1)}} style={styles.cancelBottom}>
+            <TouchableHighlight underlayColor={ThemeColors['touchable']} onPress={() => {setToggleCard(false); toggleScroll(true); setPageIdx(1)}} style={styles.cancelBottom}>
                 <Ionicons name="arrow-back" size={24} color={ThemeColors['white']} />
             </TouchableHighlight>
           </View>
@@ -142,21 +142,21 @@ const Card = ({ scrollToPosition, toggleScroll, idx }: { scrollToPosition: (y: n
             </Animated.Text>
           </View>
           <View style={{flex: 2.5}}>
-            <TouchableHighlight underlayColor={ThemeColors['aquamarine']} onPress={() => {nextPage()}} style={styles.nextBottom}>
-              <View style={styles.nextBottom}>
+            <TouchableHighlight underlayColor={ThemeColors['touchable']} onPress={() => {nextPage()}} style={styles.nextBottom}>
+              <>
                 <Animated.Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginLeft: 10}]}>
                   Next
                 </Animated.Text>
                 <Ionicons name="chevron-forward-outline" size={24} color={ThemeColors['white']} />
-              </View>
+              </>
             </TouchableHighlight>
-            <TouchableHighlight underlayColor={ThemeColors['aquamarine']} onPress={() => {prevPage()}} style={styles.backBottom}>
-              <View style={styles.backBottom}>
+            <TouchableHighlight underlayColor={ThemeColors['touchable']} onPress={() => {prevPage()}} style={[styles.backBottom]}>
+              <>
                 <Ionicons name="chevron-back-outline" size={24} color={ThemeColors['white']} />
                 <Animated.Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginRight: 10}]}>
                   Back
                 </Animated.Text>
-              </View>
+              </>
             </TouchableHighlight>
           </View>
         </Animated.View>
