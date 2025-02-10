@@ -143,7 +143,7 @@
             ]
         },
         {
-            "type": "choose",
+            "type": "slideBar",
             "title": "How would you describe the color of your hair?",
             "discription": "",
             "choices": [
@@ -250,10 +250,11 @@
             ]
         },
         {
-            "type": "notify",
+            "type": "choose",
             "title": "For the following questions, pick a mole on your body that fits the most of the following description.",
             "discription": "",
             "choices": [
+                "OK"
             ],
             "score": [
             ]

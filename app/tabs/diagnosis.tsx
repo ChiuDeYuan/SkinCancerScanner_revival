@@ -7,14 +7,13 @@ import {
   TouchableHighlight, 
   TouchableOpacity,
   Image,
-  ImageBackground
+  ImageBackground,
 } from 'react-native';
 import { useState, useRef, useEffect } from 'react';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import Animated, {
    useAnimatedStyle, 
    withTiming,
-   Easing,
    useSharedValue,
    withSpring,
    SharedValue
@@ -24,162 +23,23 @@ import {
   Gesture,
   GestureDetector, 
   GestureHandlerRootView,
-  GestureType
 } from "react-native-gesture-handler";
-
+import DiagnosisCard from '../conponents/DiagnosisCard';
 import images from '../constants/images';
 
 const { width, height } = Dimensions.get('window');
 const cardWidth = width*0.8;
 const cardHeight = height*0.75;
-
 const info = require('../constants/information_basic.json');
 const ThemeColors = require('../constants/colors.json');
-
-
-const AnimatedIcon = Animated.createAnimatedComponent(Ionicons);
 const AnimatedTouchableHighlight = Animated.createAnimatedComponent(TouchableHighlight);
-
-const Card = ({idx, remainCard, translationX, nowCard, setNowCard, fakeCardOpacity, fakeCard, setFakeCard, setFinishCard} : {idx: number ; remainCard: number ; translationX: SharedValue<number> ; nowCard: number ; setNowCard: (r:number) => void ; fakeCardOpacity: SharedValue<number> ; fakeCard: number ; setFakeCard: (f:number) => void ; setFinishCard: (s:boolean) => void ; }) => {
-  
-  const cardX = useSharedValue(0)
-  const cardOpacity = useSharedValue(1)
-
-  const AnimatedCardStack = useAnimatedStyle(() => {
-    return {
-      transform: [
-        { perspective: 1000 },
-        { rotateY: `${Math.min(translationX.value / 5, 30)}deg` },
-        { translateX: translationX.value*idx / (25*(remainCard/5)) },
-        { scale: 1-( 1- 3*( idx / remainCard))*(translationX.value / 10000) }
-      ],
-    };
-  });
-
-  const SlideStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        { translateX: cardX.value }
-      ],
-      opacity: cardOpacity.value
-    };
-  });
-
-  const updateCard = () => {
-    cardX.value = withTiming(-400, { duration: 300 }, (finished) => {
-      if (finished) {
-        cardOpacity.value = withTiming(0, { duration: 0 });
-        cardX.value = withTiming(0, { duration: 0 });
-      }
-    });
-  }
-
-  return (
-    <View style={[styles.Container]}>
-      <Animated.View style={[styles.CardStack, AnimatedCardStack, SlideStyle]}>
-        <CardContent idx={idx} remainCard={remainCard} translationX={translationX} nowCard={nowCard} setNowCard={setNowCard} cardOpacity={cardOpacity} slideCard={updateCard} fakeCardOpacity={fakeCardOpacity} fakeCard={fakeCard} setFakeCard={setFakeCard} setFinishCard={setFinishCard}/>
-      </Animated.View>
-    </View>
-  );
-}
-
-const CardContent = ({ idx, remainCard, translationX, nowCard, setNowCard, cardOpacity, slideCard, fakeCardOpacity, fakeCard, setFakeCard, setFinishCard } : { idx: number ; remainCard: number ; translationX: SharedValue<number> ; nowCard: number ; setNowCard: (r:number) => void ; cardOpacity: SharedValue<number> ; slideCard: () => void ; fakeCardOpacity: SharedValue<number> ; fakeCard: number ; setFakeCard: (f:number) => void ; setFinishCard: (s:boolean) => void ; }) => {
-
-  const [nextButtonDisable, setNextButtonDisable] = useState(false);
-
-  const AnimatedCardContent = useAnimatedStyle(()=>{
-    return { 
-      elevation: idx == 0 ? 5 : withTiming(translationX.value < 30 ? 0 : 2, {duration: 200})
-    };
-  })
-
-  const handlePress = () =>{
-    setNextButtonDisable(true)
-    slideCard();
-    if(remainCard != 1){
-      setTimeout(()=>{
-        fakeCardOpacity.value = withTiming(1, { duration: 0 });
-        setNowCard(nowCard+1);
-        setTimeout(()=>{
-          cardOpacity.value = withTiming(1, { duration: 0 });
-          fakeCardOpacity.value = withTiming(0, { duration: 0 });
-          setTimeout(()=>{
-            setFakeCard(fakeCard+1)
-            setNextButtonDisable(false)
-          }, 100)
-        }, 200);
-      }, 350);
-    }
-    else{
-      setTimeout(()=>{
-        setFinishCard(true);
-      }, 350);
-    }
-  }
-
-  return(
-    <Animated.View style={[styles.CardContent, AnimatedCardContent]}>
-      {idx==remainCard-1 ? (
-        <View style={{flex: 1, width: cardWidth, height: cardHeight, alignItems: "center"}}>
-          <View style={[styles.CardContentTop]}>
-            <Text style={{fontSize: RFPercentage(2), fontFamily: "MerriweatherBold", color: ThemeColors['navyBlue'], lineHeight: 24}}>
-              {info['diagnosis'][nowCard]['title']}
-            </Text>
-          </View>
-          <View style={styles.CardContentMiddle1}>
-            <Image source={images.diagnosis[nowCard]} style={{flex: 1, height: null, resizeMode: "contain"}}></Image>
-          </View>
-          <View style={styles.CardContentMiddle2}>
-            {
-              
-            }
-          </View>
-          <View style={styles.CardContentBottom}>
-            <AnimatedTouchableHighlight onPress={()=>handlePress()} underlayColor={ThemeColors['touchable']} style={styles.NextButton} disabled={nextButtonDisable}>
-              <>
-              <Animated.Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginLeft: 10}]}>
-                Next
-              </Animated.Text>
-              <Ionicons name="chevron-forward-outline" size={24} color={ThemeColors['white']} />
-              </> 
-            </AnimatedTouchableHighlight>
-          </View>
-        </View>   
-      ):(
-        <View style={{flex: 1, width: cardWidth, height: cardHeight, alignItems: "center"}}>
-          <View style={[styles.CardContentTop]}>
-          <Text style={{fontSize: RFPercentage(2), fontFamily: "MerriweatherBold", color: ThemeColors['navyBlue'], lineHeight: 24}}>
-              {info['diagnosis'][nowCard+1]['title']}
-            </Text>
-          </View>
-          <View style={styles.CardContentMiddle1}>
-            <Image source={images.diagnosis[nowCard+1]} style={{flex: 1, height: null, resizeMode: "contain"}}></Image>
-          </View>
-          <View style={styles.CardContentMiddle2}>
-
-          </View>
-          <View style={styles.CardContentBottom}>
-            <AnimatedTouchableHighlight onPress={()=>handlePress()} underlayColor={ThemeColors['touchable']} style={styles.NextButton} disabled={true}>
-              <>
-              <Animated.Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginLeft: 10}]}>
-                Next
-              </Animated.Text>
-              <Ionicons name="chevron-forward-outline" size={24} color={ThemeColors['white']} />
-              </> 
-            </AnimatedTouchableHighlight>
-          </View>
-        </View>   
-      )}
-    </Animated.View>
-  );
-}
 
 const DiagnosisScreen = () => {
   const allCardNum = 22
   const [nowCard, setNowCard] = useState(0)
   const [fakeCard, setFakeCard] = useState(1)
   const [finishCard, setFinishCard] = useState(false) 
-
+  const [UserAnswer, setUserAnswer] = useState<Array<any>>([]);
   const translationX = useSharedValue(0);
   const fakeCardOpacity = useSharedValue(0);
 
@@ -190,6 +50,10 @@ const DiagnosisScreen = () => {
   .onEnd(() => {
     translationX.value = withSpring(0);
   });
+
+  const addAnswer = (ans: number) => {
+    setUserAnswer((prevAns) => [...prevAns, ans]);
+  };
 
   const AnimatedCircleindicator = useAnimatedStyle(()=>{
     return { 
@@ -203,6 +67,10 @@ const DiagnosisScreen = () => {
       opacity: fakeCardOpacity.value
     };
   })
+
+  useEffect(()=>{
+    console.log(UserAnswer);
+  }, [UserAnswer])
 
   return(
     !finishCard ? (
@@ -221,7 +89,7 @@ const DiagnosisScreen = () => {
 
                 {Array.from({ length: Math.min(5, allCardNum-nowCard) }).map((_, idx) => (
                   // NOTE!!!: 畫面上最後一張idx==0，最前面idx==remainCard-1
-                  <Card 
+                  <DiagnosisCard 
                     key={idx} 
                     idx={idx} 
                     remainCard={Math.min(5, allCardNum-nowCard)} 
@@ -232,12 +100,11 @@ const DiagnosisScreen = () => {
                     fakeCard={fakeCard}
                     setFakeCard={setFakeCard}
                     setFinishCard={setFinishCard}
+                    addAnswer={addAnswer}
                   />
                 ))}
 
-                {
-                //Fake Card
-                }
+                {/*Fake Card*/}
                 <Animated.View pointerEvents={'none'} style={[styles.Container, {opacity: 0.5}, AnimatedFakeCard]}>
                   <View pointerEvents={'none'} style={[styles.CardStack]}>
                     <View pointerEvents={'none'} style={[styles.CardContent]}>
@@ -284,6 +151,7 @@ const DiagnosisScreen = () => {
               setNowCard(0);
               setFakeCard(1);
               setFinishCard(false);
+              setUserAnswer([]);
               fakeCardOpacity.value = withTiming(0, {duration: 0});
             }}></Button>
           </View>
@@ -358,17 +226,22 @@ const styles = StyleSheet.create({
   },
   CardContentMiddle1: {
     flex: 3,
-    width: cardWidth,
+    width: cardWidth-40,
     backgroundColor: "transparent",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    borderBottomWidth: 1,
+    borderColor: ThemeColors['white'],
+    marginHorizontal: 40,
+    paddingBottom: 20
   },
   CardContentMiddle2: {
     flex: 2,
     width: cardWidth,
     backgroundColor: "transparent",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    flexDirection: "row"
   },
   CardContentBottom: {
     flex: 1,

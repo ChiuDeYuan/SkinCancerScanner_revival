@@ -4,14 +4,13 @@ import {
   StyleSheet, 
   ScrollView, 
   Dimensions, 
-  Button, 
   TouchableHighlight
 } from 'react-native';
 import { useState, useRef, useEffect } from 'react';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { Ionicons } from "@expo/vector-icons";
 
-import Card from '../conponents/card';
+import IntroCard from '../conponents/IntroCard';
 
 const { width, height } = Dimensions.get('window');
 const info = require('../constants/information_basic.json');
@@ -51,10 +50,10 @@ const IntroScreen = () => {
       <ScrollView scrollEnabled={scrollable} style={styles.scrollView} ref={scrollViewRef} fadingEdgeLength={scrollable ? 10 : 0}>
         <View style={styles.container}>
           <View style={{height: 100}}></View>
-          <Card toggleScroll={toggleScroll} scrollToPosition={scrollToPosition} idx={'card1'}></Card>
-          <Card toggleScroll={toggleScroll} scrollToPosition={scrollToPosition} idx={'card2'}></Card>
-          <Card toggleScroll={toggleScroll} scrollToPosition={scrollToPosition} idx={'card3'}></Card>
-          <Card toggleScroll={toggleScroll} scrollToPosition={scrollToPosition} idx={'card4'}></Card>
+          <IntroCard toggleScroll={toggleScroll} scrollToPosition={scrollToPosition} idx={'card1'}></IntroCard>
+          <IntroCard toggleScroll={toggleScroll} scrollToPosition={scrollToPosition} idx={'card2'}></IntroCard>
+          <IntroCard toggleScroll={toggleScroll} scrollToPosition={scrollToPosition} idx={'card3'}></IntroCard>
+          <IntroCard toggleScroll={toggleScroll} scrollToPosition={scrollToPosition} idx={'card4'}></IntroCard>
           <TouchableHighlight underlayColor={ThemeColors['aquamarine']} onPress={() => {scrollToPosition(0)}} style={styles.toTop}>
             <Ionicons name="arrow-up-circle-outline" size={36} color={ThemeColors['white']} />
           </TouchableHighlight>

@@ -31,7 +31,7 @@ const ThemeColors = require('../constants/colors.json');
 const AnimatedIcon = Animated.createAnimatedComponent(Ionicons);
 const AnimatedTouchableHighlight = Animated.createAnimatedComponent(TouchableHighlight);
 
-const Card = ({ scrollToPosition, toggleScroll, idx }: { scrollToPosition: (y: number) => void , toggleScroll: (t: boolean) => void, idx: string }) =>{
+const IntroCard = ({ scrollToPosition, toggleScroll, idx }: { scrollToPosition: (y: number) => void , toggleScroll: (t: boolean) => void, idx: string }) =>{
   const [toggleCard, setToggleCard] = useState(false);
   const [pageIdx, setPageIdx] = useState(1);
   const cardRef = useRef<View>(null);
@@ -186,7 +186,7 @@ const Card = ({ scrollToPosition, toggleScroll, idx }: { scrollToPosition: (y: n
   );
 }
 
-export default Card;
+export default IntroCard;
 
 const styles = StyleSheet.create({
   CardStyle: {
