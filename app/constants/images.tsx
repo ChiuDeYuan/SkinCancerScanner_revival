@@ -35,5 +35,29 @@ export default {
             require("../../assets/images/content/meneki_bad.png"),
             require("../../assets/images/content/kaigo_rourou_easy.png")
         ]
-    }
+    },
+    diagnosis:[
+        require("../../assets/images/content/toilet_mark.png"),
+        require("../../assets/images/content/family.png"),
+        require("../../assets/images/content/races.png"),
+        require("../../assets/images/content/family2.png"),
+        require("../../assets/images/content/book.png"),
+        require("../../assets/images/content/ruler.png"),
+        require("../../assets/images/icon.jpg"),
+        require("../../assets/images/content/nevi.png"),
+        require("../../assets/images/content/necchuusyou_taoreru_girl.png"),
+        require("../../assets/images/content/sunburn.png"),
+        require("../../assets/images/content/meneki_bad.png"),
+        require("../../assets/images/content/many_moles.png"),
+        require("../../assets/images/content/freckles.png"),
+        require("../../assets/images/content/document_shindansyo.png"),
+        require("../../assets/images/content/cancer_on_hand_circled.png"),
+        require("../../assets/images/content/abcde_a.png"),
+        require("../../assets/images/content/abcde_b.png"),
+        require("../../assets/images/content/abcde_c.png"),
+        require("../../assets/images/content/abcde_d.png"),
+        require("../../assets/images/content/abcde_e.png"),
+        require("../../assets/images/content/body.png"),
+        require("../../assets/images/content/tane_hatsuga.png")
+    ]
 }

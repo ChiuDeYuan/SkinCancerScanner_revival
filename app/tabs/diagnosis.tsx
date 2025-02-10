@@ -6,7 +6,8 @@ import {
   Button, 
   TouchableHighlight, 
   TouchableOpacity,
-  Image
+  Image,
+  ImageBackground
 } from 'react-native';
 import { useState, useRef, useEffect } from 'react';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
@@ -27,11 +28,10 @@ import {
 } from "react-native-gesture-handler";
 
 import images from '../constants/images';
-import { createAnimatedComponent } from 'react-native-reanimated/lib/typescript/createAnimatedComponent';
 
 const { width, height } = Dimensions.get('window');
 const cardWidth = width*0.8;
-const cardHeight = height*0.7;
+const cardHeight = height*0.75;
 
 const info = require('../constants/information_basic.json');
 const ThemeColors = require('../constants/colors.json');
@@ -40,8 +40,11 @@ const ThemeColors = require('../constants/colors.json');
 const AnimatedIcon = Animated.createAnimatedComponent(Ionicons);
 const AnimatedTouchableHighlight = Animated.createAnimatedComponent(TouchableHighlight);
 
-const Card = ({idx, remainCard, translationX, panGesture} : {idx: number; remainCard: number; translationX: SharedValue<number>; panGesture: GestureType;}) => {
+const Card = ({idx, remainCard, translationX, nowCard, setNowCard, fakeCardOpacity, fakeCard, setFakeCard, setFinishCard} : {idx: number ; remainCard: number ; translationX: SharedValue<number> ; nowCard: number ; setNowCard: (r:number) => void ; fakeCardOpacity: SharedValue<number> ; fakeCard: number ; setFakeCard: (f:number) => void ; setFinishCard: (s:boolean) => void ; }) => {
   
+  const cardX = useSharedValue(0)
+  const cardOpacity = useSharedValue(1)
+
   const AnimatedCardStack = useAnimatedStyle(() => {
     return {
       transform: [
@@ -53,20 +56,34 @@ const Card = ({idx, remainCard, translationX, panGesture} : {idx: number; remain
     };
   });
 
+  const SlideStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateX: cardX.value }
+      ],
+      opacity: cardOpacity.value
+    };
+  });
+
+  const updateCard = () => {
+    cardX.value = withTiming(-400, { duration: 300 }, (finished) => {
+      if (finished) {
+        cardOpacity.value = withTiming(0, { duration: 0 });
+        cardX.value = withTiming(0, { duration: 0 });
+      }
+    });
+  }
+
   return (
-      <GestureHandlerRootView style={[styles.container]}>
-        <GestureDetector gesture={panGesture}>
-          <Animated.View style={[styles.CardStack, AnimatedCardStack]}>
-            <CardContent idx={idx} remainCard={remainCard} translationX={translationX}/>
-          </Animated.View>
-        </GestureDetector>
-    </GestureHandlerRootView>
+    <View style={[styles.Container]}>
+      <Animated.View style={[styles.CardStack, AnimatedCardStack, SlideStyle]}>
+        <CardContent idx={idx} remainCard={remainCard} translationX={translationX} nowCard={nowCard} setNowCard={setNowCard} cardOpacity={cardOpacity} slideCard={updateCard} fakeCardOpacity={fakeCardOpacity} fakeCard={fakeCard} setFakeCard={setFakeCard} setFinishCard={setFinishCard}/>
+      </Animated.View>
+    </View>
   );
 }
 
-const CardContent = ({ idx, remainCard, translationX } : { idx: number ; remainCard: number ; translationX: SharedValue<number> }) => {
-  const [toggleCard, setToggleCard] = useState(false);
-  const [pageIdx, setPageIdx] = useState(1);
+const CardContent = ({ idx, remainCard, translationX, nowCard, setNowCard, cardOpacity, slideCard, fakeCardOpacity, fakeCard, setFakeCard, setFinishCard } : { idx: number ; remainCard: number ; translationX: SharedValue<number> ; nowCard: number ; setNowCard: (r:number) => void ; cardOpacity: SharedValue<number> ; slideCard: () => void ; fakeCardOpacity: SharedValue<number> ; fakeCard: number ; setFakeCard: (f:number) => void ; setFinishCard: (s:boolean) => void ; }) => {
 
   const AnimatedCardContent = useAnimatedStyle(()=>{
     return { 
@@ -74,35 +91,101 @@ const CardContent = ({ idx, remainCard, translationX } : { idx: number ; remainC
     };
   })
 
+  const handlePress = () =>{
+    slideCard();
+    if(remainCard != 1){
+      setTimeout(()=>{
+        fakeCardOpacity.value = withTiming(1, { duration: 0 });
+        setNowCard(nowCard+1);
+        setTimeout(()=>{
+          cardOpacity.value = withTiming(1, { duration: 0 });
+          fakeCardOpacity.value = withTiming(0, { duration: 0 });
+          setTimeout(()=>{
+            setFakeCard(fakeCard+1)
+          }, 100)
+        }, 200);
+      }, 350);
+    }
+    else{
+      setTimeout(()=>{
+        setFinishCard(true);
+      }, 350);
+    }
+  }
+
   return(
     <Animated.View style={[styles.CardContent, AnimatedCardContent]}>
+      {idx==remainCard-1 ? (
+        <View style={{flex: 1, width: cardWidth, height: cardHeight, alignItems: "center"}}>
+          <View style={[styles.CardContentTop, {width: width-50}]}>
+            <Text style={{fontSize: RFPercentage(2), fontFamily: "MerriweatherBold", color: ThemeColors['navyBlue'], lineHeight: 24, position: "absolute", left: 0}}>
+              {idx}
+            </Text>
+          </View>
+          <View style={styles.CardContentMiddle1}>
+            <Image source={images.diagnosis[nowCard]} style={{flex: 1, height: null, resizeMode: "contain"}}></Image>
+          </View>
+          <View style={styles.CardContentMiddle2}>
+            {
+              
+            }
+          </View>
+          <View style={styles.CardContentBottom}>
+            <AnimatedTouchableHighlight onPress={()=>handlePress()} underlayColor={ThemeColors['touchable']} style={styles.NextButton}>
+              <>
+              <Animated.Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginLeft: 10}]}>
+                Next
+              </Animated.Text>
+              <Ionicons name="chevron-forward-outline" size={24} color={ThemeColors['white']} />
+              </> 
+            </AnimatedTouchableHighlight>
+          </View>
+        </View>   
+      ):(
+        <View style={{flex: 1, width: cardWidth, height: cardHeight, alignItems: "center"}}>
+          <View style={[styles.CardContentTop, {width: width-50}]}>
+          <Text style={{fontSize: RFPercentage(2), fontFamily: "MerriweatherBold", color: ThemeColors['navyBlue'], lineHeight: 24, position: "absolute", left: 0}}>
+              {idx}
+            </Text>
+          </View>
+          <View style={styles.CardContentMiddle1}>
+            <Image source={images.diagnosis[nowCard+1]} style={{flex: 1, height: null, resizeMode: "contain"}}></Image>
+          </View>
+          <View style={styles.CardContentMiddle2}>
 
+          </View>
+          <View style={styles.CardContentBottom}>
+            <AnimatedTouchableHighlight onPress={()=>handlePress()} underlayColor={ThemeColors['touchable']} style={styles.NextButton}>
+              <>
+              <Animated.Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginLeft: 10}]}>
+                Next
+              </Animated.Text>
+              <Ionicons name="chevron-forward-outline" size={24} color={ThemeColors['white']} />
+              </> 
+            </AnimatedTouchableHighlight>
+          </View>
+        </View>   
+      )}
     </Animated.View>
   );
 }
 
-const ProgressBar = () => {
-  const [progress, setProgress] = useState(0)
-
-  useEffect(() => {
-    setProgress(progress+1)
-  }, [progress]);
-
-  return 
-}
-
 const DiagnosisScreen = () => {
-  const [remainCard, setRemainCard] = useState(1)
+  const allCardNum = 22
+  const [nowCard, setNowCard] = useState(0)
+  const [fakeCard, setFakeCard] = useState(1)
+  const [finishCard, setFinishCard] = useState(false) 
 
   const translationX = useSharedValue(0);
+  const fakeCardOpacity = useSharedValue(0);
 
   const panGesture = Gesture.Pan()
-    .onUpdate((event) => {
-      translationX.value = Math.max(event.translationX, 0);
-    })
-    .onEnd(() => {
-      translationX.value = withSpring(0);
-    });
+  .onUpdate((event) => {
+    translationX.value = Math.max(event.translationX, 0);
+  })
+  .onEnd(() => {
+    translationX.value = withSpring(0);
+  });
 
   const AnimatedCircleindicator = useAnimatedStyle(()=>{
     return { 
@@ -111,35 +194,110 @@ const DiagnosisScreen = () => {
     };
   })
 
+  const AnimatedFakeCard = useAnimatedStyle(()=>{
+    return { 
+      opacity: fakeCardOpacity.value
+    };
+  })
+
   return(
-    <View style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height,}}>
-      <Animated.View style={[styles.CircleIndicator, AnimatedCircleindicator]}>
-        <Text style={{position: "absolute", left: 10, fontSize: RFPercentage(2.2), fontFamily: "MerriweatherBold", color: ThemeColors['white']}}>
-          {remainCard}
-        </Text>
-      </Animated.View>
-      {Array.from({ length: Math.min(5, remainCard) }).map((_, idx) => (
-        // NOTE!!!: 畫面上最後一張idx==0，最前面idx==remainCard-1
-        <Card 
-          key={idx} 
-          idx={idx} 
-          remainCard={Math.min(5, remainCard)} 
-          translationX={translationX}
-          panGesture={panGesture}
-        />
-      ))}
-    </View>
+    !finishCard ? (
+      <View style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}}>
+        <ImageBackground source={require('../../assets/images/content/bg_hospital_chiryou2.jpg')} resizeMode='contain' style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}} imageStyle={{opacity: 0.1}}>
+          
+          <Animated.View style={[styles.CircleIndicator, AnimatedCircleindicator]}>
+            <Text style={styles.CircleIndicatorText}>
+              {allCardNum-nowCard}
+            </Text>
+          </Animated.View>
+
+          <GestureHandlerRootView style={[styles.Container]}>
+            <GestureDetector gesture={panGesture}>
+              <View style={[styles.Container]}>
+
+                {Array.from({ length: Math.min(5, allCardNum-nowCard) }).map((_, idx) => (
+                  // NOTE!!!: 畫面上最後一張idx==0，最前面idx==remainCard-1
+                  <Card 
+                    key={idx} 
+                    idx={idx} 
+                    remainCard={Math.min(5, allCardNum-nowCard)} 
+                    translationX={translationX}
+                    nowCard={nowCard}
+                    setNowCard={setNowCard}
+                    fakeCardOpacity={fakeCardOpacity}
+                    fakeCard={fakeCard}
+                    setFakeCard={setFakeCard}
+                    setFinishCard={setFinishCard}
+                  />
+                ))}
+
+                {
+                //Fake Card
+                }
+                <Animated.View pointerEvents={'none'} style={[styles.Container, {opacity: 0.5}, AnimatedFakeCard]}>
+                  <View pointerEvents={'none'} style={[styles.CardStack]}>
+                    <View pointerEvents={'none'} style={[styles.CardContent]}>
+                      <View pointerEvents={'none'} style={{flex: 1, width: cardWidth, height: cardHeight, alignItems: "center"}}>
+                        <View pointerEvents={'none'} style={styles.CardContentTop}>
+                          <Text style={{fontSize: RFPercentage(2), fontFamily: "MerriweatherBold", color: ThemeColors['navyBlue'], lineHeight: 24}}>
+                            {info['diagnosis'][fakeCard]['title']}
+                          </Text>
+                        </View>
+                        <View pointerEvents={'none'}style={styles.CardContentMiddle1}>
+                          <Image source={images.diagnosis[fakeCard]} style={{flex: 1, height: null, resizeMode: "contain"}}></Image>
+                        </View>
+                        <View pointerEvents={'none'}style={styles.CardContentMiddle2}>
+                          {
+                            
+                          }
+                        </View>
+                        <View pointerEvents={'none'}style={styles.CardContentBottom}>
+                          <AnimatedTouchableHighlight disabled={true} onPress={()=>{}} underlayColor={ThemeColors['touchable']} style={styles.NextButton}>
+                            <>
+                            <Animated.Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginLeft: 10}]}>
+                              Next
+                            </Animated.Text>
+                            <Ionicons name="chevron-forward-outline" size={24} color={ThemeColors['white']} />
+                            </> 
+                          </AnimatedTouchableHighlight>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                </Animated.View>
+
+              </View>
+            </GestureDetector>
+          </GestureHandlerRootView>
+
+        </ImageBackground>
+      </View>
+    ):(
+      <View style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}}>
+        <ImageBackground source={require('../../assets/images/content/bg_hospital_chiryou2.jpg')} resizeMode='contain' style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}} imageStyle={{opacity: 0.1}}>
+          <View>
+            <Button title='reset' onPress={()=>{
+              setNowCard(0);
+              setFakeCard(1);
+              setFinishCard(false);
+              fakeCardOpacity.value = withTiming(0, {duration: 0});
+            }}></Button>
+          </View>
+        </ImageBackground>
+      </View>
+    )
   );
 }
 
 export default DiagnosisScreen;
 
 const styles = StyleSheet.create({
-  container: {
+  Container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    position: "absolute"
+    position: "absolute",
+    width: width,
   },
   BottomCardContainer: {
     flex: 1,
@@ -178,4 +336,53 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row"
   },
+  CircleIndicatorText: {
+    fontSize: RFPercentage(2.2),
+    fontFamily: "MerriweatherBold",
+    color: ThemeColors['white'],
+    position: "absolute",
+    left: 10,
+  },
+  CardContentTop: {
+    flex: 2,
+    width: cardWidth,
+    backgroundColor: "transparent",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+  CardContentMiddle1: {
+    flex: 3,
+    width: cardWidth,
+    backgroundColor: "transparent",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  CardContentMiddle2: {
+    flex: 2,
+    width: cardWidth,
+    backgroundColor: "transparent",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  CardContentBottom: {
+    flex: 1,
+    width: cardWidth-40,
+    backgroundColor: "transparent",
+    marginHorizontal: 40,
+    borderTopWidth: 1,
+    borderColor: ThemeColors['white']
+  },
+  NextButton: {
+    position: "absolute", 
+    bottom: 12, 
+    right: 5, 
+    padding: 10, 
+    borderRadius: 50, 
+    backgroundColor: ThemeColors['aquamarine'], 
+    alignItems: "center", 
+    justifyContent: "center", 
+    flexDirection: "row"
+  }
 });

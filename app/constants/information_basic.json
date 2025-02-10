@@ -60,8 +60,8 @@
         "Below is the training history",
         "You can get source code and other informations on GitHub"
     ],
-    "diagnosis":{
-        "q1":{
+    "diagnosis":[
+        {
             "type": "choose",
             "title": "What's your assigned sex at birth?",
             "discription": "",
@@ -73,7 +73,7 @@
 
             ]
         },
-        "q2":{
+        {
             "type": "choose",
             "title": "What's your current age?",
             "discription": "",
@@ -87,7 +87,7 @@
                 
             ]
         },
-        "q3":{
+        {
             "type": "list",
             "title": "What best describes your race?",
             "discription": "",
@@ -104,9 +104,9 @@
                 
             ]
         },
-        "q4":{
+        {
             "type": "choose",
-            "title": "Do you have any first degree family history of Melanoma diagnosis? (parents, siblings, offspring)",
+            "title": "Do you have any first degree family history of Melanoma diagnosis?",
             "discription": "",
             "choices": [
                 "Yes",
@@ -117,7 +117,7 @@
                 
             ]
         },
-        "q5":{
+        {
             "type": "choose",
             "title": "Do you have any prior personal history of Melanoma diagnosis?",
             "discription": "",
@@ -129,7 +129,7 @@
                 
             ]
         },
-        "q6":{
+        {
             "type": "choose",
             "title": "How would you describe your skin?",
             "discription": "",
@@ -142,7 +142,7 @@
                 
             ]
         },
-        "q7":{
+        {
             "type": "choose",
             "title": "How would you describe the color of your hair?",
             "discription": "",
@@ -155,9 +155,9 @@
                 
             ]
         },
-        "q8":{
+        {
             "type": "choose",
-            "title": "Do you have any congenital nevi?(noticeable moles present since birth)",
+            "title": "Do you have any noticeable moles present since birth?",
             "discription": "",
             "choices": [
                 "Yes (large ones)",
@@ -169,9 +169,9 @@
                 
             ]
         },
-        "q9":{
+        {
             "type": "choose",
-            "title": "Have you experienced any Sunburns during childhood (0-13 year old)?",
+            "title": "Have you experienced any Sunburns during 0-13 year old?",
             "discription": "",
             "choices": [
                 "Yes",
@@ -182,7 +182,7 @@
                 
             ]
         },
-        "q10":{
+        {
             "type": "list",
             "title": "Do you experience frequent Sunburns in your daily life?",
             "discription": "",
@@ -195,9 +195,9 @@
                 
             ]
         },
-        "q11":{
+        {
             "type": "list",
-            "title": "Do you have a weakened immune system as a result of certain diseases or medical treatments? (such as having HIV or a history of receiving organ transplants)",
+            "title": "Do you have a weakened immune system as a result of certain diseases or medical treatments?",
             "discription": "",
             "choices": [
                 "Yes (from certain diseases)",
@@ -209,7 +209,7 @@
                 
             ]
         },
-        "q12":{
+        {
             "type": "choose",
             "title": "Do you have more than 50 moles on your body currently?",
             "discription": "",
@@ -222,7 +222,7 @@
                 
             ]
         },
-        "q13":{
+        {
             "type": "choose",
             "title": "Would you describe yourself as an individual with many freckles?",
             "discription": "",
@@ -235,7 +235,7 @@
                 
             ]
         },
-        "q14":{
+        {
             "type": "list",
             "title": "Are you aware of any genetic skin disorders present in your family?",
             "discription": "",
@@ -249,9 +249,18 @@
                 
             ]
         },
-        "q15":{
+        {
+            "type": "notify",
+            "title": "For the following questions, pick a mole on your body that fits the most of the following description.",
+            "discription": "",
+            "choices": [
+            ],
+            "score": [
+            ]
+        },
+        {
             "type": "choose",
-            "title": "Asymmetry: The mole is asymmetrical (one half of the mole is unlike the other half)",
+            "title": "Asymmetry: The mole is asymmetrical.",
             "discription": "",
             "choices": [
                 "Yes",
@@ -262,9 +271,9 @@
                 
             ]
         },
-        "q16":{
+        {
             "type": "choose",
-            "title": "Border: The mole has a ragged or poorly defined border",
+            "title": "Border: The mole has a ragged or poorly defined border.",
             "discription": "",
             "choices": [
                 "Yes",
@@ -275,9 +284,9 @@
                 
             ]
         },
-        "q17":{
+        {
             "type": "choose",
-            "title": "Color: The mole has more than one color that differs between areas",
+            "title": "Color: The mole has more than one color that differs between areas.",
             "discription": "",
             "choices": [
                 "Yes",
@@ -288,9 +297,9 @@
                 
             ]
         },
-        "q18":{
+        {
             "type": "choose",
-            "title": "Diameter: The mole have a diameter (at it's widest part) greater than 6mm or 1/4 inch (about the size of a pencil eraser)",
+            "title": "Diameter: The widest part of the mole have a diameter greater than 6mm",
             "discription": "",
             "choices": [
                 "Yes",
@@ -301,7 +310,7 @@
                 
             ]
         },
-        "q19":{
+        {
             "type": "choose",
             "title": "Evolving: The mole looks different from the rest or is changing in size, shape, or color.",
             "discription": "",
@@ -314,7 +323,7 @@
                 
             ]
         },
-        "q20":{
+        {
             "type": "list",
             "title": "Where is the mole located?",
             "discription": "",
@@ -328,7 +337,7 @@
                 
             ]
         },
-        "q21":{
+        {
             "type": "list",
             "title": "Is the mole a newly emerged mole?",
             "discription": "",
@@ -342,7 +351,7 @@
                 
             ]
         },
-        "q":{
+        {
             "type": "",
             "title": "",
             "discription": "",
@@ -353,5 +362,5 @@
                 
             ]
         }
-    }
+    ]
 }

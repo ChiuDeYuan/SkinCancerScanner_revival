@@ -6,6 +6,7 @@ import { useFonts } from "expo-font";
 import { Merriweather_400Regular, Merriweather_700Bold, Merriweather_700Bold_Italic} from '@expo-google-fonts/merriweather';
 import { PlayfairDisplay_400Regular } from '@expo-google-fonts/playfair-display';
 import { LibreBaskerville_400Regular } from '@expo-google-fonts/libre-baskerville';
+import { Roboto_400Regular, Roboto_500Medium, Roboto_700Bold } from '@expo-google-fonts/roboto';
 import * as SplashScreen from 'expo-splash-screen'
 import { useState } from 'react';
 
@@ -101,7 +102,10 @@ export default function App() {
     MerriweatherRegular: Merriweather_400Regular,
     MerriweatherBoldItalic: Merriweather_700Bold_Italic,
     MerriweatherBold: Merriweather_700Bold,
-    PlayfairRegular: PlayfairDisplay_400Regular
+    PlayfairRegular: PlayfairDisplay_400Regular,
+    RobotoRegular: Roboto_400Regular,
+    RobotoMedium: Roboto_500Medium,
+    RobotoBold: Roboto_700Bold
   });
 
   return (
