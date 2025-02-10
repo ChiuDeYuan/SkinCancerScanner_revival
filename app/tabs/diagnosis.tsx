@@ -85,6 +85,8 @@ const Card = ({idx, remainCard, translationX, nowCard, setNowCard, fakeCardOpaci
 
 const CardContent = ({ idx, remainCard, translationX, nowCard, setNowCard, cardOpacity, slideCard, fakeCardOpacity, fakeCard, setFakeCard, setFinishCard } : { idx: number ; remainCard: number ; translationX: SharedValue<number> ; nowCard: number ; setNowCard: (r:number) => void ; cardOpacity: SharedValue<number> ; slideCard: () => void ; fakeCardOpacity: SharedValue<number> ; fakeCard: number ; setFakeCard: (f:number) => void ; setFinishCard: (s:boolean) => void ; }) => {
 
+  const [nextButtonDisable, setNextButtonDisable] = useState(false);
+
   const AnimatedCardContent = useAnimatedStyle(()=>{
     return { 
       elevation: idx == 0 ? 5 : withTiming(translationX.value < 30 ? 0 : 2, {duration: 200})
@@ -92,6 +94,7 @@ const CardContent = ({ idx, remainCard, translationX, nowCard, setNowCard, cardO
   })
 
   const handlePress = () =>{
+    setNextButtonDisable(true)
     slideCard();
     if(remainCard != 1){
       setTimeout(()=>{
@@ -102,6 +105,7 @@ const CardContent = ({ idx, remainCard, translationX, nowCard, setNowCard, cardO
           fakeCardOpacity.value = withTiming(0, { duration: 0 });
           setTimeout(()=>{
             setFakeCard(fakeCard+1)
+            setNextButtonDisable(false)
           }, 100)
         }, 200);
       }, 350);
@@ -117,9 +121,9 @@ const CardContent = ({ idx, remainCard, translationX, nowCard, setNowCard, cardO
     <Animated.View style={[styles.CardContent, AnimatedCardContent]}>
       {idx==remainCard-1 ? (
         <View style={{flex: 1, width: cardWidth, height: cardHeight, alignItems: "center"}}>
-          <View style={[styles.CardContentTop, {width: width-50}]}>
-            <Text style={{fontSize: RFPercentage(2), fontFamily: "MerriweatherBold", color: ThemeColors['navyBlue'], lineHeight: 24, position: "absolute", left: 0}}>
-              {idx}
+          <View style={[styles.CardContentTop]}>
+            <Text style={{fontSize: RFPercentage(2), fontFamily: "MerriweatherBold", color: ThemeColors['navyBlue'], lineHeight: 24}}>
+              {info['diagnosis'][nowCard]['title']}
             </Text>
           </View>
           <View style={styles.CardContentMiddle1}>
@@ -131,7 +135,7 @@ const CardContent = ({ idx, remainCard, translationX, nowCard, setNowCard, cardO
             }
           </View>
           <View style={styles.CardContentBottom}>
-            <AnimatedTouchableHighlight onPress={()=>handlePress()} underlayColor={ThemeColors['touchable']} style={styles.NextButton}>
+            <AnimatedTouchableHighlight onPress={()=>handlePress()} underlayColor={ThemeColors['touchable']} style={styles.NextButton} disabled={nextButtonDisable}>
               <>
               <Animated.Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginLeft: 10}]}>
                 Next
@@ -143,9 +147,9 @@ const CardContent = ({ idx, remainCard, translationX, nowCard, setNowCard, cardO
         </View>   
       ):(
         <View style={{flex: 1, width: cardWidth, height: cardHeight, alignItems: "center"}}>
-          <View style={[styles.CardContentTop, {width: width-50}]}>
-          <Text style={{fontSize: RFPercentage(2), fontFamily: "MerriweatherBold", color: ThemeColors['navyBlue'], lineHeight: 24, position: "absolute", left: 0}}>
-              {idx}
+          <View style={[styles.CardContentTop]}>
+          <Text style={{fontSize: RFPercentage(2), fontFamily: "MerriweatherBold", color: ThemeColors['navyBlue'], lineHeight: 24}}>
+              {info['diagnosis'][nowCard+1]['title']}
             </Text>
           </View>
           <View style={styles.CardContentMiddle1}>
@@ -155,7 +159,7 @@ const CardContent = ({ idx, remainCard, translationX, nowCard, setNowCard, cardO
 
           </View>
           <View style={styles.CardContentBottom}>
-            <AnimatedTouchableHighlight onPress={()=>handlePress()} underlayColor={ThemeColors['touchable']} style={styles.NextButton}>
+            <AnimatedTouchableHighlight onPress={()=>handlePress()} underlayColor={ThemeColors['touchable']} style={styles.NextButton} disabled={true}>
               <>
               <Animated.Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginLeft: 10}]}>
                 Next
