@@ -83,12 +83,12 @@ const CardContent = ({ idx, remainCard, translationX, nowCard, setNowCard, cardO
 
     const handlePress = () =>{
         setSendAnswer(true);
-        setFinishQuestion(false);
         slideCard();
-        if(remainCard != 1){
+        if(remainCard >= 1){
             setTimeout(()=>{
                 fakeCardOpacity.value = withTiming(1, { duration: 0 });
                 setNowCard(nowCard+1);
+                setFinishQuestion(false);
                 setTimeout(()=>{
                 cardOpacity.value = withTiming(1, { duration: 0 });
                 fakeCardOpacity.value = withTiming(0, { duration: 0 });
@@ -122,7 +122,7 @@ const CardContent = ({ idx, remainCard, translationX, nowCard, setNowCard, cardO
                 </View>
 
                 <View style={styles.CardContentMiddle2}>
-                    <DiagnosisAnswerBox nowCard={nowCard} setFinishQuestion={setFinishQuestion} sendAnswer={sendAnswer} addAnswer={addAnswer}></DiagnosisAnswerBox>
+                    <DiagnosisAnswerBox nowCard={nowCard} setFinishQuestion={setFinishQuestion} sendAnswer={sendAnswer} addAnswer={addAnswer}  disable={false}></DiagnosisAnswerBox>
                 </View>
 
                 <View style={styles.CardContentBottom}>
@@ -148,16 +148,16 @@ const CardContent = ({ idx, remainCard, translationX, nowCard, setNowCard, cardO
                 <Image source={images.diagnosis[nowCard+1]} style={{flex: 1, height: null, resizeMode: "contain"}}></Image>
             </View>
             <View style={styles.CardContentMiddle2}>
-
+                <DiagnosisAnswerBox nowCard={nowCard+1} setFinishQuestion={setFinishQuestion} sendAnswer={false} addAnswer={addAnswer}  disable={true}></DiagnosisAnswerBox>
             </View>
             <View style={styles.CardContentBottom}>
-                <AnimatedTouchableHighlight onPress={()=>handlePress()} underlayColor={ThemeColors['touchable']} style={styles.NextButton} disabled={true}>
-                <>
-                <Animated.Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginLeft: 10}]}>
-                    Next
-                </Animated.Text>
-                <Ionicons name="chevron-forward-outline" size={24} color={ThemeColors['white']} />
-                </> 
+                <AnimatedTouchableHighlight onPress={()=>handlePress()} underlayColor={ThemeColors['touchable']} style={[styles.NextButton, {backgroundColor: ThemeColors['touchable']}]} disabled={true}>
+                    <>
+                        <Animated.Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginLeft: 10}]}>
+                            Next
+                        </Animated.Text>
+                        <Ionicons name="chevron-forward-outline" size={24} color={ThemeColors['white']} />
+                    </> 
                 </AnimatedTouchableHighlight>
             </View>
             </View>   

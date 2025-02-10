@@ -17,17 +17,18 @@ const cardHeight = height*0.75;
 const info = require('../constants/information_basic.json');
 const ThemeColors = require('../constants/colors.json');
 
-const ExpandableList = ({nowCard, setFinishQuestion, sendAnswer, addAnswer}:{nowCard: number ; setFinishQuestion: (f: boolean)=>void ; sendAnswer: boolean ; addAnswer: (a: any)=>void}) => {
+const ExpandableList = ({nowCard, setFinishQuestion, sendAnswer, addAnswer, disable}:{nowCard: number ; setFinishQuestion: (f: boolean)=>void ; sendAnswer: boolean ; addAnswer: (a: any)=>void ; disable: boolean}) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState<number | null>(null);
     
     const options = info['diagnosis'][nowCard]['choices'];
   
     const handleSelectItem = (index: number) => {
-      console.log(index);
       setSelectedItem(index);
       setIsModalVisible(false);
-      setFinishQuestion(true);
+      if(index != null){
+        setFinishQuestion(true);
+      }
     };
 
     useEffect(()=>{
@@ -39,7 +40,8 @@ const ExpandableList = ({nowCard, setFinishQuestion, sendAnswer, addAnswer}:{now
   
     return (
       <View style={styles.container}>
-        <TouchableOpacity 
+        <TouchableOpacity
+          disabled={disable} 
           style={styles.selectBox} 
           onPress={() => setIsModalVisible(true)}>
           <Text style={styles.selectedText} numberOfLines={1}>

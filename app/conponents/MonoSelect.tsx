@@ -14,7 +14,7 @@ const cardHeight = height*0.75;
 const info = require('../constants/information_basic.json');
 const ThemeColors = require('../constants/colors.json');
 
-const MonoSelect = ({nowCard, setFinishQuestion, sendAnswer, addAnswer}:{nowCard: number ; setFinishQuestion: (f: boolean)=>void ; sendAnswer: boolean ; addAnswer: (a: any)=>void ;}) => {
+const MonoSelect = ({nowCard, setFinishQuestion, sendAnswer, addAnswer, disable}:{nowCard: number ; setFinishQuestion: (f: boolean)=>void ; sendAnswer: boolean ; addAnswer: (a: any)=>void ; disable: boolean ;}) => {
 
   const [checked, setChecked] = useState<number | null>(null);
   const options = info['diagnosis'][nowCard]['choices'];
@@ -35,6 +35,7 @@ const MonoSelect = ({nowCard, setFinishQuestion, sendAnswer, addAnswer}:{nowCard
     <View style={{flex: 1, width: cardWidth, alignItems: "center", justifyContent: "space-evenly", paddingVertical: 10}}>
       {options.map((option: string, idx: number) => (
         <TouchableOpacity
+          disabled={disable}
           key={idx}
           onPress={() => handlePress(idx)}
           activeOpacity={0.5}

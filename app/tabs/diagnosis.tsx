@@ -26,6 +26,7 @@ import {
 } from "react-native-gesture-handler";
 import DiagnosisCard from '../conponents/DiagnosisCard';
 import images from '../constants/images';
+import DiagnosisAnswerBox from '../conponents/DiagnosisAnswerBox';
 
 const { width, height } = Dimensions.get('window');
 const cardWidth = width*0.8;
@@ -35,7 +36,7 @@ const ThemeColors = require('../constants/colors.json');
 const AnimatedTouchableHighlight = Animated.createAnimatedComponent(TouchableHighlight);
 
 const DiagnosisScreen = () => {
-  const allCardNum = 22
+  const allCardNum = info['diagnosis'].length
   const [nowCard, setNowCard] = useState(0)
   const [fakeCard, setFakeCard] = useState(1)
   const [finishCard, setFinishCard] = useState(false) 
@@ -111,16 +112,14 @@ const DiagnosisScreen = () => {
                       <View pointerEvents={'none'} style={{flex: 1, width: cardWidth, height: cardHeight, alignItems: "center"}}>
                         <View pointerEvents={'none'} style={styles.CardContentTop}>
                           <Text style={{fontSize: RFPercentage(2), fontFamily: "MerriweatherBold", color: ThemeColors['navyBlue'], lineHeight: 24}}>
-                            {info['diagnosis'][fakeCard]['title']}
+                            {fakeCard >= allCardNum ? info['diagnosis'][0]['title'] : info['diagnosis'][fakeCard]['title']}
                           </Text>
                         </View>
                         <View pointerEvents={'none'}style={styles.CardContentMiddle1}>
-                          <Image source={images.diagnosis[fakeCard]} style={{flex: 1, height: null, resizeMode: "contain"}}></Image>
+                          <Image source={fakeCard >= allCardNum ? images.diagnosis[0] : images.diagnosis[fakeCard]} style={{flex: 1, height: null, resizeMode: "contain"}}></Image>
                         </View>
                         <View pointerEvents={'none'}style={styles.CardContentMiddle2}>
-                          {
-                            
-                          }
+                          <DiagnosisAnswerBox nowCard={fakeCard >= allCardNum ? 0 : fakeCard} setFinishQuestion={()=>{}} sendAnswer={false} addAnswer={addAnswer}  disable={true}></DiagnosisAnswerBox>
                         </View>
                         <View pointerEvents={'none'}style={styles.CardContentBottom}>
                           <AnimatedTouchableHighlight disabled={true} onPress={()=>{}} underlayColor={ThemeColors['touchable']} style={styles.NextButton}>
@@ -257,7 +256,7 @@ const styles = StyleSheet.create({
     right: 5, 
     padding: 10, 
     borderRadius: 50, 
-    backgroundColor: ThemeColors['aquamarine'], 
+    backgroundColor: ThemeColors['touchable'], 
     alignItems: "center", 
     justifyContent: "center", 
     flexDirection: "row"

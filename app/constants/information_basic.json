@@ -143,7 +143,7 @@
             ]
         },
         {
-            "type": "slideBar",
+            "type": "list",
             "title": "How would you describe the color of your hair?",
             "discription": "",
             "choices": [
@@ -164,6 +164,16 @@
                 "Yes (big ones)",
                 "Yes (small ones)",
                 "No" 
+            ],
+            "score": [
+                
+            ]
+        },
+        {
+            "type": "slide",
+            "title": "What skin color do you have?",
+            "discription": "",
+            "choices": [
             ],
             "score": [
                 
@@ -347,17 +357,6 @@
                 "No it's a pre-existing one",
                 "Not sure",
                 "I have no such moles"
-            ],
-            "score": [
-                
-            ]
-        },
-        {
-            "type": "",
-            "title": "",
-            "discription": "",
-            "choices": [
-
             ],
             "score": [
                 
