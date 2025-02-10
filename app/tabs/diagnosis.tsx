@@ -124,9 +124,9 @@ const DiagnosisScreen = () => {
                         <View pointerEvents={'none'}style={styles.CardContentBottom}>
                           <AnimatedTouchableHighlight disabled={true} onPress={()=>{}} underlayColor={ThemeColors['touchable']} style={styles.NextButton}>
                             <>
-                            <Animated.Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginLeft: 10}]}>
+                            <Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginLeft: 10}]}>
                               Next
-                            </Animated.Text>
+                            </Text>
                             <Ionicons name="chevron-forward-outline" size={24} color={ThemeColors['white']} />
                             </> 
                           </AnimatedTouchableHighlight>
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
     right: 5, 
     padding: 10, 
     borderRadius: 50, 
-    backgroundColor: ThemeColors['touchable'], 
+    backgroundColor: ThemeColors['black'], 
     alignItems: "center", 
     justifyContent: "center", 
     flexDirection: "row"
