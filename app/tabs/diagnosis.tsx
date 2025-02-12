@@ -29,6 +29,7 @@ import images from '../constants/images';
 import DiagnosisAnswerBox from '../conponents/DiagnosisAnswerBox';
 import PhotoUpload from '../conponents/PhotoUpload';
 import ScoreCalculator from '../tools/score-calculator';
+import ResultPage from '../conponents/ResultPage';
 
 const { width, height } = Dimensions.get('window');
 const cardWidth = width*0.8;
@@ -147,7 +148,7 @@ const DiagnosisScreen = () => {
     ):(
       <View style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}}>
         <ImageBackground source={require('../../assets/images/content/bg_hospital_chiryou2.jpg')} resizeMode='contain' style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}} imageStyle={{opacity: 0.1}}>
-          <PhotoUpload></PhotoUpload>
+          <ResultPage></ResultPage>
         </ImageBackground>
       </View>
     )
@@ -214,7 +215,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
     paddingTop: 20,
   },
   CardContentMiddle1: {

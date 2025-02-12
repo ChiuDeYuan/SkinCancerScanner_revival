@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
       backgroundColor: "transparent",
       alignItems: "center",
       justifyContent: "center",
-      paddingHorizontal: 20,
+      paddingHorizontal: 30,
       paddingTop: 20,
     },
     CardContentMiddle1: {

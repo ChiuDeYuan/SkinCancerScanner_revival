@@ -4,8 +4,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { View, Text, Image, Dimensions, StatusBar } from 'react-native';
 import { useFonts } from "expo-font";
 import { Merriweather_400Regular, Merriweather_700Bold, Merriweather_700Bold_Italic} from '@expo-google-fonts/merriweather';
-import { PlayfairDisplay_400Regular } from '@expo-google-fonts/playfair-display';
-import { LibreBaskerville_400Regular } from '@expo-google-fonts/libre-baskerville';
+import { PlayfairDisplay_400Regular, PlayfairDisplay_700Bold, PlayfairDisplay_800ExtraBold, PlayfairDisplay_800ExtraBold_Italic } from '@expo-google-fonts/playfair-display';
+import { LibreBaskerville_400Regular, LibreBaskerville_700Bold } from '@expo-google-fonts/libre-baskerville';
 import { Roboto_400Regular, Roboto_500Medium, Roboto_700Bold } from '@expo-google-fonts/roboto';
 import * as SplashScreen from 'expo-splash-screen'
 import { useState } from 'react';
@@ -97,11 +97,14 @@ const screenOpts = {
 export default function App() {
 
   useFonts({
-    LibreRegular: LibreBaskerville_400Regular,
+    LibrBaskervilleeRegular: LibreBaskerville_400Regular,
+    LibreBaskervilleBold: LibreBaskerville_700Bold,
     MerriweatherRegular: Merriweather_400Regular,
     MerriweatherBoldItalic: Merriweather_700Bold_Italic,
     MerriweatherBold: Merriweather_700Bold,
-    PlayfairRegular: PlayfairDisplay_400Regular,
+    PlayfairDisplayRegular: PlayfairDisplay_400Regular,
+    PlayfairDisplayBold: PlayfairDisplay_700Bold,
+    PlayfairDisplayExtraBold: PlayfairDisplay_800ExtraBold,
     RobotoRegular: Roboto_400Regular,
     RobotoMedium: Roboto_500Medium,
     RobotoBold: Roboto_700Bold

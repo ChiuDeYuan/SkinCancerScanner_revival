@@ -1,10 +1,12 @@
-import { View, Text, StyleSheet, Button, Image, Dimensions, TouchableHighlight } from 'react-native';
-import { useState } from 'react';
+import { View, Text, StyleSheet, Button, Image, Dimensions, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { useEffect, useState } from 'react';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import * as ImagePicker from 'expo-image-picker'
 import * as ImageManipulator from 'expo-image-manipulator';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import uploadImage from '../tools/networking';
+import Animated, { useSharedValue, withRepeat, withTiming, useAnimatedStyle } from 'react-native-reanimated';
 
 const { width, height } = Dimensions.get('window');
 const ThemeColors = require('../constants/colors.json')
@@ -65,11 +67,17 @@ const PhotoUpload = () => {
     return (
         <View style={styles.Container}>
             <View style={{flex: 5, width: width, alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
+                <TouchableOpacity style={styles.SkipContainer}>
+                    <Text style={{fontFamily: "MerriweatherBold", color: "#777"}}>
+                        Skip
+                    </Text>
+                    <Ionicons name="play-forward-outline" size={20} color={"#777"} style={{marginHorizontal: 5}} />
+                </TouchableOpacity>
                 <View style={styles.OuterPhotoFrameContainer}>
                     <View style={styles.InterPhotoFrameContainer}>
-                        <TouchableHighlight activeOpacity={1} onPress={()=>{}} style={styles.Touchable}>
-                            <View  style={styles.PhotoFrame}>
-                                {image && <Image source={{ uri: image[0] }} style={styles.Image} />}
+                        <TouchableHighlight activeOpacity={1} onPress={()=>{openCamera()}} style={styles.Touchable}>
+                            <View  style={[styles.PhotoFrame, {opacity: image ? 1 : 0.6}]}>
+                                {image && <Image source={{uri: image[0]}} style={styles.Image} />}
                             </View>
                         </TouchableHighlight>
                     </View>
@@ -80,7 +88,7 @@ const PhotoUpload = () => {
                     <TouchableHighlight underlayColor={ThemeColors['border']} activeOpacity={0.9} onPress={()=>openRoll()} style={[styles.Button, {borderColor: ThemeColors['aquamarine'], backgroundColor: 'white'}]}>
                         <View style={styles.ButtonContent}>
                             <Ionicons name="image-outline" size={22} color={ThemeColors['black']} style={{marginHorizontal: 5}} />
-                            <Text style={styles.ButtonText}>Choose...</Text>
+                            <Text style={styles.ButtonText}>Choose from roll</Text>
                         </View>
                     </TouchableHighlight>
                     <TouchableHighlight underlayColor={ThemeColors['border']} activeOpacity={0.9} onPress={()=>openCamera()} style={[styles.Button, {borderColor: ThemeColors['aquamarine'], backgroundColor: 'white'}]}>
@@ -89,16 +97,25 @@ const PhotoUpload = () => {
                             <Text style={styles.ButtonText}>Camera</Text>
                         </View>
                     </TouchableHighlight>
-                    <TouchableHighlight disabled={image==null} underlayColor={ThemeColors['border']} activeOpacity={0.9} onPress={()=>uploadImage(image![1])} style={[styles.Button, {borderColor: image ? ThemeColors['aquamarine'] : ThemeColors['touchable'], backgroundColor: image ? 'white' : '#eee'}]}>
+                    <TouchableHighlight disabled={image==null} underlayColor={ThemeColors['border']} activeOpacity={0.9} onPress={()=>uploadImage(image![1])} style={[styles.Button, {borderColor: ThemeColors['aquamarine'], backgroundColor: 'white'}]}>
                         <View style={styles.ButtonContent}>
-                            <Ionicons name="bar-chart-outline" size={22} color={ThemeColors['black']} style={{marginHorizontal: 5}} />
-                            <Text style={styles.ButtonText}>Predict</Text>
+                            <Ionicons name="hardware-chip-outline" size={22} color={ThemeColors['black']} style={{marginHorizontal: 5}} />
+                            <Text style={styles.ButtonText}>Select Model</Text>
                         </View>
                     </TouchableHighlight>
                 </View> 
             </View>
-            <View style={{flex: 2, width: width, alignItems: "center", justifyContent: "center", flexDirection: "row", backgroundColor: "pink"}}>
-                <View style={styles.SkipContainer}></View>
+            <View style={{flex: 2, width: width, alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
+                <LinearGradient colors={["#AE8625", "#F7EF8A", "#D2AC47", "#EDC967"]} start={{ x: 0, y: 0}} end={{ x: 1, y: 1}} style={[styles.PredictGradientContainer]}>
+                    <TouchableOpacity style={[styles.PredictContainer, {backgroundColor: "#ffffff"}]}>
+                        <LinearGradient colors={["#FFFFFF", "#E7CD78", "#FAF9D0"]} start={{ x: 0, y: 0}} end={{ x: 1, y: 1}} style={styles.PredictContainer}>
+                            <Ionicons name="sparkles-outline" size={RFPercentage(3)} color={ThemeColors['black']} style={{marginHorizontal: 5}} />
+                            <Text style={{fontSize: RFPercentage(3), fontFamily: "MerriweatherBoldItalic"}}>
+                                Predict
+                            </Text>
+                        </LinearGradient>
+                    </TouchableOpacity>
+                </LinearGradient>
             </View>
         </View>
     );
@@ -134,14 +151,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     PhotoFrame: {
-        padding: 10,
         width: width * 0.85,
         height: width * 0.85,
         borderRadius: 30,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'lightgrey',
-        opacity: 0.6
     },
     Touchable:{
         width: width * 0.85,
@@ -154,9 +169,9 @@ const styles = StyleSheet.create({
     },
     Image: {
         flex: 1,
-        resizeMode: "contain",
-        width: null,
-        height: null,
+        width: width * 0.85,
+        height: width * 0.85,
+        borderRadius: 30
     },
     ButtonContainer: {
         flex: 1,
@@ -175,6 +190,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         flexDirection: "row",
         borderWidth: 3,
+        elevation: 5
     },
     ButtonContent: {
         flex: 1,
@@ -186,5 +202,38 @@ const styles = StyleSheet.create({
         fontSize: RFPercentage(2),
         fontFamily: "MerriweatherRegular",
         color: ThemeColors['black']
+    },
+    PredictContainer: {
+        width: width*0.5,
+        height: height*0.1,
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "row",
+        borderRadius: 100,
+    },
+    PredictGradientContainer: {
+        position: "absolute",
+        top: 5,
+        width: width*0.5+12, 
+        height: height*0.1+12, 
+        borderRadius: 100,
+        alignItems: "center",
+        justifyContent: "center",
+        elevation: 5
+    },
+    SkipContainer: {
+        position: "absolute",
+        top: 60,
+        right: 30,
+        width: 100,
+        height: 40,
+        borderRadius: 100,
+        borderWidth: 3,
+        borderColor: ThemeColors['touchable'],
+        backgroundColor: ThemeColors['border'],
+        opacity: 0.5,
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "row"
     }
   });
