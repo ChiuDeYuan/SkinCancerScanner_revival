@@ -62,6 +62,7 @@
     ],
     "diagnosis":[
         {
+            "idx": 0,
             "type": "choose",
             "title": "What's your assigned sex at birth?",
             "discription": "",
@@ -74,6 +75,7 @@
             ]
         },
         {
+            "idx": 1,
             "type": "choose",
             "title": "What's your current age?",
             "discription": "",
@@ -88,6 +90,7 @@
             ]
         },
         {
+            "idx": 2,
             "type": "list",
             "title": "What best describes your race?",
             "discription": "",
@@ -101,10 +104,17 @@
                 "Others"
             ],
             "score": [
-                
+                8.6,
+                1.43,
+                0.29,
+                0.37,
+                2.94,
+                0.37,	
+		        1
             ]
         },
         {
+            "idx": 3,
             "type": "choose",
             "title": "Do you have any first degree family history of Melanoma diagnosis?",
             "discription": "",
@@ -114,10 +124,13 @@
                 "Not sure"
             ],
             "score": [
-                
+                3,
+                1,
+                1.1
             ]
         },
         {
+            "idx": 4,
             "type": "choose",
             "title": "Do you have any prior personal history of Melanoma diagnosis?",
             "discription": "",
@@ -126,10 +139,12 @@
                 "No"
             ],
             "score": [
-                
+                24.3,
+                1
             ]
         },
         {
+            "idx": 5,
             "type": "choose",
             "title": "How would you describe your skin?",
             "discription": "",
@@ -139,10 +154,13 @@
                 "In between"
             ],
             "score": [
-                
+                2,
+                0.5,
+                1
             ]
         },
         {
+            "idx": 6,
             "type": "list",
             "title": "How would you describe the color of your hair?",
             "discription": "",
@@ -152,10 +170,13 @@
                 "No hint of red"
             ],
             "score": [
-                
+                100,
+                10,
+                1
             ]
         },
         {
+            "idx": 7,
             "type": "choose",
             "title": "Do you have any noticeable moles present since birth?",
             "discription": "",
@@ -166,12 +187,16 @@
                 "No" 
             ],
             "score": [
-                
+                14.2,
+                8.57,
+                2.86,
+                1
             ]
         },
         {
+            "idx": 8,
             "type": "slide",
-            "title": "What skin color do you have?",
+            "title": "How would you describe the tone of your skin?",
             "discription": "",
             "choices": [
             ],
@@ -180,6 +205,7 @@
             ]
         },
         {
+            "idx": 9,
             "type": "choose",
             "title": "Have you experienced any Sunburns during 0-13 year old?",
             "discription": "",
@@ -193,6 +219,7 @@
             ]
         },
         {
+            "idx": 10,
             "type": "list",
             "title": "Do you experience frequent Sunburns in your daily life?",
             "discription": "",
@@ -202,10 +229,13 @@
                 "None in the past 12 months"
             ],
             "score": [
-                
+                5,
+                2,
+                0.8
             ]
         },
         {
+            "idx": 11,
             "type": "list",
             "title": "Do you have a weakened immune system as a result of certain diseases or medical treatments?",
             "discription": "",
@@ -216,10 +246,14 @@
                 "Not sure"
             ],
             "score": [
-                
+                2,
+                3,
+                0.8,
+                1
             ]
         },
         {
+            "idx": 12,
             "type": "choose",
             "title": "Do you have more than 50 moles on your body currently?",
             "discription": "",
@@ -229,10 +263,13 @@
                 "Not sure"
             ],
             "score": [
-                
+                3,
+                1,
+                2
             ]
         },
         {
+            "idx": 13,
             "type": "choose",
             "title": "Would you describe yourself as an individual with many freckles?",
             "discription": "",
@@ -242,10 +279,13 @@
                 "Not sure"
             ],
             "score": [
-                
+                2,
+                0.8,
+                1
             ]
         },
         {
+            "idx": 14,
             "type": "list",
             "title": "Are you aware of any genetic skin disorders present in your family?",
             "discription": "",
@@ -256,10 +296,13 @@
 
             ],
             "score": [
-                
+                10,
+                3,
+                1
             ]
         },
         {
+            "idx": 15,
             "type": "choose",
             "title": "For the following questions, pick a mole on your body that fits the most of the following description.",
             "discription": "",
@@ -267,9 +310,11 @@
                 "OK"
             ],
             "score": [
+                1
             ]
         },
         {
+            "idx": 16,
             "type": "choose",
             "title": "Asymmetry: The mole is asymmetrical.",
             "discription": "",
@@ -279,10 +324,13 @@
                 "Not sure"
             ],
             "score": [
-                
+                2,
+                1,
+                1.1
             ]
         },
         {
+            "idx": 17,
             "type": "choose",
             "title": "Border: The mole has a ragged or poorly defined border.",
             "discription": "",
@@ -292,10 +340,13 @@
                 "Not sure"
             ],
             "score": [
-                
+                2,
+                1,
+                1.1
             ]
         },
         {
+            "idx": 18,
             "type": "choose",
             "title": "Color: The mole has more than one color that differs between areas.",
             "discription": "",
@@ -305,10 +356,13 @@
                 "Not sure"
             ],
             "score": [
-                
+                2,
+                1,
+                1.1
             ]
         },
         {
+            "idx": 19,
             "type": "choose",
             "title": "Diameter: The widest part of the mole have a diameter greater than 6mm",
             "discription": "",
@@ -318,10 +372,13 @@
                 "Not sure"
             ],
             "score": [
-                
+                2,
+                1,
+                1.1
             ]
         },
         {
+            "idx": 20,
             "type": "choose",
             "title": "Evolving: The mole looks different from the rest or is changing in size, shape, or color.",
             "discription": "",
@@ -331,10 +388,13 @@
                 "Not sure"
             ],
             "score": [
-                
+                2,
+                1,
+                1.1
             ]
         },
         {
+            "idx": 21,
             "type": "list",
             "title": "Where is the mole located?",
             "discription": "",
@@ -349,6 +409,7 @@
             ]
         },
         {
+            "idx": 22,
             "type": "list",
             "title": "Is the mole a newly emerged mole?",
             "discription": "",
@@ -359,7 +420,10 @@
                 "I have no such moles"
             ],
             "score": [
-                
+                5,
+                0.8,
+                1.2,
+                1
             ]
         }
     ]

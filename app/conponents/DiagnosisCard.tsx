@@ -72,7 +72,7 @@ const DiagnosisCard = ({idx, remainCard, translationX, nowCard, setNowCard, fake
   
 const CardContent = ({ idx, remainCard, translationX, nowCard, setNowCard, cardOpacity, slideCard, fakeCardOpacity, fakeCard, setFakeCard, setFinishCard, addAnswer } : { idx: number ; remainCard: number ; translationX: SharedValue<number> ; nowCard: number ; setNowCard: (r:number) => void ; cardOpacity: SharedValue<number> ; slideCard: ()=>void ; fakeCardOpacity: SharedValue<number> ; fakeCard: number ; setFakeCard: (f:number)=>void ; setFinishCard: (s:boolean)=>void ; addAnswer: (a: any)=>void ;}) => {
 
-    const [finishQuestion, setFinishQuestion] = useState<boolean | null>(null); //這裡很神奇，如果寫useState(false)會讓倒數四張卡片在render時的初始state為false(???)
+    const [finishQuestion, setFinishQuestion] = useState(false);
     const [sendAnswer, setSendAnswer] = useState(false);
 
     const AnimatedCardContent = useAnimatedStyle(()=>{
@@ -80,21 +80,19 @@ const CardContent = ({ idx, remainCard, translationX, nowCard, setNowCard, cardO
             elevation: idx == 0 ? 5 : withTiming(translationX.value < 30 ? 0 : 2, {duration: 200})
         };
     })
-
-    useEffect(()=>{console.log(finishQuestion)}, [finishQuestion])
-
+    
     const handlePress = () =>{
         setSendAnswer(true);
         slideCard();
         setFinishQuestion(false);
         if(remainCard > 1){
             setTimeout(()=>{
+                setSendAnswer(false);
                 fakeCardOpacity.value = withTiming(1, { duration: 0 });
                 setNowCard(nowCard+1);
                 setTimeout(()=>{
                 cardOpacity.value = withTiming(1, { duration: 0 });
                 fakeCardOpacity.value = withTiming(0, { duration: 0 });
-                setSendAnswer(false);
                 setTimeout(()=>{
                     setFakeCard(fakeCard+1);
                 }, 100)

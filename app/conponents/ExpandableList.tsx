@@ -32,7 +32,7 @@ const ExpandableList = ({nowCard, setFinishQuestion, sendAnswer, addAnswer, disa
     };
 
     useEffect(()=>{
-      if(sendAnswer && selectedItem != null){
+      if(sendAnswer && selectedItem != null && !disable){
         addAnswer(selectedItem);
         setSelectedItem(null);
       }

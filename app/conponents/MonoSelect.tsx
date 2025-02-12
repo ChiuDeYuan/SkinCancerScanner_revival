@@ -25,7 +25,7 @@ const MonoSelect = ({nowCard, setFinishQuestion, sendAnswer, addAnswer, disable}
   }
 
   useEffect(() => {
-    if(sendAnswer && checked != null){
+    if(sendAnswer && checked != null && !disable){
       addAnswer(checked);
       setChecked(null);
     }

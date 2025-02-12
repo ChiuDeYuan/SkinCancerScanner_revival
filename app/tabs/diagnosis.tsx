@@ -27,6 +27,8 @@ import {
 import DiagnosisCard from '../conponents/DiagnosisCard';
 import images from '../constants/images';
 import DiagnosisAnswerBox from '../conponents/DiagnosisAnswerBox';
+import PhotoUpload from '../conponents/PhotoUpload';
+import ScoreCalculator from '../tools/score-calculator';
 
 const { width, height } = Dimensions.get('window');
 const cardWidth = width*0.8;
@@ -74,7 +76,7 @@ const DiagnosisScreen = () => {
   }, [UserAnswer])
 
   return(
-    !finishCard ? (
+    !true ? (
       <View style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}}>
         <ImageBackground source={require('../../assets/images/content/bg_hospital_chiryou2.jpg')} resizeMode='contain' style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}} imageStyle={{opacity: 0.1}}>
           
@@ -145,15 +147,7 @@ const DiagnosisScreen = () => {
     ):(
       <View style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}}>
         <ImageBackground source={require('../../assets/images/content/bg_hospital_chiryou2.jpg')} resizeMode='contain' style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}} imageStyle={{opacity: 0.1}}>
-          <View>
-            <Button title='reset' onPress={()=>{
-              setNowCard(0);
-              setFakeCard(1);
-              setFinishCard(false);
-              setUserAnswer([]);
-              fakeCardOpacity.value = withTiming(0, {duration: 0});
-            }}></Button>
-          </View>
+          <PhotoUpload></PhotoUpload>
         </ImageBackground>
       </View>
     )
@@ -256,7 +250,7 @@ const styles = StyleSheet.create({
     right: 5, 
     padding: 10, 
     borderRadius: 50, 
-    backgroundColor: ThemeColors['black'], 
+    backgroundColor: ThemeColors['touchable'], 
     alignItems: "center", 
     justifyContent: "center", 
     flexDirection: "row"

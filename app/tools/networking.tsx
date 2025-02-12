@@ -9,7 +9,7 @@ const uploadImage = async (imageBASE64:string) => {
             body: JSON.stringify({data: imageBASE64}),
         })
         .then(response => response.json())
-        .then( data => console.log(typeof(data['predict'])))
+        .then( data => console.log(data['predict']))
         .catch(error => console.log(error));
 }
 

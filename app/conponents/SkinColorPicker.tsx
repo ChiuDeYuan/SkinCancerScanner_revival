@@ -21,13 +21,10 @@ const SkinColorPicker = ({nowCard, setFinishQuestion, sendAnswer, addAnswer, dis
         opacity: progress.value
       };
     })
-    
-    useEffect(() => {
-      setFinishQuestion(true);
-  }, []);
+  
 
     useEffect(() => {
-        if(sendAnswer){
+        if(sendAnswer && !disable){
           if(progress.value > 0.7){
             addAnswer(0); //dark
           }
@@ -53,13 +50,16 @@ const SkinColorPicker = ({nowCard, setFinishQuestion, sendAnswer, addAnswer, dis
         sliderHeight={12}
         style={{width: cardWidth-70, height: 50}} 
         renderThumb={()=>
-        <View style={{width: 30, height: 30, borderRadius: 100, backgroundColor: "white", borderWidth: 1, borderColor: ThemeColors['black'], alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
-            <View style={{width: 26, height: 26, borderRadius: 100, backgroundColor: "#FAEBE6", borderWidth: 1, borderColor: ThemeColors['black'], alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
+          <View style={{width: 30, height: 30, borderRadius: 100, backgroundColor: "white", borderWidth: 1, borderColor: ThemeColors['black'], alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
+            <TouchableOpacity disabled={disable} activeOpacity={1} onPressIn={()=>setFinishQuestion(true)} style={{width: 60, height: 60, borderRadius: 100, alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
+              <View style={{width: 26, height: 26, borderRadius: 100, backgroundColor: "#FAEBE6", borderWidth: 1, borderColor: ThemeColors['black'], alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
                 <Animated.View style={[{width: 26, height: 26, borderRadius: 100, backgroundColor: "#4A332D", opacity: 1}, AnimatedThumb]}>
                 
                 </Animated.View>
-            </View>
-        </View>} 
+              </View>
+            </TouchableOpacity>  
+          </View>    
+        } 
         renderTrack={()=><View></View>}
         renderContainer={()=><LinearGradient
             colors={["#FAEBE6", "#4A332D"]}
@@ -70,10 +70,9 @@ const SkinColorPicker = ({nowCard, setFinishQuestion, sendAnswer, addAnswer, dis
           renderBubble={()=>
           <View style={{width: 60, height: 40, borderRadius: 10, backgroundColor: "#FAEBE6", borderWidth: 2, borderColor: ThemeColors['black'], alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
           <Animated.View style={[{width: 60, height: 40, borderRadius: 10, backgroundColor: "#4A332D", opacity: 1, borderWidth: 2, borderColor: ThemeColors['black']}, AnimatedThumb]}>
-              
-              </Animated.View>
-      </View>}
-      bubbleOffsetX={30}
+          </Animated.View>
+        </View>}
+      bubbleOffsetX={27}
       bubbleTranslateY={-45}
         />
     </View>
