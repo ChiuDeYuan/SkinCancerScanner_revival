@@ -73,6 +73,7 @@ function CustomDrawerContent(props: any) {
 }
 
 const screenOpts = {
+  swipeEnabled: false,
   headerShadowVisible:false, 
   headerStatusBarHeight:0,
   drawerItemStyle:{

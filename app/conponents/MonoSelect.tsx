@@ -32,7 +32,7 @@ const MonoSelect = ({nowCard, setFinishQuestion, sendAnswer, addAnswer, disable}
   }, [sendAnswer]);
 
   return(
-    <View style={{flex: 1, width: cardWidth, alignItems: "center", justifyContent: "space-evenly", paddingVertical: 10}}>
+    <View style={{flex: 1, width: cardWidth, height: null, alignItems: "center", justifyContent: "space-evenly", paddingVertical: 10}}>
       {options.map((option: string, idx: number) => (
         <TouchableOpacity
           disabled={disable}
@@ -40,9 +40,8 @@ const MonoSelect = ({nowCard, setFinishQuestion, sendAnswer, addAnswer, disable}
           onPress={() => handlePress(idx)}
           activeOpacity={0.5}
           style={{
-            width: cardWidth-30,
-            height: 30,
-            marginVertical: options.length == 4 ? 1 : (options.length == 3 ? 5 : 10),
+            width: cardWidth-height*0.035,
+            height: height*0.035,
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "center",
@@ -53,8 +52,10 @@ const MonoSelect = ({nowCard, setFinishQuestion, sendAnswer, addAnswer, disable}
           }}
         >
           <View style={{
-            width: 20,
-            height: 20, 
+            position: "absolute",
+            left: width*0.005,
+            width: width*0.05,
+            height: width*0.05, 
             borderRadius: 100, 
             borderWidth: 3,
             borderColor: checked === idx ? ThemeColors['navyBlue'] : ThemeColors['aquamarine'],
@@ -62,13 +63,13 @@ const MonoSelect = ({nowCard, setFinishQuestion, sendAnswer, addAnswer, disable}
             justifyContent: "center"
             }}>
               <View style={{
-              width: 10,
-              height: 10, 
+              width: width*0.027,
+              height: width*0.027, 
               borderRadius: 100, 
               backgroundColor: checked === idx? ThemeColors['navyBlue'] : ThemeColors['aquamarine'], 
               }}></View>
           </View>
-          <View style={{width: cardWidth-60, alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
+          <View style={{width: cardWidth, alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
             <Text style={{fontFamily: "MerriweatherBold", color: checked === idx ? ThemeColors['navyBlue'] : ThemeColors['aquamarine'], }}>{option}</Text>
           </View>
         </TouchableOpacity>

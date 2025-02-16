@@ -47,19 +47,12 @@ const IntroScreen = () => {
           Touch To Expand
         </Text>
       </View>
-      <ScrollView scrollEnabled={scrollable} style={styles.scrollView} ref={scrollViewRef} fadingEdgeLength={scrollable ? 10 : 0}>
+      <ScrollView scrollEnabled={scrollable} style={styles.scrollView} ref={scrollViewRef} fadingEdgeLength={scrollable ? 10 : 0} horizontal={true} showsHorizontalScrollIndicator={false} pagingEnabled={true}>
         <View style={styles.container}>
-          <View style={{height: 100}}></View>
           <IntroCard toggleScroll={toggleScroll} scrollToPosition={scrollToPosition} idx={'card1'}></IntroCard>
           <IntroCard toggleScroll={toggleScroll} scrollToPosition={scrollToPosition} idx={'card2'}></IntroCard>
           <IntroCard toggleScroll={toggleScroll} scrollToPosition={scrollToPosition} idx={'card3'}></IntroCard>
           <IntroCard toggleScroll={toggleScroll} scrollToPosition={scrollToPosition} idx={'card4'}></IntroCard>
-          <TouchableHighlight underlayColor={ThemeColors['aquamarine']} onPress={() => {scrollToPosition(0)}} style={styles.toTop}>
-            <Ionicons name="arrow-up-circle-outline" size={36} color={ThemeColors['white']} />
-          </TouchableHighlight>
-        </View>
-        <View style={styles.bottomView}>
-          <Text style = {styles.bottomText}>Copy Right</Text>
         </View>
       </ScrollView>
     </View>
@@ -86,6 +79,7 @@ const styles = StyleSheet.create({
     marginVertical: 0,
     backgroundColor: 'transparent',
     alignItems: "center",
+    flexDirection: "row"
   },
   bottomView:{
     marginHorizontal: 40,

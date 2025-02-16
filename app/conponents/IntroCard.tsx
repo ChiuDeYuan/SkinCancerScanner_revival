@@ -195,10 +195,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: ThemeColors['babyBlue'],
     alignItems: "center",
-    marginBottom: 40,
     elevation: 10,
     borderWidth: 5,
-    borderColor: "#ffffff"
+    borderColor: "#ffffff",
+    marginHorizontal: 10
   },
   touchableHighlight:{
     width: cardWidth-10,

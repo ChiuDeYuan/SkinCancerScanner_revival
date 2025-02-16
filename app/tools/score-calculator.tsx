@@ -117,7 +117,7 @@ const ScoreCalculator = (UserAnswer: Array<any>) => {
     }
     ///////////////////////////////////////////////////////////////
     
-    return [(fitter("score1", score1)), (fitter("score2", score2))];
+    return [parseFloat(fitter("score1", score1).toFixed(1)), parseFloat(fitter("score2", score2).toFixed(1))];
 }
 
 export default ScoreCalculator;

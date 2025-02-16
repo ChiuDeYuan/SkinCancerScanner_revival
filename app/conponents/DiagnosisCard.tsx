@@ -21,10 +21,8 @@ import images from '../constants/images';
 const { width, height } = Dimensions.get('window');
 const cardWidth = width*0.8;
 const cardHeight = height*0.75;
-
 const info = require('../constants/information_basic.json');
 const ThemeColors = require('../constants/colors.json');
-
 const AnimatedTouchableHighlight = Animated.createAnimatedComponent(TouchableHighlight);
   
 const DiagnosisCard = ({idx, remainCard, translationX, nowCard, setNowCard, fakeCardOpacity, fakeCard, setFakeCard, setFinishCard, addAnswer} : {idx: number ; remainCard: number ; translationX: SharedValue<number> ; nowCard: number ; setNowCard: (r:number)=>void ; fakeCardOpacity: SharedValue<number> ; fakeCard: number ; setFakeCard: (f:number)=>void ; setFinishCard: (s:boolean)=>void ; addAnswer: (a: any)=>void ; }) => {
@@ -195,30 +193,10 @@ const styles = StyleSheet.create({
       borderRadius: 20,
       backgroundColor: ThemeColors['babyBlue'],
       alignItems: "center",
-      marginBottom: 40,
       borderWidth: 5,
       borderColor: "#ffffff",
       position: "absolute",
       top: 0,
-    },
-    CircleIndicator: {
-      flex: 1,
-      position: "absolute", 
-      right: width-165, 
-      borderRadius: 75, 
-      width: 0, 
-      height: 0, 
-      backgroundColor: ThemeColors['aquamarine'],
-      alignItems: "center",
-      justifyContent: "center",
-      flexDirection: "row"
-    },
-    CircleIndicatorText: {
-      fontSize: RFPercentage(2.2),
-      fontFamily: "MerriweatherBold",
-      color: ThemeColors['white'],
-      position: "absolute",
-      left: 10,
     },
     CardContentTop: {
       flex: 2,
@@ -226,33 +204,32 @@ const styles = StyleSheet.create({
       backgroundColor: "transparent",
       alignItems: "center",
       justifyContent: "center",
-      paddingHorizontal: 30,
-      paddingTop: 20,
+      paddingHorizontal: width*0.1,
+      paddingTop: height*0.02,
     },
     CardContentMiddle1: {
       flex: 3,
-      width: cardWidth-40,
+      width: cardWidth-width*0.1,
       backgroundColor: "transparent",
       alignItems: "center",
       justifyContent: "center",
       borderBottomWidth: 1,
       borderColor: ThemeColors['white'],
-      marginHorizontal: 40,
-      paddingBottom: 20
+      marginHorizontal: width*0.1,
+      paddingBottom: height*0.02
     },
     CardContentMiddle2: {
       flex: 2,
       width: cardWidth,
       backgroundColor: "transparent",
-      alignItems: "center",
       justifyContent: "center",
-      flexDirection: "row"
+      flexDirection: "row",
     },
     CardContentBottom: {
       flex: 1,
-      width: cardWidth-40,
+      width: cardWidth-width*0.1,
       backgroundColor: "transparent",
-      marginHorizontal: 40,
+      marginHorizontal: width*0.1,
       borderTopWidth: 1,
       borderColor: ThemeColors['white']
     },

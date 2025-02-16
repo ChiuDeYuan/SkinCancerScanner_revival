@@ -12,7 +12,7 @@ const ThemeColors = require('../constants/colors.json');
 
 const SkinColorPicker = ({nowCard, setFinishQuestion, sendAnswer, addAnswer, disable}:{nowCard: number ; setFinishQuestion: (f: boolean)=>void ; sendAnswer: boolean ; addAnswer: (a: any)=>void ; disable: boolean}) => {
 
-    const progress = useSharedValue(1);
+    const progress = useSharedValue(0.5);
     const min = useSharedValue(0);
     const max = useSharedValue(1);
 

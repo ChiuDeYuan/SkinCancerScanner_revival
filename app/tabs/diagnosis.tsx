@@ -28,7 +28,6 @@ import DiagnosisCard from '../conponents/DiagnosisCard';
 import images from '../constants/images';
 import DiagnosisAnswerBox from '../conponents/DiagnosisAnswerBox';
 import PhotoUpload from '../conponents/PhotoUpload';
-import ScoreCalculator from '../tools/score-calculator';
 import ResultPage from '../conponents/ResultPage';
 
 const { width, height } = Dimensions.get('window');
@@ -39,11 +38,12 @@ const ThemeColors = require('../constants/colors.json');
 const AnimatedTouchableHighlight = Animated.createAnimatedComponent(TouchableHighlight);
 
 const DiagnosisScreen = () => {
-  const allCardNum = info['diagnosis'].length
-  const [nowCard, setNowCard] = useState(0)
-  const [fakeCard, setFakeCard] = useState(1)
-  const [finishCard, setFinishCard] = useState(false) 
-  const [UserAnswer, setUserAnswer] = useState<Array<any>>([]);
+  const allCardNum = info['diagnosis'].length;
+  const [nowCard, setNowCard] = useState(0);
+  const [fakeCard, setFakeCard] = useState(1);
+  const [finishCard, setFinishCard] = useState(false) ;
+  const [UserAnswer, setUserAnswer] = useState<Array<number>>([]);
+  const [scanResult, setScanResult] = useState<number | null>(null);
   const translationX = useSharedValue(0);
   const fakeCardOpacity = useSharedValue(0);
 
@@ -61,8 +61,8 @@ const DiagnosisScreen = () => {
 
   const AnimatedCircleindicator = useAnimatedStyle(()=>{
     return { 
-      width: withTiming(translationX.value > 40 ? 150 : 0 , {duration: 250}),
-      height: withTiming(translationX.value > 40 ? 150 : 0 , {duration: 250})
+      width: withTiming(translationX.value > 40 ? width*0.4 : 0 , {duration: 250}),
+      height: withTiming(translationX.value > 40 ? width*0.4 : 0 , {duration: 250})
     };
   })
 
@@ -77,7 +77,7 @@ const DiagnosisScreen = () => {
   }, [UserAnswer])
 
   return(
-    !true ? (
+    !finishCard ? (
       <View style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}}>
         <ImageBackground source={require('../../assets/images/content/bg_hospital_chiryou2.jpg')} resizeMode='contain' style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}} imageStyle={{opacity: 0.1}}>
           
@@ -109,7 +109,7 @@ const DiagnosisScreen = () => {
                 ))}
 
                 {/*Fake Card*/}
-                <Animated.View pointerEvents={'none'} style={[styles.Container, {opacity: 0.5}, AnimatedFakeCard]}>
+                <Animated.View pointerEvents={'none'} style={[styles.Container, AnimatedFakeCard]}>
                   <View pointerEvents={'none'} style={[styles.CardStack]}>
                     <View pointerEvents={'none'} style={[styles.CardContent]}>
                       <View pointerEvents={'none'} style={{flex: 1, width: cardWidth, height: cardHeight, alignItems: "center"}}>
@@ -146,9 +146,16 @@ const DiagnosisScreen = () => {
         </ImageBackground>
       </View>
     ):(
+
       <View style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}}>
         <ImageBackground source={require('../../assets/images/content/bg_hospital_chiryou2.jpg')} resizeMode='contain' style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}} imageStyle={{opacity: 0.1}}>
-          <ResultPage></ResultPage>
+          {
+            scanResult ? (
+              <ResultPage userCardAnswer={UserAnswer} scanResult={scanResult}></ResultPage>
+            ):(
+              <PhotoUpload setScanResult={setScanResult}></PhotoUpload>
+            )
+          }
         </ImageBackground>
       </View>
     )
@@ -184,30 +191,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: ThemeColors['babyBlue'],
     alignItems: "center",
-    marginBottom: 40,
     borderWidth: 5,
     borderColor: "#ffffff",
     position: "absolute",
     top: 0,
-  },
-  CircleIndicator: {
-    flex: 1,
-    position: "absolute", 
-    right: width-165, 
-    borderRadius: 75, 
-    width: 0, 
-    height: 0, 
-    backgroundColor: ThemeColors['aquamarine'],
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row"
-  },
-  CircleIndicatorText: {
-    fontSize: RFPercentage(2.2),
-    fontFamily: "MerriweatherBold",
-    color: ThemeColors['white'],
-    position: "absolute",
-    left: 10,
   },
   CardContentTop: {
     flex: 2,
@@ -215,33 +202,32 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 30,
-    paddingTop: 20,
+    paddingHorizontal: width*0.1,
+    paddingTop: height*0.02,
   },
   CardContentMiddle1: {
     flex: 3,
-    width: cardWidth-40,
+    width: cardWidth-width*0.1,
     backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
     borderBottomWidth: 1,
     borderColor: ThemeColors['white'],
-    marginHorizontal: 40,
-    paddingBottom: 20
+    marginHorizontal: width*0.1,
+    paddingBottom: height*0.02
   },
   CardContentMiddle2: {
     flex: 2,
     width: cardWidth,
     backgroundColor: "transparent",
-    alignItems: "center",
     justifyContent: "center",
     flexDirection: "row"
   },
   CardContentBottom: {
     flex: 1,
-    width: cardWidth-40,
+    width: cardWidth-width*0.1,
     backgroundColor: "transparent",
-    marginHorizontal: 40,
+    marginHorizontal: width*0.1,
     borderTopWidth: 1,
     borderColor: ThemeColors['white']
   },
@@ -255,5 +241,24 @@ const styles = StyleSheet.create({
     alignItems: "center", 
     justifyContent: "center", 
     flexDirection: "row"
+  },
+  CircleIndicator: {
+    flex: 1,
+    position: "absolute", 
+    right: width-width*0.42, 
+    borderRadius: width*0.5, 
+    width: 0, 
+    height: 0, 
+    backgroundColor: ThemeColors['aquamarine'],
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row"
+  },
+  CircleIndicatorText: {
+    fontSize: RFPercentage(2.2),
+    fontFamily: "MerriweatherBold",
+    color: ThemeColors['white'],
+    position: "absolute",
+    left: 10,
   }
 });

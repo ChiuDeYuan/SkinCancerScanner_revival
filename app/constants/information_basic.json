@@ -72,6 +72,10 @@
             ],
             "score": [
 
+            ],
+            "risk":[
+                0,
+                0
             ]
         },
         {
@@ -86,7 +90,12 @@
                 "85+"
             ],
             "score": [
-                
+            ],
+            "risk":[
+                0,
+                0,
+                1,
+                1
             ]
         },
         {
@@ -111,6 +120,15 @@
                 2.94,
                 0.37,	
 		        1
+            ],
+            "risk":[
+                2,
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
             ]
         },
         {
@@ -127,6 +145,11 @@
                 3,
                 1,
                 1.1
+            ],
+            "risk":[
+                2,
+                0,
+                0
             ]
         },
         {
@@ -141,6 +164,10 @@
             "score": [
                 24.3,
                 1
+            ],
+            "risk":[
+                2,
+                0
             ]
         },
         {
@@ -156,6 +183,11 @@
             "score": [
                 2,
                 0.5,
+                1
+            ],
+            "risk":[
+                2,
+                0,
                 1
             ]
         },
@@ -173,6 +205,11 @@
                 100,
                 10,
                 1
+            ],
+            "risk":[
+                2,
+                1,
+                0
             ]
         },
         {
@@ -191,6 +228,12 @@
                 8.57,
                 2.86,
                 1
+            ],
+            "risk":[
+                2,
+                1,
+                1,
+                0
             ]
         },
         {
@@ -199,9 +242,16 @@
             "title": "How would you describe the tone of your skin?",
             "discription": "",
             "choices": [
+                "Dark",
+                "In between",
+                "Light"
             ],
-            "score": [
-                
+            "score": [     
+            ],
+            "risk":[
+                0,
+                0,
+                0
             ]
         },
         {
@@ -216,6 +266,11 @@
             ],
             "score": [
                 
+            ],
+            "risk":[
+                1,
+                0,
+                0
             ]
         },
         {
@@ -232,6 +287,11 @@
                 5,
                 2,
                 0.8
+            ],
+            "risk":[
+                2,
+                1,
+                0
             ]
         },
         {
@@ -250,6 +310,12 @@
                 3,
                 0.8,
                 1
+            ],
+            "risk":[
+                2,
+                2,
+                0,
+                0
             ]
         },
         {
@@ -266,6 +332,11 @@
                 3,
                 1,
                 2
+            ],
+            "risk":[
+                2,
+                0,
+                1
             ]
         },
         {
@@ -282,6 +353,11 @@
                 2,
                 0.8,
                 1
+            ],
+            "risk":[
+                2,
+                0,
+                0
             ]
         },
         {
@@ -299,6 +375,11 @@
                 10,
                 3,
                 1
+            ],
+            "risk":[
+                2,
+                2,
+                0
             ]
         },
         {
@@ -311,6 +392,9 @@
             ],
             "score": [
                 1
+            ],
+            "risk":[
+                0
             ]
         },
         {
@@ -327,6 +411,11 @@
                 2,
                 1,
                 1.1
+            ],
+            "risk":[
+                2,
+                0,
+                0
             ]
         },
         {
@@ -343,6 +432,11 @@
                 2,
                 1,
                 1.1
+            ],
+            "risk":[
+                2,
+                0,
+                0
             ]
         },
         {
@@ -359,6 +453,11 @@
                 2,
                 1,
                 1.1
+            ],
+            "risk":[
+                2,
+                0,
+                0
             ]
         },
         {
@@ -375,6 +474,11 @@
                 2,
                 1,
                 1.1
+            ],
+            "risk":[
+                2,
+                0,
+                0
             ]
         },
         {
@@ -391,6 +495,11 @@
                 2,
                 1,
                 1.1
+            ],
+            "risk":[
+                2,
+                0,
+                0
             ]
         },
         {
@@ -406,6 +515,12 @@
             ],
             "score": [
                 
+            ],
+            "risk":[
+                1,
+                1,
+                0,
+                0
             ]
         },
         {
@@ -424,7 +539,27 @@
                 0.8,
                 1.2,
                 1
+            ],
+            "risk":[
+                2,
+                0,
+                0,
+                0
             ]
         }
-    ]
+    ],
+    "scanner": {
+        "models": ["Moblie ViT (Default)", "CNN (Not available)", "YOLO (Not available)"],
+        "title": "⚠️Read this first⚠️\nHow to use the scanner?",
+        "title1": "1. This is an example photo",
+        "content1": "Make sure the mole is in the center of the photo and take the photo in good light. If possible, use a macro lens to make the picture as clear as possible.",
+        "title2": "2. Pick a mole on your body that fits the most of the following criteria:",
+        "content2-1": "Asymmetry:\nThe mole is Asymmetric, one half of the mole looks different from the other half of the mole.",
+        "content2-2": "Border:\nThe mole is defined by a ragged border.",
+        "content2-3": "Color:\nThe mole is have more than one color within it's border.",
+        "content2-4": "Diameter:\nThe mole have a diameter larger than 6mm (0.24 inch or around the diameter of a typical pencil) at it's widest point.",
+        "content2-5": "Evolving:\nThe mole changes in color, shape or size from time to time",
+        "title3": "3. Choose a model",
+        "content3": "We provide many models to choose from, please adjust according to your needs."
+    }
 }
