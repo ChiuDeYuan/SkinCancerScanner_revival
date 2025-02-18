@@ -99,6 +99,17 @@ const ImagePickerInfo1 = ({isModalVisible, setIsModalVisible, imagePicker} : {is
                                     {info['scanner']['content3']}
                                 </Text>
                             </View>
+                            <View style={{width: width*0.6, paddingVertical: 20, borderBottomWidth: 1, borderColor: ThemeColors['touchable']}}>
+                                <Text style={{fontSize: RFPercentage(2), fontFamily: "MerriweatherBold", color: ThemeColors['black'], textAlign: "center", lineHeight:24}} >
+                                    {info['scanner']['title4']}
+                                </Text>
+                                <View style={{width: width*0.6, height: width*0.6, borderRadius: 20, marginVertical: 20}}>
+                                    <Image source={require('../../assets/images/content/skip_example.png')} style={{flex: 1, width: null, height: null, resizeMode: "contain", borderRadius: 20}} />
+                                </View>
+                                <Text style={{fontSize: RFPercentage(1.8), fontFamily: "MerriweatherRegular", color: ThemeColors['black'], lineHeight:24, textAlign: "center"}} >
+                                    {info['scanner']['content4']}
+                                </Text>
+                            </View>
                             
                         </View>
                     </ScrollView>
@@ -185,6 +196,17 @@ const ImagePickerInfo2 = ({isModalVisible, setIsModalVisible, imagePicker} : {is
                                     {info['scanner']['content3']}
                                 </Text>
                             </View>
+                            <View style={{width: width*0.6, paddingVertical: 20, borderBottomWidth: 1, borderColor: ThemeColors['touchable']}}>
+                                <Text style={{fontSize: RFPercentage(2), fontFamily: "MerriweatherBold", color: ThemeColors['black'], textAlign: "center", lineHeight:24}} >
+                                    {info['scanner']['title4']}
+                                </Text>
+                                <View style={{width: width*0.6, height: width*0.6, borderRadius: 20, marginVertical: 20}}>
+                                    <Image source={require('../../assets/images/content/skip_example.png')} style={{flex: 1, width: null, height: null, resizeMode: "contain", borderRadius: 20}} />
+                                </View>
+                                <Text style={{fontSize: RFPercentage(1.8), fontFamily: "MerriweatherRegular", color: ThemeColors['black'], lineHeight:24, textAlign: "center"}} >
+                                    {info['scanner']['content4']}
+                                </Text>
+                            </View>
                             
                         </View>
                     </ScrollView>
@@ -227,7 +249,7 @@ const SelectModel = ({isModalVisible, setIsModalVisible, setModel} : {isModalVis
     );
 }
 
-const PhotoUpload = ({setScanResult}:{setScanResult: (a: number)=>void}) => {
+const PhotoUpload = ({setScanResult, }:{setScanResult: (r: [string, number])=>void}) => {
     const [image, setImage] = useState<[string, string] | null>(null);
     const [isModalVisible1, setIsModalVisible1] = useState(false);
     const [isModalVisible2, setIsModalVisible2] = useState(false);
@@ -237,9 +259,6 @@ const PhotoUpload = ({setScanResult}:{setScanResult: (a: number)=>void}) => {
 
     useEffect(() => {
         opacity.value = withTiming(1, { duration: 300 });
-        return () => {
-            opacity.value = withTiming(0, { duration: 300 });
-        };
     }, []);
 
     const FadeInOutStyle = useAnimatedStyle(() => {
@@ -247,6 +266,10 @@ const PhotoUpload = ({setScanResult}:{setScanResult: (a: number)=>void}) => {
            opacity: opacity.value
         };
     });
+
+    const fadeout = () => {
+        opacity.value = withTiming(0, { duration: 300 });
+    }
 
     const openRoll = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -301,7 +324,7 @@ const PhotoUpload = ({setScanResult}:{setScanResult: (a: number)=>void}) => {
     return (
         <Animated.View style={[styles.Container, FadeInOutStyle]}>
             <View style={{flex: 1, width: width, alignItems: "flex-end", justifyContent: "flex-end", paddingHorizontal: width*0.05, paddingBottom: height*0.015}}>
-                <TouchableOpacity onPress={()=>{setScanResult(-1)}} style={styles.SkipContainer}>
+                <TouchableOpacity onPress={()=>{fadeout(); setTimeout(()=>setScanResult(["null", -1]), 300)}} style={styles.SkipContainer}>
                     <Text style={{fontFamily: "MerriweatherBold", color: "#777", fontSize: RFPercentage(1.6)}}>
                         Skip
                     </Text>
@@ -324,7 +347,7 @@ const PhotoUpload = ({setScanResult}:{setScanResult: (a: number)=>void}) => {
                                         </Text>
                                     </View>
                                 ):(
-                                    <Image source={{uri: image[0]}} style={styles.Image} />
+                                    <Image source={{uri: image![0]}} style={styles.Image} />
                                 )}
                             </View>
                         </TouchableHighlight>
@@ -363,7 +386,7 @@ const PhotoUpload = ({setScanResult}:{setScanResult: (a: number)=>void}) => {
 
             <View style={{flex: 2, width: width, alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
                 <LinearGradient colors={(image==null) ? [ThemeColors['touchable'], ThemeColors['touchable']] : ["#AE8625", "#F7EF8A", "#D2AC47", "#EDC967"]} start={{ x: 0, y: 0}} end={{ x: 1, y: 1}} style={[styles.PredictGradientContainer, {opacity: (image==null) ? 0.4 : 1}]}>
-                    <TouchableOpacity onPress={()=>uploadImage(image![1]).then(response=>setScanResult(response))} style={[styles.PredictContainer, {backgroundColor: "#ffffff"}]} disabled={(image==null)}>
+                    <TouchableOpacity onPress={()=>uploadImage(image![1]).then(response=>{fadeout(); setTimeout(()=>setScanResult([image![1], response]), 300)})} style={[styles.PredictContainer, {backgroundColor: "#ffffff"}]} disabled={(image==null)}>
                         <LinearGradient colors={(image==null) ? [ThemeColors['border'], ThemeColors['border']] : ["#FFFFFF", "#E7CD78", "#FAF9D0"]} start={{ x: 0, y: 0}} end={{ x: 1, y: 1}} style={styles.PredictContainer}>
                             <Ionicons name="sparkles-outline" size={RFPercentage(3)} color={ThemeColors['black']} style={{marginHorizontal: 5}} />
                             <Text style={{fontSize: RFPercentage(3), fontFamily: "MerriweatherBoldItalic"}}>

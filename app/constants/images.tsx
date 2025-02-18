@@ -1,12 +1,12 @@
 export default {
-    intro:{
-        "card1":[
+    intro:[
+        [
             require("../../assets/images/content/skin_cancer.png"),
             require("../../assets/images/content/body_virus.png"),
             require("../../assets/images/content/naizou_woman_bad.png"),
             require("../../assets/images/content/saibou_gan_cancer.png")
         ],
-        "card2":[
+        [
             require("../../assets/images/content/statistics_graph.png"),
             require("../../assets/images/content/graph01_circle.png"),
             require("../../assets/images/content/doctor_monshin2.png"),
@@ -15,7 +15,7 @@ export default {
             require("../../assets/images/content/ohaka_bochi_seiyou.png")
 
         ],
-        "card3":[
+        [
             require("../../assets/images/content/search_mushimegane.png"),
             require("../../assets/images/content/melanoma_on_hand.png"),
             require("../../assets/images/content/magnifier1_doctor.png"),
@@ -26,7 +26,7 @@ export default {
             require("../../assets/images/content/abcde_d.png"),
             require("../../assets/images/content/abcde_e.png")
         ],
-        "card4":[
+        [
             require("../../assets/images/content/mark_chuui.png"),
             require("../../assets/images/content/pop_chuui.png"),
             require("../../assets/images/content/necchuusyou_taoreru_boy.png"),
@@ -35,7 +35,7 @@ export default {
             require("../../assets/images/content/meneki_bad.png"),
             require("../../assets/images/content/kaigo_rourou_easy.png")
         ]
-    },
+    ],
     diagnosis:[
         require("../../assets/images/content/toilet_mark.png"),
         require("../../assets/images/content/family.png"),

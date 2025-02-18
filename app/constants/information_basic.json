@@ -2,17 +2,16 @@
     "tmp":[
         "The information and predicted resaults are for reference only. Seek professional medical assistance if you need it."
     ],
-    "intro":{
-        "card1":{
+    "intro":[
+        {
             "title":"What is Melanoma?",
             "content":[
                 "Melanoma is a kind of skin cancer. Although Melanoma only accounts for 1-2% of skin cancer cases, it is easily the most deadly type of skin cancer.",
                 "It can grow rapidly over weeks or months and it may spread to other parts of the body and potentially become fatal.",
                 "According to the American Cancer Society, melanoma has on average a 94% 5-year relative survival rate. For reference, the most common type of skin cancer, Basal Cell Carcinoma, has a 100% 5-year relative survival rate."
-            ],
-            "pagesNum": 3
+            ]
         },
-        "card2":{
+        {
             "title":"Statistics about Melanoma",
             "content":[
                 "Melanoma is among one of the most common cancers in young people under 30 years old, especially in young women (#3 most diagnosed cancer among ages 25 to 39 in the United States).",
@@ -20,10 +19,9 @@
                 "The American Cancer Society’s estimates for melanoma in the United States for 2024 are:",
                 "About 100,640 new melanomas will be diagnosed (about 59,170 in men and 41,470 in women)",
                 "About 8,290 people are expected to die of melanoma (about 5,430 men and 2,860 women)."
-            ],
-            "pagesNum": 5
+            ]
         },
-        "card3":{
+        {
             "title":"Signs of Melanoma",
             "content":[
                 "The most important sign of potential Melanoma is a new spot on the skin or a spot that is changing in size, shape or color.",
@@ -34,10 +32,9 @@
                 "C. Color: \nThe color is not the same all over and may include different shades of brown or black, or sometimes with patches of pink, red, white or blue.",
                 "D. Diameter: \nThe spot is larger than 6 millimeters across (about 1/4 inch or the size of a pencil eraser), although Melanomas can sometimes be smaller than this.",
                 "E. Evolving: \nThe mole is changing in size, shape, or color."
-            ],
-            "pagesNum": 8
+            ]
         },
-        "card4":{
+        {
             "title":"Risk factors",
             "content":[
                 "A risk factor is anything that raises your risk of getting a disease such as cancer. Risk factors include a variety of things such as personal lifestyle, age or family history.The major risk factors of Melanoma are as follows:",
@@ -46,10 +43,9 @@
                 "3. History of Melanoma",
                 "4. Weakened Immune System",
                 "5. Being Older"
-            ],
-            "pagesNum": 6
+            ]
         }
-    },
+    ],
     "about":[
         "The model is based on Mobile-ViT",
         "Training metrics of the model",
@@ -560,6 +556,27 @@
         "content2-4": "Diameter:\nThe mole have a diameter larger than 6mm (0.24 inch or around the diameter of a typical pencil) at it's widest point.",
         "content2-5": "Evolving:\nThe mole changes in color, shape or size from time to time",
         "title3": "3. Choose a model",
-        "content3": "We provide many models to choose from, please adjust according to your needs."
+        "content3": "We provide many models to choose from, please adjust according to your needs.",
+        "title4": "4. You can skip uploading photo",
+        "content4": "If you concern about the privacy problem, it's fine to skip uploading your photo. However, that could reduce the confidence of the result."
+    },
+    "resultPage": {
+        "title": "⚠️Important⚠️\nHow to interpret the result?",
+        "title1": "1. Long press the card to expand it",
+        "content1": "You can review your answer.",
+        "title2": "2. Save the result!",
+        "content2": "You can access your results anytime from \"My History\" page.",
+        "title3": "3. Metrics-Overall",
+        "content3-1": "An average score that represents your current probability of having malignant Melanoma.",
+        "content3-2": "It is the average score of both your form-based probability and your scan-based probability (keep in mind that this index may be solely represented by your “Current” index in the case where the scan test was skipped).",
+        "title4": "4. Metrics-Genetics",
+        "content4-1": "A form-based estimate chance of your body developing Melanoma during your lifespan.",
+        "content4-2": "Regular self-checks or clinic visits are recommended if this scores high on your results.",
+        "title5": "5. Metrics-Current",
+        "content5-1": "The form-based estimate probability of Melanoma existing inside of your body at the moment of testing.",
+        "content5-2": "It is recommended that you contact the local Dermatology clinic immediately for a check-up if this index scores high on your results.",
+        "title6": "Metrics-Photo(AI Prediction)",
+        "content6-1": "The scan-based AI estimate probability that the mole you scanned has developed malignant Melanoma.",
+        "content6-2": "The AI model in question has an accuracy of up to 89.4% in testing, you can get more details in \"About\" page"
     }
 }

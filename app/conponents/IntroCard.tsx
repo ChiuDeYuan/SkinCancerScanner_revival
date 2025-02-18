@@ -27,26 +27,13 @@ const cardHeight = height*0.5;
 const info = require('../constants/information_basic.json');
 const ThemeColors = require('../constants/colors.json');
 
-
-const AnimatedIcon = Animated.createAnimatedComponent(Ionicons);
 const AnimatedTouchableHighlight = Animated.createAnimatedComponent(TouchableHighlight);
 
-const IntroCard = ({ scrollToPosition, toggleScroll, idx }: { scrollToPosition: (y: number) => void , toggleScroll: (t: boolean) => void, idx: string }) =>{
+const IntroCard = ({ setScrollable, idx }: { setScrollable: (b: boolean)=>void ; idx: number }) =>{
   const [toggleCard, setToggleCard] = useState(false);
   const [pageIdx, setPageIdx] = useState(1);
-  const cardRef = useRef<View>(null);
-  const [cardY, setCardY] = useState(0);
   const TitleFontSize = RFPercentage(2)
   const DetailsFontSize = RFPercentage(1.8)
-
-  useEffect(() => {
-    if(toggleCard){
-      scrollToPosition(cardY);
-    }
-    else{
-      scrollToPosition(cardY-height*0.2);
-    }
-  }, [toggleCard]);
 
   const AnimatedCardStyle = useAnimatedStyle(()=>{
     return { 
@@ -54,6 +41,7 @@ const IntroCard = ({ scrollToPosition, toggleScroll, idx }: { scrollToPosition: 
       height: withTiming(toggleCard? height : cardHeight, {duration:300, easing:Easing.bezier(0.5, 0.01, 0, 1)}),
       borderRadius: withTiming(toggleCard ? 0 : 20, { duration: 300 }),
       borderWidth: withTiming(toggleCard ? 0 : 5, { duration: 300 }),
+      transform: [{ translateX: withTiming(toggleCard ? -(width-cardWidth)/2 : 0, { duration: 300 }) }],
     };
   })
 
@@ -101,9 +89,9 @@ const IntroCard = ({ scrollToPosition, toggleScroll, idx }: { scrollToPosition: 
   })
 
   const nextPage = () => {
-    if(pageIdx == info['intro'][idx]['pagesNum']){
-      setToggleCard(false); 
-      toggleScroll(true);
+    if(pageIdx == info['intro'][idx]['content'].length){
+      setToggleCard(false);
+      setScrollable(true);
       setTimeout(() => {
         setPageIdx(1);
       }, 500) 
@@ -116,7 +104,7 @@ const IntroCard = ({ scrollToPosition, toggleScroll, idx }: { scrollToPosition: 
   const prevPage = () => {
     if(pageIdx == 1){
       setToggleCard(false); 
-      toggleScroll(true);
+      setScrollable(true);
       setPageIdx(1);
     }
     else{
@@ -125,43 +113,48 @@ const IntroCard = ({ scrollToPosition, toggleScroll, idx }: { scrollToPosition: 
   }
 
   return(
-    <Animated.View ref={cardRef} onLayout={(event) => setCardY(event.nativeEvent.layout.y)} style={[styles.CardStyle, AnimatedCardStyle]}>
+    <Animated.View style={[styles.CardStyle, AnimatedCardStyle]}>
 
-        <Animated.View style={[{position: "absolute", width: width, height: height-50, flex: 1}, AnimatedCardContentStyle]}>
-          <View style={{flex: 2}}>
-            <TouchableHighlight underlayColor={ThemeColors['touchable']} onPress={() => {setToggleCard(false); toggleScroll(true); setPageIdx(1)}} style={styles.cancelBottom}>
+        <Animated.View style={[{flex: 1}, AnimatedCardContentStyle]}>
+
+          <View style={{flex: 3, alignItems: "flex-end", justifyContent: "flex-start", flexDirection: "row", paddingHorizontal: 20, paddingBottom: 20}}>
+            <TouchableHighlight underlayColor={ThemeColors['touchable']} onPress={() => {setToggleCard(false); setScrollable(true); setPageIdx(1)}} style={styles.cancelBottom}>
                 <Ionicons name="arrow-back" size={24} color={ThemeColors['white']} />
             </TouchableHighlight>
           </View>
-          <View style={styles.cardContentImageContainer}>
-            <Image source={images.intro[idx][pageIdx]} alt="image error" style={styles.cardImg}/>
+
+          <View pointerEvents='none' style={styles.cardContentImageContainer}>
+            <Image source={images.intro[idx][pageIdx]} style={styles.cardImg}/>
           </View>
-          <View style={styles.cardContentTextContainer}>
+
+          <View pointerEvents='none' style={styles.cardContentTextContainer}>
             <Animated.Text style={[styles.cardText]}>
                 {info['intro'][idx]['content'][pageIdx-1]}
             </Animated.Text>
           </View>
-          <View style={{flex: 2.5}}>
-            <TouchableHighlight underlayColor={ThemeColors['touchable']} onPress={() => {nextPage()}} style={styles.nextBottom}>
+
+          <View style={{flex: 4}}>
+            <TouchableHighlight underlayColor={ThemeColors['touchable']} onPress={()=>prevPage()} style={[styles.backBottom]}>
               <>
-                <Animated.Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginLeft: 10}]}>
-                  Next
-                </Animated.Text>
-                <Ionicons name="chevron-forward-outline" size={24} color={ThemeColors['white']} />
-              </>
-            </TouchableHighlight>
-            <TouchableHighlight underlayColor={ThemeColors['touchable']} onPress={() => {prevPage()}} style={[styles.backBottom]}>
-              <>
-                <Ionicons name="chevron-back-outline" size={24} color={ThemeColors['white']} />
+                <Ionicons name="chevron-back-outline" size={RFPercentage(3)} color={ThemeColors['white']} />
                 <Animated.Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginRight: 10}]}>
                   Back
                 </Animated.Text>
               </>
             </TouchableHighlight>
+            <TouchableHighlight underlayColor={ThemeColors['touchable']} onPress={()=>nextPage()} style={styles.nextBottom}>
+              <>
+                <Animated.Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginLeft: 10}]}>
+                  Next
+                </Animated.Text>
+                <Ionicons name="chevron-forward-outline" size={RFPercentage(3)} color={ThemeColors['white']} />
+              </>
+            </TouchableHighlight>
           </View>
+
         </Animated.View>
 
-        <AnimatedTouchableHighlight underlayColor={ThemeColors['aquamarine']} onPress={() => {setToggleCard(true); toggleScroll(false);}} style={[styles.touchableHighlight, AnimatedHighlightStyle]} disabled={toggleCard}>
+        <AnimatedTouchableHighlight underlayColor={ThemeColors['aquamarine']} onPress={() => {setScrollable(false); setToggleCard(true); }} style={[styles.touchableHighlight, AnimatedHighlightStyle]} disabled={toggleCard}>
           <Animated.View pointerEvents={'none'} style={[{flex: 1}, AnimatedCoverContentStyle]}>
             <Animated.View pointerEvents={'none'} style={[styles.cardTopContainer, AnimatedCoverContainer]}>
               <Animated.Text ellipsizeMode={'clip'} numberOfLines={1} style={[styles.cardTitle, AnimatedCoverTitle]}>
@@ -169,7 +162,7 @@ const IntroCard = ({ scrollToPosition, toggleScroll, idx }: { scrollToPosition: 
               </Animated.Text>
             </Animated.View>
             <Animated.View pointerEvents={'none'} style={[styles.cardMiddleContainer, AnimatedCoverContainer]}>
-              <Image source={images.intro[idx][0]} alt="image error" style={styles.cardImg}/>
+              <Image source={images.intro[idx][0]} style={styles.cardImg}/>
             </Animated.View>
             <Animated.View pointerEvents={'none'} style={[styles.cardBottomContainer, AnimatedDetailsContainer]}>
               <View pointerEvents={'none'} style={styles.detailsContainer}>
@@ -198,7 +191,7 @@ const styles = StyleSheet.create({
     elevation: 10,
     borderWidth: 5,
     borderColor: "#ffffff",
-    marginHorizontal: 10
+    marginHorizontal: 15
   },
   touchableHighlight:{
     width: cardWidth-10,
@@ -260,11 +253,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   cancelBottom: {
-    position: "absolute",
-    top: 30,
-    left: 20,
     backgroundColor: ThemeColors['aquamarine'],
-    borderRadius: 20,
+    borderRadius: 100,
     padding: 10,
     alignItems: "center",
     flexDirection: "row",
@@ -272,8 +262,8 @@ const styles = StyleSheet.create({
   },
   backBottom: {
     position: "absolute",
-    bottom: 60,
-    left: 20,
+    left: 40,
+    top: 20,
     backgroundColor: ThemeColors['aquamarine'],
     borderRadius: 20,
     padding: 10,
@@ -283,8 +273,8 @@ const styles = StyleSheet.create({
   },
   nextBottom: {
     position: "absolute",
-    bottom: 60,
-    right: 20,
+    right: 40,
+    top: 20,
     backgroundColor: ThemeColors['aquamarine'],
     borderRadius: 20,
     padding: 10,
@@ -297,14 +287,14 @@ const styles = StyleSheet.create({
     bottom: 60,
   },
   cardContentImageContainer: {
-    flex: 5,
+    flex: 10,
     paddingHorizontal: 30,
     marginHorizontal: 40,
     borderTopWidth: 1,
     borderColor: ThemeColors['white'],
   },
   cardContentTextContainer: {
-    flex: 4, 
+    flex: 8, 
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",

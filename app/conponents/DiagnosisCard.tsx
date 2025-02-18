@@ -27,8 +27,8 @@ const AnimatedTouchableHighlight = Animated.createAnimatedComponent(TouchableHig
   
 const DiagnosisCard = ({idx, remainCard, translationX, nowCard, setNowCard, fakeCardOpacity, fakeCard, setFakeCard, setFinishCard, addAnswer} : {idx: number ; remainCard: number ; translationX: SharedValue<number> ; nowCard: number ; setNowCard: (r:number)=>void ; fakeCardOpacity: SharedValue<number> ; fakeCard: number ; setFakeCard: (f:number)=>void ; setFinishCard: (s:boolean)=>void ; addAnswer: (a: any)=>void ; }) => {
   
-    const cardX = useSharedValue(0)
-    const cardOpacity = useSharedValue(1)
+    const cardX = useSharedValue(0);
+    const cardOpacity = useSharedValue(1);
   
     const AnimatedCardStack = useAnimatedStyle(() => {
       return {

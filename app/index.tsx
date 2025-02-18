@@ -7,17 +7,12 @@ import { Merriweather_400Regular, Merriweather_700Bold, Merriweather_700Bold_Ita
 import { PlayfairDisplay_400Regular, PlayfairDisplay_700Bold, PlayfairDisplay_800ExtraBold, PlayfairDisplay_800ExtraBold_Italic } from '@expo-google-fonts/playfair-display';
 import { LibreBaskerville_400Regular, LibreBaskerville_700Bold } from '@expo-google-fonts/libre-baskerville';
 import { Roboto_400Regular, Roboto_500Medium, Roboto_700Bold } from '@expo-google-fonts/roboto';
-import * as SplashScreen from 'expo-splash-screen'
-import { useState } from 'react';
 
 import IntroScreen from './tabs/intro';
 import DiagnosisScreen from './tabs/diagnosis';
 import HistoryScreen from './tabs/history';
 import AboutScreen from './tabs/about';
 import SettingScreen from './tabs/settings';
-import { useColorScheme } from "react-native";
-import { useCallback, useEffect } from "react";
-import { get, save } from "./tools/storage";
 
 const {width, height} = Dimensions.get('window') 
 const Drawer = createDrawerNavigator();
@@ -59,13 +54,7 @@ function CustomDrawerContent(props: any) {
         >
         </Text>
         <View style={{flex:1, paddingHorizontal:30}}>
-          <Image source={brandImg} style={{
-            flex: 1,
-            width: null,
-            height: null,
-            resizeMode: 'contain',
-            opacity:0.72,
-          }}/>
+          
         </View>
       </View>
     </View>
@@ -98,7 +87,7 @@ const screenOpts = {
 export default function App() {
 
   useFonts({
-    LibrBaskervilleeRegular: LibreBaskerville_400Regular,
+    LibrBaskervilleRegular: LibreBaskerville_400Regular,
     LibreBaskervilleBold: LibreBaskerville_700Bold,
     MerriweatherRegular: Merriweather_400Regular,
     MerriweatherBoldItalic: Merriweather_700Bold_Italic,
@@ -128,4 +117,3 @@ export default function App() {
     </>  
   );
 }
-

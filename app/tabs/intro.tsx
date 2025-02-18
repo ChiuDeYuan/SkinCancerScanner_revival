@@ -4,7 +4,7 @@ import {
   StyleSheet, 
   ScrollView, 
   Dimensions, 
-  TouchableHighlight
+  ImageBackground
 } from 'react-native';
 import { useState, useRef, useEffect } from 'react';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
@@ -15,46 +15,41 @@ import IntroCard from '../conponents/IntroCard';
 const { width, height } = Dimensions.get('window');
 const info = require('../constants/information_basic.json');
 const ThemeColors = require('../constants/colors.json');
+const AllCardNum = info['intro'].length
 
 const IntroScreen = () => {
-  const scrollViewRef = useRef<ScrollView>(null);
+
   const [scrollable, setScrollable] = useState(true);
-
-  const scrollToPosition = (y:number) => {
-    scrollViewRef.current?.scrollTo({ y, animated: true });
-  };
-
-  const toggleScroll = (t:boolean) => {
-    setScrollable(t);
-  };
+  const scrollViewRef = useRef<ScrollView>(null);
+  const windowWidth = width*0.65+30
 
   return (
-    <View style={styles.mainView}>
-      <View style={{flex: 1, marginVertical: 30, position: "absolute", top: 0}}>
-        <Text style={{color: ThemeColors['border'], fontFamily: "MerriweatherBoldItalic", fontSize: 40, marginBottom: 100}}>
-          Touch To Expand
-        </Text>
-        <Text style={{color: ThemeColors['border'], fontFamily: "MerriweatherBoldItalic", fontSize: 40, marginBottom: 100}}>
-          Touch To Expand
-        </Text>
-        <Text style={{color: ThemeColors['border'], fontFamily: "MerriweatherBoldItalic", fontSize: 40, marginBottom: 100}}>
-          Touch To Expand
-        </Text>
-        <Text style={{color: ThemeColors['border'], fontFamily: "MerriweatherBoldItalic", fontSize: 40, marginBottom: 100}}>
-          Touch To Expand
-        </Text>
-        <Text style={{color: ThemeColors['border'], fontFamily: "MerriweatherBoldItalic", fontSize: 40, marginBottom: 100}}>
-          Touch To Expand
-        </Text>
-      </View>
-      <ScrollView scrollEnabled={scrollable} style={styles.scrollView} ref={scrollViewRef} fadingEdgeLength={scrollable ? 10 : 0} horizontal={true} showsHorizontalScrollIndicator={false} pagingEnabled={true}>
-        <View style={styles.container}>
-          <IntroCard toggleScroll={toggleScroll} scrollToPosition={scrollToPosition} idx={'card1'}></IntroCard>
-          <IntroCard toggleScroll={toggleScroll} scrollToPosition={scrollToPosition} idx={'card2'}></IntroCard>
-          <IntroCard toggleScroll={toggleScroll} scrollToPosition={scrollToPosition} idx={'card3'}></IntroCard>
-          <IntroCard toggleScroll={toggleScroll} scrollToPosition={scrollToPosition} idx={'card4'}></IntroCard>
+    <View style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}}>
+      <ImageBackground source={require('../../assets/images/content/spot_background.png')} resizeMode='cover' style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}} imageStyle={{opacity: 0.15}}>
+        <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
+
+          <View style={{flex: 4, alignItems: "center", justifyContent: "center"}}>
+            <ScrollView
+            scrollEnabled={scrollable}
+            style={styles.scrollView} 
+            ref={scrollViewRef} 
+            horizontal={true} 
+            showsHorizontalScrollIndicator={false} 
+            pagingEnabled={true}
+            snapToInterval={windowWidth}
+            decelerationRate="fast"
+            disableIntervalMomentum={true}
+            >
+              <View style={styles.container}>
+                {Array.from({ length: AllCardNum }).map((_, idx) => (
+                  <IntroCard setScrollable={setScrollable} key={idx} idx={idx}></IntroCard>
+                ))}
+              </View>
+            </ScrollView>
+          </View>
+
         </View>
-      </ScrollView>
+      </ImageBackground>
     </View>
   );
 };
@@ -62,24 +57,17 @@ const IntroScreen = () => {
 export default IntroScreen;
 
 const styles = StyleSheet.create({
-  mainView: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: width,
-    backgroundColor: ThemeColors['white'],
-  },
   scrollView: {
     flex: 1,
     width: width,
-    backgroundColor: 'transparent'
+    height: "100%",
   },
   container:{
-    marginHorizontal: 20,
-    marginVertical: 0,
-    backgroundColor: 'transparent',
+    flex: 1,
+    paddingHorizontal: width*0.175-15,
+    height: "100%",
     alignItems: "center",
-    flexDirection: "row"
+    flexDirection: "row",
   },
   bottomView:{
     marginHorizontal: 40,

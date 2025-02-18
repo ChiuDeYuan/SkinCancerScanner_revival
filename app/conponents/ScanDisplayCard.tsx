@@ -11,20 +11,19 @@ import {
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { Ionicons } from "@expo/vector-icons";
 import images from '../constants/images';
-import DiagnosisAnswerBox from '../conponents/DiagnosisAnswerBox';
-import Animated from 'react-native-reanimated';
+import Animated, { configureReanimatedLogger } from 'react-native-reanimated';
 import { useState } from 'react';
 
 
 const { width, height } = Dimensions.get('window');
 const cardWidth = width*0.8;
 const cardHeight = height*0.75;
-const info = require('../constants/information_basic.json');
 const ThemeColors = require('../constants/colors.json');
-const AllCardNum = info['diagnosis'].length
 const AnimatedTouchableHighlight = Animated.createAnimatedComponent(TouchableHighlight);
 
-const DisplayCard = ({isModalVisible, setIsModalVisible, userCardAnswer, idx} : {isModalVisible: boolean ; setIsModalVisible: (b: boolean)=>void ; userCardAnswer: Array<number> ; idx: number}) =>{
+const DisplayCard = ({isModalVisible, setIsModalVisible, scanResult} : {isModalVisible: boolean ; setIsModalVisible: (b: boolean)=>void ; scanResult: [string, number]}) =>{
+    const base64ImgUri = `data:image/jpeg;base64,${scanResult[0]}`;
+
     return(
         <Modal
             visible={isModalVisible}
@@ -33,81 +32,102 @@ const DisplayCard = ({isModalVisible, setIsModalVisible, userCardAnswer, idx} : 
             onRequestClose={() => setIsModalVisible(false)}
         >
             <View style={styles.modalOverlay}>
-              <View style={[styles.CardStack, {width: cardWidth, height: cardHeight, borderRadius: 20, marginHorizontal: 10}]}>
-                <View style={[styles.CardContent, {backgroundColor: ThemeColors['resultPage'][info['diagnosis'][idx]['risk'][userCardAnswer[idx]]], borderRadius: 20, borderWidth: 5,}]}>
-                  <View style={{flex: 1, width: cardWidth, height: cardHeight, alignItems: "center"}}>
+                <View style={[styles.CardStack, {width: cardWidth, height: cardHeight, borderRadius: 20, marginHorizontal: 10}]}>
+                <View style={[styles.CardContent, {backgroundColor: scanResult[1]<=50 ? ThemeColors['resultPage'][0] : (scanResult[1]>80 ? ThemeColors['resultPage'][2] : ThemeColors['resultPage'][1]), borderRadius: 20, borderWidth: 5,}]}>
+                    <View style={{flex: 1, width: cardWidth, height: cardHeight, alignItems: "center"}}>
 
                     <View style={[styles.CardContentTop, {width: cardWidth, paddingHorizontal: width*0.1, paddingTop: height*0.02,}]}>
-                      <Text style={{fontSize: RFPercentage(2), fontFamily: "MerriweatherBold", color: ThemeColors['navyBlue'], lineHeight: 24}}>
-                        {idx >= AllCardNum ? info['diagnosis'][0]['title'] : info['diagnosis'][idx]['title']}
-                      </Text>
+                        <Text style={{fontSize: RFPercentage(2), fontFamily: "MerriweatherBold", color: ThemeColors['navyBlue'], lineHeight: 24}}>
+                        Uploaded Photo
+                        </Text>
                     </View>
 
                     <View style={[styles.CardContentMiddle1, {borderBottomWidth: 1, width: (cardWidth-width*0.1), marginHorizontal: width*0.1, paddingBottom: height*0.02}]}>
-                      <Image source={idx >= AllCardNum ? images.diagnosis[0] : images.diagnosis[idx]} style={{flex: 1, height: null, resizeMode: "contain"}}></Image>
+                      {scanResult[0] == "null" ? 
+                        <Text style={{fontSize: RFPercentage(4), fontFamily: "MerriweatherRegular"}}>
+                          N/A
+                        </Text>
+                        : 
+                        <View style={{width: "100%", height: "100%"}}>
+                            <Image source={{uri: base64ImgUri}} style={{flex: 1, height: null, resizeMode: "contain"}}></Image>
+                        </View>
+                      }
                     </View>
 
                     <View style={[styles.CardContentMiddle2, {width: cardWidth, flexDirection: "column"}]}>
-                      <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-                        <Text style={{fontSize: RFPercentage(2), fontFamily: "MerriweatherBold", color: ThemeColors['navyBlue']}}>Your answer:</Text>
-                      </View>
-                      <View style={{flex: 3}}>
-                        <View style={{flex: 1, borderRadius: 10, marginVertical: 10, marginHorizontal: cardWidth*0.1, alignItems: "center", justifyContent: "center", backgroundColor: ThemeColors['border'], paddingHorizontal: 10}}>
-                          <Text numberOfLines={3} style={{fontSize: RFPercentage(2), fontFamily: "MerriweatherRegular"}}>
-                            {info['diagnosis'][idx]['choices'][userCardAnswer[idx]]}
+                        <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
+                          <Text style={{fontSize: RFPercentage(2), fontFamily: "MerriweatherBold", color: ThemeColors['navyBlue']}}>
+                              Prediction:
                           </Text>
                         </View>
-                      </View>
+                        <View style={{flex: 3}}>
+                          <View style={{flex: 1, borderRadius: 10, marginVertical: 10, marginHorizontal: cardWidth*0.1, alignItems: "center", justifyContent: "center", backgroundColor: ThemeColors['border'], paddingHorizontal: 10}}>
+                              <Text numberOfLines={3} style={{fontSize: RFPercentage(2), fontFamily: "MerriweatherRegular"}}>
+                              {scanResult[1] != -1 ? scanResult[1]+"%" : "N/A"}
+                              </Text>
+                          </View>
+                        </View>
                     </View>
 
                     <View style={[styles.CardContentBottom, {width: (cardWidth-width*0.1), marginHorizontal: width*0.1, borderTopWidth: 1,}]}>
-                      <AnimatedTouchableHighlight onPress={()=>setIsModalVisible(false)} underlayColor={ThemeColors['touchable']} style={[styles.NextButton, {bottom: 12, right: 5, padding: 10, borderRadius: 50, backgroundColor: ThemeColors['aquamarine']}]}>
+                        <AnimatedTouchableHighlight onPress={()=>setIsModalVisible(false)} underlayColor={ThemeColors['touchable']} style={[styles.NextButton, {bottom: 12, right: 5, padding: 10, borderRadius: 50, backgroundColor: ThemeColors['aquamarine']}]}>
                         <>
-                          <Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginLeft: 10}]}>
+                            <Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginLeft: 10}]}>
                             Close
-                          </Text>
-                          <Ionicons name="chevron-forward-outline" size={24} color={ThemeColors['white']} />
+                            </Text>
+                            <Ionicons name="chevron-forward-outline" size={24} color={ThemeColors['white']} />
                         </> 
-                      </AnimatedTouchableHighlight>
+                        </AnimatedTouchableHighlight>
                     </View>
 
-                  </View>
+                    </View>
                 </View>
-              </View>
+                </View>
             </View>
         </Modal>
     );
 }
 
-const ResultDisplayCard = ({userCardAnswer, idx, scale}:{userCardAnswer: Array<number>, idx: number, scale: number}) => {
+const ScanDisplayCard = ({scale, scanResult}:{scale: number ; scanResult: [string, number]}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const base64ImgUri = `data:image/jpeg;base64,${scanResult[0]}`;
 
   return(
     <View style={[styles.CardStack, {width: cardWidth*scale, height: cardHeight*scale, borderRadius: 20*scale, marginHorizontal: 10}]}>
 
-      <DisplayCard userCardAnswer={userCardAnswer} idx={idx} isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible}></DisplayCard>
+      <DisplayCard isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} scanResult={scanResult}></DisplayCard>
 
-      <TouchableOpacity onLongPress={()=>setIsModalVisible(true)} style={[styles.CardContent, {backgroundColor: ThemeColors['resultPage'][info['diagnosis'][idx]['risk'][userCardAnswer[idx]]], borderRadius: 20*scale, borderWidth: 5*scale,}]}>
+      <TouchableOpacity onLongPress={()=>setIsModalVisible(true)} style={[styles.CardContent, {backgroundColor: scanResult[1]<=50 ? ThemeColors['resultPage'][0] : (scanResult[1]>80 ? ThemeColors['resultPage'][2] : ThemeColors['resultPage'][1]), borderRadius: 20*scale, borderWidth: 5*scale,}]}>
         <View pointerEvents={'none'} style={{flex: 1, width: cardWidth*scale, height: cardHeight*scale, alignItems: "center"}}>
 
           <View style={[styles.CardContentTop, {width: cardWidth*scale, paddingHorizontal: width*0.1*scale, paddingTop: height*0.02*scale,}]}>
             <Text style={{fontSize: RFPercentage(2)*scale, fontFamily: "MerriweatherBold", color: ThemeColors['navyBlue'], lineHeight: 24*scale}}>
-              {idx >= AllCardNum ? info['diagnosis'][0]['title'] : info['diagnosis'][idx]['title']}
+              Uploaded Photo
             </Text>
           </View>
 
           <View style={[styles.CardContentMiddle1, {borderBottomWidth: 1*scale, width: (cardWidth-width*0.1)*scale, marginHorizontal: width*0.1*scale, paddingBottom: height*0.02*scale}]}>
-            <Image source={idx >= AllCardNum ? images.diagnosis[0] : images.diagnosis[idx]} style={{flex: 1, height: null, resizeMode: "contain"}}></Image>
+            {scanResult[0] == "null" ? 
+              <Text style={{fontSize: RFPercentage(4)*scale, fontFamily: "MerriweatherRegular"}}>
+                N/A
+              </Text>
+              : 
+              <View style={{width: "100%", height: "100%"}}>
+                  <Image source={{uri: base64ImgUri}} style={{flex: 1, height: null, resizeMode: "contain"}}></Image>
+              </View>
+            }
           </View>
 
           <View style={[styles.CardContentMiddle2, {width: cardWidth*scale, flexDirection: "column"}]}>
             <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-              <Text style={{fontSize: RFPercentage(2)*scale, fontFamily: "MerriweatherBold", color: ThemeColors['navyBlue']}}>Your answer:</Text>
+              <Text style={{fontSize: RFPercentage(2)*scale, fontFamily: "MerriweatherBold", color: ThemeColors['navyBlue']}}>
+                Prediction:
+              </Text>
             </View>
             <View style={{flex: 3}}>
               <View style={{flex: 1, borderRadius: 10*scale, marginVertical: 10*scale, marginHorizontal: cardWidth*0.1*scale, alignItems: "center", justifyContent: "center", backgroundColor: ThemeColors['border'], paddingHorizontal: 10*scale}}>
                 <Text numberOfLines={3} style={{fontSize: RFPercentage(2)*scale, fontFamily: "MerriweatherRegular"}}>
-                  {info['diagnosis'][idx]['choices'][userCardAnswer[idx]]}
+                  {scanResult[1] != -1 ? scanResult[1]+"%" : "N/A"}
                 </Text>
               </View>
             </View>
@@ -130,7 +150,7 @@ const ResultDisplayCard = ({userCardAnswer, idx, scale}:{userCardAnswer: Array<n
   );
 }
 
-export default ResultDisplayCard;
+export default ScanDisplayCard;
 
 const styles = StyleSheet.create({
   CardStack: {

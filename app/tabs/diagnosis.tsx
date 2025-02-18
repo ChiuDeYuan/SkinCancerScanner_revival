@@ -29,136 +29,68 @@ import images from '../constants/images';
 import DiagnosisAnswerBox from '../conponents/DiagnosisAnswerBox';
 import PhotoUpload from '../conponents/PhotoUpload';
 import ResultPage from '../conponents/ResultPage';
+import DiagnosisForm from '../conponents/DiagnosisForm';
+import DiagnosisStart from '../conponents/DiagnosisStart';
+import DiagnosisEnd from '../conponents/DiagnosisEnd';
 
 const { width, height } = Dimensions.get('window');
 const cardWidth = width*0.8;
 const cardHeight = height*0.75;
-const info = require('../constants/information_basic.json');
 const ThemeColors = require('../constants/colors.json');
-const AnimatedTouchableHighlight = Animated.createAnimatedComponent(TouchableHighlight);
 
 const DiagnosisScreen = () => {
-  const allCardNum = info['diagnosis'].length;
-  const [nowCard, setNowCard] = useState(0);
-  const [fakeCard, setFakeCard] = useState(1);
-  const [finishCard, setFinishCard] = useState(false) ;
+  const [finishCard, setFinishCard] = useState(false);
+  const [startDiagnosis, setStartDiagnosis] = useState(false);
   const [UserAnswer, setUserAnswer] = useState<Array<number>>([]);
-  const [scanResult, setScanResult] = useState<number | null>(null);
-  const translationX = useSharedValue(0);
-  const fakeCardOpacity = useSharedValue(0);
-
-  const panGesture = Gesture.Pan()
-  .onUpdate((event) => {
-    translationX.value = Math.max(event.translationX, 0);
-  })
-  .onEnd(() => {
-    translationX.value = withSpring(0);
-  });
+  const [scanResult, setScanResult] = useState<[string, number] | null>(null);
+  const [showResult, setShowResult] = useState(false);
 
   const addAnswer = (ans: number) => {
     setUserAnswer((prevAns) => [...prevAns, ans]);
   };
 
-  const AnimatedCircleindicator = useAnimatedStyle(()=>{
-    return { 
-      width: withTiming(translationX.value > 40 ? width*0.4 : 0 , {duration: 250}),
-      height: withTiming(translationX.value > 40 ? width*0.4 : 0 , {duration: 250})
-    };
-  })
-
-  const AnimatedFakeCard = useAnimatedStyle(()=>{
-    return { 
-      opacity: fakeCardOpacity.value
-    };
-  })
-
   useEffect(()=>{
     console.log(UserAnswer);
   }, [UserAnswer])
 
+  const resetALL = () => {
+    setFinishCard(false);
+    setStartDiagnosis(false);
+    setUserAnswer([]);
+    setScanResult(null);
+    setShowResult(false);
+  }
+
   return(
-    !finishCard ? (
-      <View style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}}>
-        <ImageBackground source={require('../../assets/images/content/bg_hospital_chiryou2.jpg')} resizeMode='contain' style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}} imageStyle={{opacity: 0.1}}>
+    <View style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}}>
+      <ImageBackground source={require('../../assets/images/content/bg_hospital_chiryou2.jpg')} resizeMode='contain' style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}} imageStyle={{opacity: 0.1}}>
           
-          <Animated.View style={[styles.CircleIndicator, AnimatedCircleindicator]}>
-            <Text style={styles.CircleIndicatorText}>
-              {allCardNum-nowCard}
-            </Text>
-          </Animated.View>
+      {
+      
+      !startDiagnosis ? (       
+        <DiagnosisStart setStartDiagnosis={setStartDiagnosis}></DiagnosisStart>
+      ):
 
-          <GestureHandlerRootView style={[styles.Container]}>
-            <GestureDetector gesture={panGesture}>
-              <View style={[styles.Container]}>
+      !finishCard? (
+        <DiagnosisForm setFinishCard={setFinishCard} addAnswer={addAnswer}></DiagnosisForm>
+      ):
+      
+      !scanResult ? (
+        <PhotoUpload setScanResult={setScanResult}></PhotoUpload>
+      ):
+      
+      !showResult ? (
+        <ResultPage userCardAnswer={[0, 0, 3, 0, 0, 1, 2, 2, 2, 0, 1, 2, 2, 1, 2, 0, 0, 0, 1, 0, 1, 2, 1]} scanResult={scanResult} setShowResult={setShowResult}></ResultPage>
+      ):
 
-                {Array.from({ length: Math.min(5, allCardNum-nowCard) }).map((_, idx) => (
-                  // NOTE!!!: 畫面上最後一張idx==0，最前面idx==remainCard-1
-                  <DiagnosisCard 
-                    key={idx} 
-                    idx={idx} 
-                    remainCard={Math.min(5, allCardNum-nowCard)} 
-                    translationX={translationX}
-                    nowCard={nowCard}
-                    setNowCard={setNowCard}
-                    fakeCardOpacity={fakeCardOpacity}
-                    fakeCard={fakeCard}
-                    setFakeCard={setFakeCard}
-                    setFinishCard={setFinishCard}
-                    addAnswer={addAnswer}
-                  />
-                ))}
+      (
+        <DiagnosisEnd resetALL={resetALL}></DiagnosisEnd>
+      )
 
-                {/*Fake Card*/}
-                <Animated.View pointerEvents={'none'} style={[styles.Container, AnimatedFakeCard]}>
-                  <View pointerEvents={'none'} style={[styles.CardStack]}>
-                    <View pointerEvents={'none'} style={[styles.CardContent]}>
-                      <View pointerEvents={'none'} style={{flex: 1, width: cardWidth, height: cardHeight, alignItems: "center"}}>
-                        <View pointerEvents={'none'} style={styles.CardContentTop}>
-                          <Text style={{fontSize: RFPercentage(2), fontFamily: "MerriweatherBold", color: ThemeColors['navyBlue'], lineHeight: 24}}>
-                            {fakeCard >= allCardNum ? info['diagnosis'][0]['title'] : info['diagnosis'][fakeCard]['title']}
-                          </Text>
-                        </View>
-                        <View pointerEvents={'none'}style={styles.CardContentMiddle1}>
-                          <Image source={fakeCard >= allCardNum ? images.diagnosis[0] : images.diagnosis[fakeCard]} style={{flex: 1, height: null, resizeMode: "contain"}}></Image>
-                        </View>
-                        <View pointerEvents={'none'}style={styles.CardContentMiddle2}>
-                          <DiagnosisAnswerBox nowCard={fakeCard >= allCardNum ? 0 : fakeCard} setFinishQuestion={()=>{}} sendAnswer={false} addAnswer={addAnswer}  disable={true}></DiagnosisAnswerBox>
-                        </View>
-                        <View pointerEvents={'none'}style={styles.CardContentBottom}>
-                          <AnimatedTouchableHighlight disabled={true} onPress={()=>{}} underlayColor={ThemeColors['touchable']} style={styles.NextButton}>
-                            <>
-                            <Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginLeft: 10}]}>
-                              Next
-                            </Text>
-                            <Ionicons name="chevron-forward-outline" size={24} color={ThemeColors['white']} />
-                            </> 
-                          </AnimatedTouchableHighlight>
-                        </View>
-                      </View>
-                    </View>
-                  </View>
-                </Animated.View>
+      }
 
-              </View>
-            </GestureDetector>
-          </GestureHandlerRootView>
-
-        </ImageBackground>
-      </View>
-    ):(
-
-      <View style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}}>
-        <ImageBackground source={require('../../assets/images/content/bg_hospital_chiryou2.jpg')} resizeMode='contain' style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}} imageStyle={{opacity: 0.1}}>
-          {
-            scanResult ? (
-              <ResultPage userCardAnswer={UserAnswer} scanResult={scanResult}></ResultPage>
-            ):(
-              <PhotoUpload setScanResult={setScanResult}></PhotoUpload>
-            )
-          }
-        </ImageBackground>
-      </View>
-    )
+      </ImageBackground>
+    </View>
   );
 }
 
