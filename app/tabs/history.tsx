@@ -1,127 +1,188 @@
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  Button, 
-  ImageBackground, 
-  Dimensions, 
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  ImageBackground,
+  Dimensions,
   ScrollView,
   TouchableOpacity,
   TouchableHighlight
- } from 'react-native';
+} from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
 import { RFPercentage } from 'react-native-responsive-fontsize';
-import { get, deleteData } from '../tools/storage';
+import { get, deleteData, save } from '../tools/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Animated, { useSharedValue, withRepeat, withTiming, useAnimatedStyle, useDerivedValue, runOnJS, Easing } from 'react-native-reanimated';
+import ReviewPage from '../conponents/ReviewPage';
 
 const ThemeColors = require('../constants/colors.json');
 const { width, height } = Dimensions.get('window');
 
-const getData = async () =>{
-  get('savedData')
-  .then(response=>{
-    if(response){
-      response.forEach(element => {
-        get(element)
-        .then(response=>console.log(typeof(response)))
-        .catch(e=>console.log("Error:", e));
-    });
-    }
-  })
-  .catch(e=>console.log("Error:", e))
-}
-
-const clearData = async () => {
-  try {
-    await AsyncStorage.clear();
-    console.log('所有 AsyncStorage 資料已清除');
-  } catch (error) {
-    console.error('清除 AsyncStorage 失敗:', error);
-  }
-}
-
-const SavedData = ({dataKey}:{dataKey: string}) => {
+const SavedData = ({ dataKey, deleteSavedData, setReview, fadeout }: { dataKey: string; deleteSavedData: (d: string) => void; setReview: (o: object) => void ; fadeout: ()=>void}) => {
 
   const date = new Date(dataKey);
-  const [star, setStar] = useState(false);
+  const [data, setData] = useState(null);
 
-  return(
+  useEffect(() => {
+    get(dataKey)
+      .then(response => {
+        if (response != null) {
+          setData(response);
+        }
+      })
+      .catch(e => console.log(e));
+  }, []);
+
+  const setStar = (enabled: boolean) => {
+    save(dataKey, { userCardAnswer: data!['userCardAnswer'], scanResult: data!['scanResult'], cardResult: data!['cardResult'], star: enabled });
+    get(dataKey)
+      .then(response => {
+        if (response != null) {
+          setData(response);
+        }
+      });
+  }
+
+  return (
     <View style={styles.SavedData}>
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%", borderRightWidth: 1, borderColor: ThemeColors['border']}}>
-        <TouchableOpacity onPress={()=>setStar(!star)}>
-          <Ionicons name="star" size={RFPercentage(2.5)} color={star ? "#E4D00A" : ThemeColors['black']} />
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%", borderRightWidth: 1, borderColor: ThemeColors['border'] }}>
+        <TouchableOpacity onPress={() => setStar(!data!['star'])}>
+          <Ionicons name="star" size={RFPercentage(2.5)} color={(data && data['star']) ? "#E4D00A" : ThemeColors['black']} />
         </TouchableOpacity>
       </View>
-      <View style={{flex: 2, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%", borderRightWidth: 1, borderColor: ThemeColors['border']}}>
-        <Text style={{fontFamily: "MerriweatherRegular", color: ThemeColors['black'], fontSize: RFPercentage(1.8)}}>
+      <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%", borderRightWidth: 1, borderColor: ThemeColors['border'] }}>
+        <Text style={{ fontFamily: "MerriweatherRegular", color: ThemeColors['black'], fontSize: RFPercentage(1.5) }}>
           {`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`}
         </Text>
       </View>
-      <View style={{flex: 2, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%", borderRightWidth: 1, borderColor: ThemeColors['border']}}>
-        <Text style={{fontFamily: "MerriweatherRegular", color: ThemeColors['black'], fontSize: RFPercentage(1.8)}}>
-           45.4%
+      <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%", borderRightWidth: 1, borderColor: ThemeColors['border'] }}>
+        <Text style={{ fontFamily: "MerriweatherRegular", color: ThemeColors['black'], fontSize: RFPercentage(1.8) }}>
+          {data ? (data['scanResult'][1] == -1 ? data['cardResult'][1] : (data['scanResult'][1] + data['cardResult'][1]) / 2) + "%" : "null"}
         </Text>
       </View>
-      <View style={{flex: 2, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%", borderRightWidth: 1, borderColor: ThemeColors['border']}}>
-        <TouchableHighlight style={{padding: 5, backgroundColor: ThemeColors['aquamarine'], borderRadius: 5}}>
-          <Text style={{fontFamily: "MerriweatherRegular", color: ThemeColors['white'], fontSize: RFPercentage(1.8)}}>
+      <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%", borderRightWidth: 1, borderColor: ThemeColors['border'] }}>
+        <TouchableHighlight onPress={() => {fadeout(); setTimeout(()=>setReview(data!), 200)}} style={{ padding: 5, backgroundColor: ThemeColors['aquamarine'], borderRadius: 5 }}>
+          <Text style={{ fontFamily: "MerriweatherRegular", color: ThemeColors['white'], fontSize: RFPercentage(1.8) }}>
             Review
           </Text>
         </TouchableHighlight>
       </View>
-      <View style={{flex: 2, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%"}}>
-        <TouchableHighlight style={{padding: 5, backgroundColor: "#b20000", borderRadius: 5}}>
-            <Text style={{fontFamily: "MerriweatherRegular", color: ThemeColors['white'], fontSize: RFPercentage(1.8)}}>
-              Delete
-            </Text>
+      <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%" }}>
+        <TouchableHighlight onPress={() => deleteSavedData(dataKey)} style={{ padding: 5, backgroundColor: "#b20000", borderRadius: 5 }}>
+          <Text style={{ fontFamily: "MerriweatherRegular", color: ThemeColors['white'], fontSize: RFPercentage(1.8) }}>
+            Delete
+          </Text>
         </TouchableHighlight>
       </View>
     </View>
   );
 }
 
-const HistoryScreen = () => {
+const DataTable = ({ setReview }: { setReview: (o: object) => void }) => {
+
+  const [savedKey, setSavedKey] = useState<Array<string>>([]);
+  const opacity = useSharedValue(0);
+
+  useEffect(() => {
+    opacity.value = withTiming(1, { duration: 200 });
+  }, []);
+
+  const FadeInOutStyle = useAnimatedStyle(() => {
+    return { 
+      opacity: opacity.value
+    };
+  });
+
+  const fadeout = () => {
+    opacity.value = withTiming(0, { duration: 200 });
+  }
+
+  useEffect(() => {
+    updateData();
+  }, [])
+
+  const updateData = async () => {
+    get('savedData')
+      .then(
+        response => {
+          if (response != null) {
+            setSavedKey(response);
+          }
+          else {
+            setSavedKey([]);
+          }
+        }
+      )
+      .catch(e => console.log(e));
+  }
+
+  const deleteSavedData = async (tar: string) => {
+    await save('savedData', savedKey.filter(element => element !== tar));
+    await updateData();
+  }
+
+
   return (
-    <View style={styles.Container}>
-      <ImageBackground source={require('../../assets/images/content/spot_background_yellow.png')} resizeMode='cover' style={{flex: 1, width: "100%", height: "100%"}} imageStyle={{opacity: 0.15}}>
+    <Animated.View style={[styles.Container, FadeInOutStyle]}>
+      <ImageBackground source={require('../../assets/images/content/spot_background_yellow.png')} resizeMode='cover' style={{ flex: 1, width: "100%", height: "100%" }} imageStyle={{ opacity: 0.15 }}>
         <View style={styles.TitleContainer}>
           <View style={styles.Title}>
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%", borderRightWidth: 1, borderColor: ThemeColors['border']}}>
-              <Ionicons name="star" size={RFPercentage(2.5)} color={ThemeColors['black']} />
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%", borderRightWidth: 1, borderColor: ThemeColors['border'] }}>
+              <Ionicons name="star-outline" size={RFPercentage(2.5)} color={ThemeColors['black']} />
             </View>
-            <View style={{flex: 2, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%", borderRightWidth: 1, borderColor: ThemeColors['border']}}>
-              <Text style={{fontFamily: "MerriweatherRegular", color: ThemeColors['black'], fontSize: RFPercentage(1.8)}}>
-                          Date
+            <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%", borderRightWidth: 1, borderColor: ThemeColors['border'] }}>
+              <Text style={{ fontFamily: "MerriweatherRegular", color: ThemeColors['black'], fontSize: RFPercentage(1.8) }}>
+                Date
               </Text>
             </View>
-            <View style={{flex: 2, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%", borderRightWidth: 1, borderColor: ThemeColors['border']}}>
-              <Text style={{fontFamily: "MerriweatherRegular", color: ThemeColors['black'], fontSize: RFPercentage(1.8)}}>
-                          Overall
+            <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%", borderRightWidth: 1, borderColor: ThemeColors['border'] }}>
+              <Text style={{ fontFamily: "MerriweatherRegular", color: ThemeColors['black'], fontSize: RFPercentage(1.8) }}>
+                Overall
               </Text>
             </View>
-            <View style={{flex: 2, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%", borderRightWidth: 1, borderColor: ThemeColors['border']}}>
-              <Text style={{fontFamily: "MerriweatherRegular", color: ThemeColors['black'], fontSize: RFPercentage(1.8)}}>
-                          Review
+            <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%", borderRightWidth: 1, borderColor: ThemeColors['border'] }}>
+              <Text style={{ fontFamily: "MerriweatherRegular", color: ThemeColors['black'], fontSize: RFPercentage(1.8) }}>
+                Review
               </Text>
             </View>
-            <View style={{flex: 2, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%"}}>
-              <Text style={{fontFamily: "MerriweatherRegular", color: ThemeColors['black'], fontSize: RFPercentage(1.8)}}>
-                          Delete
+            <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%" }}>
+              <Text style={{ fontFamily: "MerriweatherRegular", color: ThemeColors['black'], fontSize: RFPercentage(1.8) }}>
+                Delete
               </Text>
+
             </View>
           </View>
         </View>
         <View style={styles.DataListContainer}>
-          <ScrollView showsVerticalScrollIndicator={false} style={{width: "100%"}}>
-            <View style={{flex: 1, width: "100%", alignItems: "center"}}>
-              <SavedData dataKey={"2025-02-18T14:19:14.197Z"}></SavedData>
+          <ScrollView showsVerticalScrollIndicator={false} style={{ width: "100%" }}>
+            <View style={{ flex: 1, width: "100%", alignItems: "center" }}>
+              {savedKey.map((element, _) => (
+                <SavedData key={element} setReview={setReview} dataKey={element} deleteSavedData={deleteSavedData} fadeout={fadeout}/>
+              ))}
             </View>
           </ScrollView>
+          <TouchableHighlight underlayColor={ThemeColors['aquamarine']} onPress={() => updateData()} style={{ position: "absolute", bottom: 20, width: width - 20, alignItems: "center", justifyContent: "center", flexDirection: "row", backgroundColor: ThemeColors['babyBlue'], padding: 10, borderRadius: 30, borderWidth: 3, borderColor: "#FFFFFF" }}>
+            <>
+              <Ionicons name="refresh-outline" size={RFPercentage(2)} color={ThemeColors['black']} />
+              <Text style={{ fontFamily: "MerriweatherRegular", color: ThemeColors['black'], fontSize: RFPercentage(2) }}>
+                Refresh
+              </Text>
+            </>
+          </TouchableHighlight>
         </View>
       </ImageBackground>
-    </View>
+    </Animated.View>
   );
+}
+
+const HistoryScreen = () => {
+
+  const [review, setReview] = useState<object | null>(null);
+
+  return review ? <ReviewPage setReview={setReview} userCardAnswer={review['userCardAnswer']} scanResult={review['scanResult']}></ReviewPage> : <DataTable setReview={setReview}></DataTable>
+
 };
 
 export default HistoryScreen;
@@ -139,7 +200,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     padding: 10,
-    backgroundColor: "#FFFFFF",
     elevation: 10
   },
   Title: {
@@ -162,8 +222,8 @@ const styles = StyleSheet.create({
     paddingBottom: 10
   },
   SavedData: {
-    height: height*0.1-20, 
-    width: width-20,
+    height: height * 0.1 - 20,
+    width: width - 20,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: "row",

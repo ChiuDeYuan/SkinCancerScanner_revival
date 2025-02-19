@@ -41,4 +41,5 @@ export default {
   saveString,
   save,
   get,
+  deleteData
 };
