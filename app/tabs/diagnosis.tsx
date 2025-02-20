@@ -71,7 +71,7 @@ const DiagnosisScreen = () => {
         <DiagnosisStart setStartDiagnosis={setStartDiagnosis}></DiagnosisStart>
       ):
 
-      !true? (
+      !finishCard? (
         <DiagnosisForm setFinishCard={setFinishCard} addAnswer={addAnswer}></DiagnosisForm>
       ):
       
@@ -80,7 +80,7 @@ const DiagnosisScreen = () => {
       ):
       
       !showResult ? (
-        <ResultPage userCardAnswer={[0, 0, 0, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 2, 2, 2, 1, 2, 1]} scanResult={scanResult} setShowResult={setShowResult}></ResultPage>
+        <ResultPage userCardAnswer={UserAnswer} scanResult={scanResult} setShowResult={setShowResult}></ResultPage>
       ):
 
       (

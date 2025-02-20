@@ -44,9 +44,9 @@ const DisplayCard = ({isModalVisible, setIsModalVisible, scanResult} : {isModalV
 
                     <View style={[styles.CardContentMiddle1, {borderBottomWidth: 1, width: (cardWidth-width*0.1), marginHorizontal: width*0.1, paddingBottom: height*0.02}]}>
                       {scanResult[0] == "null" ? 
-                        <Text style={{fontSize: RFPercentage(4), fontFamily: "MerriweatherRegular"}}>
-                          N/A
-                        </Text>
+                        
+                        <Image source={require('../../assets/images/content/no_image_square.jpg')} style={{flex: 1, height: null, resizeMode: "contain"}}></Image>
+                        
                         : 
                         <View style={{width: "100%", height: "100%"}}>
                             <Image source={{uri: base64ImgUri}} style={{flex: 1, height: null, resizeMode: "contain"}}></Image>
@@ -108,9 +108,7 @@ const ScanDisplayCard = ({scale, scanResult}:{scale: number ; scanResult: [strin
 
           <View style={[styles.CardContentMiddle1, {borderBottomWidth: 1*scale, width: (cardWidth-width*0.1)*scale, marginHorizontal: width*0.1*scale, paddingBottom: height*0.02*scale}]}>
             {scanResult[0] == "null" ? 
-              <Text style={{fontSize: RFPercentage(4)*scale, fontFamily: "MerriweatherRegular"}}>
-                N/A
-              </Text>
+              <Image source={require('../../assets/images/content/no_image_square.jpg')} style={{flex: 1, height: null, resizeMode: "contain"}}></Image>
               : 
               <View style={{width: "100%", height: "100%"}}>
                   <Image source={{uri: base64ImgUri}} style={{flex: 1, height: null, resizeMode: "contain"}}></Image>

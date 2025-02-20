@@ -37,9 +37,18 @@ export const deleteData = async(key: string) => {
   }
 }
 
+export const clearStorage = async () => {
+  try {
+    await AsyncStorage.clear();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export default {
   saveString,
   save,
   get,
-  deleteData
+  deleteData,
+  clearStorage
 };

@@ -63,14 +63,14 @@ const SavedData = ({ dataKey, deleteSavedData, setReview, fadeout }: { dataKey: 
         </Text>
       </View>
       <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%", borderRightWidth: 1, borderColor: ThemeColors['border'] }}>
-        <TouchableHighlight onPress={() => {fadeout(); setTimeout(()=>setReview(data!), 200)}} style={{ padding: 5, backgroundColor: ThemeColors['aquamarine'], borderRadius: 5 }}>
+        <TouchableHighlight underlayColor={ThemeColors['babyBlue']} onPress={() => {fadeout(); setTimeout(()=>setReview(data!), 200)}} style={{ padding: 5, backgroundColor: ThemeColors['aquamarine'], borderRadius: 5, elevation: 3 }}>
           <Text style={{ fontFamily: "MerriweatherRegular", color: ThemeColors['white'], fontSize: RFPercentage(1.8) }}>
             Review
           </Text>
         </TouchableHighlight>
       </View>
       <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%" }}>
-        <TouchableHighlight onPress={() => deleteSavedData(dataKey)} style={{ padding: 5, backgroundColor: "#b20000", borderRadius: 5 }}>
+        <TouchableHighlight onPress={() => deleteSavedData(dataKey)} style={{ padding: 5, backgroundColor: "#b20000", borderRadius: 5, elevation: 3 }}>
           <Text style={{ fontFamily: "MerriweatherRegular", color: ThemeColors['white'], fontSize: RFPercentage(1.8) }}>
             Delete
           </Text>
@@ -156,14 +156,14 @@ const DataTable = ({ setReview }: { setReview: (o: object) => void }) => {
           </View>
         </View>
         <View style={styles.DataListContainer}>
-          <ScrollView showsVerticalScrollIndicator={false} style={{ width: "100%" }}>
+          <ScrollView fadingEdgeLength={10} showsVerticalScrollIndicator={false} style={{ width: "100%" }}>
             <View style={{ flex: 1, width: "100%", alignItems: "center" }}>
               {savedKey.map((element, _) => (
                 <SavedData key={element} setReview={setReview} dataKey={element} deleteSavedData={deleteSavedData} fadeout={fadeout}/>
               ))}
             </View>
           </ScrollView>
-          <TouchableHighlight underlayColor={ThemeColors['aquamarine']} onPress={() => updateData()} style={{ position: "absolute", bottom: 20, width: width - 20, alignItems: "center", justifyContent: "center", flexDirection: "row", backgroundColor: ThemeColors['babyBlue'], padding: 10, borderRadius: 30, borderWidth: 3, borderColor: "#FFFFFF", opacity: 0.8 }}>
+          <TouchableHighlight underlayColor={ThemeColors['aquamarine']} onPress={() => updateData()} style={{ position: "absolute", bottom: 20, width: width - 20, alignItems: "center", justifyContent: "center", flexDirection: "row", backgroundColor: ThemeColors['babyBlue'], padding: 10, borderRadius: 30, borderWidth: 3, borderColor: "#FFFFFF" }}>
             <>
               <Ionicons name="refresh-outline" size={RFPercentage(2)} color={ThemeColors['black']} />
               <Text style={{ fontFamily: "MerriweatherRegular", color: ThemeColors['black'], fontSize: RFPercentage(2) }}>

@@ -51,7 +51,8 @@
                 "According to the American Cancer Society, genetics are a huge factor the affects your lifetime chance of developing Melanoma.",
                 "For example, while Melanoma incidence ranges from 1.0 (per 100000) in Black individuals and 1.3 in Asian/Pacific Islanders, it reaches 4.8 in the Hispanic demographic, 10.3 in Native Americans  and an astonishing 30.6 in White individuals.",
                 "What this implies is that, if you are born as a White individual, you are likely 30 times more susceptible to Melanoma than the average Black individual or 10 times more than the majority of the world's populations.",
-                "Further more, due to how genes function, people with a hint of red to their hair are 10 times more susceptible to Melanoma and 100 times more than the average individual for people with bright red colored hair. This chance is further amplified for people with many freckles present on their body."
+                "Further more, due to how genes function, people with a hint of red to their hair are 10 times more susceptible to Melanoma and 100 times more than the average individual for people with bright red colored hair.",
+                "This chance is further amplified for people with many freckles present on their body."
             ] 
         },
         {
@@ -67,14 +68,47 @@
         }
     ],
     "about":[
-        "The model is based on Mobile-ViT",
-        "Training metrics of the model",
-        "Test on Test set(n=1000)",
-        "Accuracy: 89.4%",
-        "Loss(categorical cross-entropy): 0.345",
-        "AUC(ROC): 0.949",
-        "Below is the training history",
-        "You can get source code and other informations on GitHub"
+        {
+            "title":"The Model",
+            "content":[
+                "The model is based on Mobile-ViT. We used about 10000 samples to train the model",
+                "Training metrics of the model",
+                "Test on Test set(n=1000)\nAccuracy: 89.4%\nCategorical cross-entropy: 0.345\nAUC(ROC): 0.949",
+                "Source code and other informations are available on GitHub",
+                "Other informations:\nhttps://drive.google.com/file/d/1guMVtlQ22ohCcSAm5MX_mkheF4B7vLdm/view?usp=sharing"
+            ] 
+        },
+        {
+            "title":"Reference",
+            "content":[
+                "https://www.cancer.org/cancer/types/melanoma-skin-cancer",
+                "https://onlinelibrary.wiley.com/doi/full/10.1111/phpp.12329",
+                "https://jamanetwork.com/journals/jamadermatology/article-abstract/2774113",
+                "https://www.sciencedirect.com/science/article/abs/pii/S0025619611610331",
+                "https://jamanetwork.com/journals/jamadermatology/fullarticle/1216970",
+                "https://pmc.ncbi.nlm.nih.gov/articles/PMC4392520",
+                "https://www.skincancer.org/skin-cancer-information/melanoma",
+                "https://www.cancer.org/content/dam/cancer-org/research/cancer-facts-and-statistics/annual-cancer-facts-and-figures/2024/2024-cancer-facts-and-figures-acs.pdf",
+                "https://www.cancer.org/cancer/types/melanoma-skin-cancer/about/key-statistics.html",
+                "https://www.curemelanoma.org/about-melanoma/melanoma-staging/melanoma-survival-rates",
+                "https://michaelkimmd.com/blog/abcdes-of-melanoma-skin-cancer",
+                "https://southeastskinclinic.com.au/skinclinic/nail-melanoma/",
+                "https://www.cancer.org.au/assets/pdf/cancer-councils-skin-cancer-identification-poster"
+            ] 
+        },
+        {
+            "title":"Illustration Copyright",
+            "content":[
+                "Illustration:\nIrasutoya",
+                "ABCDE test:\nhttps://michaelkimmd.com/blog/abcdes-of-melanoma-skin-cancer"
+            ] 
+        },
+        {
+            "title":"About Us",
+            "content":[
+                "Blank :D"
+            ] 
+        }
     ],
     "diagnosis":[
         {
@@ -598,5 +632,72 @@
         "title6": "Metrics-Photo(AI Prediction)",
         "content6-1": "The scan-based AI estimate probability that the mole you scanned has developed malignant Melanoma.",
         "content6-2": "The AI model in question has an accuracy of up to 89.4% in testing, you can get more details in \"About\" page"
+    },
+    "settings": {
+        "ui": [
+            {"title": "Language",
+                "type": "list",
+                "options": [
+                    "English(Default)",
+                    "Traditional Chinese(Not available)",
+                    "Japanese(Not avilable)"
+                ]
+            },
+            {
+                "title": "Dark Mode",
+                "type": "switch",
+                "options": [ 
+                ]
+            },
+            {
+                "title": "Font Size",
+                "type": "list",
+                "options": [
+                    "Normal(Default)",
+                    "Big(Not available)",
+                    "Giant(Not avilable)"
+                ]
+            }
+        ],
+        "system": [
+            {
+                "title": "Clear All Data",
+                "type": "button",
+                "options": [
+                    "Clear"
+                ]
+            },
+            {
+                "title": "Account",
+                "type": "list",
+                "options": [
+                    "Guest"
+                ]
+            },
+            {
+                "title": "Location Permission",
+                "type": "switch",
+                "options": [
+                ]
+            }
+        ],
+        "model": [
+            {
+                "title": "Progressive Models",
+                "type": "switch",
+                "options": [
+                ]
+            }
+        ],
+        "premium": [
+
+            {
+                "title": "Premium",
+                "type": "button",
+                "options": [
+                    "Not Available"
+                ]
+            }
+        ] 
     }
 }

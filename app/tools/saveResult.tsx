@@ -3,7 +3,6 @@ import { get, save } from "./storage";
 const saveResult = (cardResult: Array<number>, userCardAnswer: Array<number>, scanResult: [string, number]) => {
     const currentTime = new Date();
     let savedData = [currentTime.toISOString()];
-    console.log("Now: ", savedData);
 
     get('savedData')
     .then(response=>{
