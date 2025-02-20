@@ -126,7 +126,7 @@ const DataTable = ({ setReview }: { setReview: (o: object) => void }) => {
 
   return (
     <Animated.View style={[styles.Container, FadeInOutStyle]}>
-      <ImageBackground source={require('../../assets/images/content/spot_background_yellow.png')} resizeMode='cover' style={{ flex: 1, width: "100%", height: "100%" }} imageStyle={{ opacity: 0.15 }}>
+      <ImageBackground source={require('../../assets/images/background/spot_background_yellow.png')} resizeMode='cover' style={{ flex: 1, width: "100%", height: "100%" }} imageStyle={{ opacity: 0.15 }}>
         <View style={styles.TitleContainer}>
           <View style={styles.Title}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: "row", width: "100%", height: "80%", borderRightWidth: 1, borderColor: ThemeColors['border'] }}>
@@ -163,7 +163,7 @@ const DataTable = ({ setReview }: { setReview: (o: object) => void }) => {
               ))}
             </View>
           </ScrollView>
-          <TouchableHighlight underlayColor={ThemeColors['aquamarine']} onPress={() => updateData()} style={{ position: "absolute", bottom: 20, width: width - 20, alignItems: "center", justifyContent: "center", flexDirection: "row", backgroundColor: ThemeColors['babyBlue'], padding: 10, borderRadius: 30, borderWidth: 3, borderColor: "#FFFFFF" }}>
+          <TouchableHighlight underlayColor={ThemeColors['aquamarine']} onPress={() => updateData()} style={{ position: "absolute", bottom: 20, width: width - 20, alignItems: "center", justifyContent: "center", flexDirection: "row", backgroundColor: ThemeColors['babyBlue'], padding: 10, borderRadius: 30, borderWidth: 3, borderColor: "#FFFFFF", opacity: 0.8 }}>
             <>
               <Ionicons name="refresh-outline" size={RFPercentage(2)} color={ThemeColors['black']} />
               <Text style={{ fontFamily: "MerriweatherRegular", color: ThemeColors['black'], fontSize: RFPercentage(2) }}>

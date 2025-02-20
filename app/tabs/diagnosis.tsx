@@ -63,7 +63,7 @@ const DiagnosisScreen = () => {
 
   return(
     <View style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}}>
-      <ImageBackground source={require('../../assets/images/content/bg_hospital_chiryou2.jpg')} resizeMode='contain' style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}} imageStyle={{opacity: 0.1}}>
+      <ImageBackground source={require('../../assets/images/background/spot_background_green.png')} resizeMode='cover' style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}} imageStyle={{opacity: 0.2}}>
           
       {
       

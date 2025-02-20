@@ -25,8 +25,8 @@ const IntroScreen = () => {
 
   return (
     <View style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}}>
-      <ImageBackground source={require('../../assets/images/content/spot_background.png')} resizeMode='cover' style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}} imageStyle={{opacity: 0.15}}>
-        <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
+      <ImageBackground source={require('../../assets/images/background/spot_background_blue.png')} resizeMode='cover' style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row", width: width, height: height}} imageStyle={{opacity: 0.15}}>
+        <View style={{flex: 1, alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
 
           <View style={{flex: 4, alignItems: "center", justifyContent: "center"}}>
             <ScrollView
@@ -47,6 +47,9 @@ const IntroScreen = () => {
               </View>
             </ScrollView>
           </View>
+          
+          <View style={{height: "100%", width: (width-windowWidth-30)/2, backgroundColor: "red", position: "absolute", right: 0, opacity: 0}} />
+          <View style={{height: "100%", width: (width-windowWidth-30)/2, backgroundColor: "red", position: "absolute", left: 0, opacity: 0}} />
 
         </View>
       </ImageBackground>

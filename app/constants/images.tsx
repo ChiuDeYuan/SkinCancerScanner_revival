@@ -28,12 +28,28 @@ export default {
         ],
         [
             require("../../assets/images/content/mark_chuui.png"),
-            require("../../assets/images/content/pop_chuui.png"),
+            require("../../assets/images/content/pop_caution.png"),
             require("../../assets/images/content/necchuusyou_taoreru_boy.png"),
             require("../../assets/images/content/skin_cancer.png"),
             require("../../assets/images/content/book.png"),
             require("../../assets/images/content/meneki_bad.png"),
             require("../../assets/images/content/kaigo_rourou_easy.png")
+        ],
+        [
+            require("../../assets/images/content/group_family_white.png"),
+            require("../../assets/images/content/dna.png"),
+            require("../../assets/images/content/group_young_world.png"),
+            require("../../assets/images/content/stand_seiyou01_boy.png"),
+            require("../../assets/images/content/red_hair.png"),
+        ],
+        [
+            require("../../assets/images/content/medical_kusuri_takusan_woman.png"),
+            require("../../assets/images/content/hiyake_goods.png"),
+            require("../../assets/images/content/ai_search.png"),
+            require("../../assets/images/content/medical_setsumei_doctor.png"),
+            require("../../assets/images/content/tatemono_hospital2.png"),
+            require("../../assets/images/content/graph_up.png"),
+            require("../../assets/images/content/iryou_kusuribako2.png"),
         ]
     ],
     diagnosis:[

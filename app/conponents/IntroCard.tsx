@@ -17,8 +17,10 @@ import Animated, {
    useSharedValue
 } from 'react-native-reanimated';
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from 'expo-linear-gradient';
 
 import images from '../constants/images';
+import { useNavigation } from 'expo-router';
 
 const { width, height } = Dimensions.get('window');
 const cardWidth = width*0.65;
@@ -32,8 +34,9 @@ const AnimatedTouchableHighlight = Animated.createAnimatedComponent(TouchableHig
 const IntroCard = ({ setScrollable, idx }: { setScrollable: (b: boolean)=>void ; idx: number }) =>{
   const [toggleCard, setToggleCard] = useState(false);
   const [pageIdx, setPageIdx] = useState(1);
-  const TitleFontSize = RFPercentage(2)
-  const DetailsFontSize = RFPercentage(1.8)
+  const TitleFontSize = RFPercentage(2);
+  const DetailsFontSize = RFPercentage(1.8);
+  const navigation = useNavigation();
 
   const AnimatedCardStyle = useAnimatedStyle(()=>{
     return { 
@@ -59,7 +62,7 @@ const IntroCard = ({ setScrollable, idx }: { setScrollable: (b: boolean)=>void ;
 
   const AnimatedCoverContentStyle = useAnimatedStyle(()=>{
     return { 
-      opacity: withTiming(toggleCard ? 0 : 1 , { duration: toggleCard ? 0 : 500})
+      opacity: withTiming(toggleCard ? 0 : 1 , { duration: toggleCard ? 0 : 0})
     };
   })
 
@@ -115,65 +118,84 @@ const IntroCard = ({ setScrollable, idx }: { setScrollable: (b: boolean)=>void ;
   return(
     <Animated.View style={[styles.CardStyle, AnimatedCardStyle]}>
 
-        <Animated.View style={[{flex: 1}, AnimatedCardContentStyle]}>
+        { toggleCard ? (
+          <Animated.View style={[{flex: 1}, AnimatedCardContentStyle]}>
 
-          <View style={{flex: 3, alignItems: "flex-end", justifyContent: "flex-start", flexDirection: "row", paddingHorizontal: 20, paddingBottom: 20}}>
-            <TouchableHighlight underlayColor={ThemeColors['touchable']} onPress={() => {setToggleCard(false); setScrollable(true); setPageIdx(1)}} style={styles.cancelBottom}>
-                <Ionicons name="arrow-back" size={24} color={ThemeColors['white']} />
-            </TouchableHighlight>
-          </View>
+            <View style={{flex: 3, alignItems: "flex-end", justifyContent: "flex-start", flexDirection: "row", paddingHorizontal: 20, paddingBottom: 20}}>
+              <TouchableHighlight underlayColor={ThemeColors['touchable']} onPress={() => {setToggleCard(false); setScrollable(true); setPageIdx(1)}} style={styles.cancelBottom}>
+                  <Ionicons name="arrow-back" size={24} color={ThemeColors['white']} />
+              </TouchableHighlight>
+            </View>
 
-          <View pointerEvents='none' style={styles.cardContentImageContainer}>
-            <Image source={images.intro[idx][pageIdx]} style={styles.cardImg}/>
-          </View>
+            <View pointerEvents='none' style={styles.cardContentImageContainer}>
+              <Image source={images.intro[idx][pageIdx]} style={styles.cardImg}/>
+            </View>
 
-          <View pointerEvents='none' style={styles.cardContentTextContainer}>
-            <Animated.Text style={[styles.cardText]}>
-                {info['intro'][idx]['content'][pageIdx-1]}
-            </Animated.Text>
-          </View>
-
-          <View style={{flex: 4}}>
-            <TouchableHighlight underlayColor={ThemeColors['touchable']} onPress={()=>prevPage()} style={[styles.backBottom]}>
-              <>
-                <Ionicons name="chevron-back-outline" size={RFPercentage(3)} color={ThemeColors['white']} />
-                <Animated.Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginRight: 10}]}>
-                  Back
-                </Animated.Text>
-              </>
-            </TouchableHighlight>
-            <TouchableHighlight underlayColor={ThemeColors['touchable']} onPress={()=>nextPage()} style={styles.nextBottom}>
-              <>
-                <Animated.Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginLeft: 10}]}>
-                  Next
-                </Animated.Text>
-                <Ionicons name="chevron-forward-outline" size={RFPercentage(3)} color={ThemeColors['white']} />
-              </>
-            </TouchableHighlight>
-          </View>
-
-        </Animated.View>
-
-        <AnimatedTouchableHighlight underlayColor={ThemeColors['aquamarine']} onPress={() => {setScrollable(false); setToggleCard(true); }} style={[styles.touchableHighlight, AnimatedHighlightStyle]} disabled={toggleCard}>
-          <Animated.View pointerEvents={'none'} style={[{flex: 1}, AnimatedCoverContentStyle]}>
-            <Animated.View pointerEvents={'none'} style={[styles.cardTopContainer, AnimatedCoverContainer]}>
-              <Animated.Text ellipsizeMode={'clip'} numberOfLines={1} style={[styles.cardTitle, AnimatedCoverTitle]}>
-                {info['intro'][idx]['title']}
+            <View pointerEvents='none' style={styles.cardContentTextContainer}>
+              <Animated.Text style={[styles.cardText]}>
+                  {info['intro'][idx]['content'][pageIdx-1]}
               </Animated.Text>
-            </Animated.View>
-            <Animated.View pointerEvents={'none'} style={[styles.cardMiddleContainer, AnimatedCoverContainer]}>
-              <Image source={images.intro[idx][0]} style={styles.cardImg}/>
-            </Animated.View>
-            <Animated.View pointerEvents={'none'} style={[styles.cardBottomContainer, AnimatedDetailsContainer]}>
-              <View pointerEvents={'none'} style={styles.detailsContainer}>
-                <Animated.Text style={[styles.details, AnimatedCoverDetails]}>
-                More Details
-                </Animated.Text>
-                <Ionicons name="chevron-forward-outline" size={RFPercentage(2)} color={ThemeColors['aquamarine']} style={styles.detailsIcon} />
-              </View>
-            </Animated.View>
+            </View>
+
+            <View pointerEvents={'box-only'} style={{flex: 4, alignItems: "flex-start", justifyContent: "space-around", flexDirection: "row"}}>
+              {idx==info['intro'].length-1 && pageIdx==info['intro'][idx]['content'].length ? 
+                (
+                  <>
+                    <TouchableOpacity onPress={()=>{nextPage(); setTimeout(()=>navigation.navigate('Start Diagnosis'), 300)}} style={[{alignItems: "center", flexDirection: "row", justifyContent: "center", marginTop: 20}]}>
+                      <LinearGradient colors={["#AE8625", "#F7EF8A", "#D2AC47", "#EDC967"]} start={{ x: 0, y: 0}} end={{ x: 1, y: 1}} style={{width: cardWidth, borderRadius: 100, padding: 3, alignItems: "center", flexDirection: "row", justifyContent: "center",}}>
+                        <LinearGradient colors={["#FFFFFF", "#E7CD78", "#FAF9D0"]} start={{ x: 0, y: 0}} end={{ x: 1, y: 1}} style={{width: "100%", height: "100%", borderRadius: 100, padding: 10, alignItems: "center", flexDirection: "row", justifyContent: "center",}}>
+                            <Ionicons name="search-outline" size={RFPercentage(2)} color={ThemeColors['black']} style={{marginHorizontal: 5}} />
+                            <Text style={{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic"}}>
+                              Start Diagnosis
+                            </Text>
+                        </LinearGradient>  
+                      </LinearGradient>
+                    </TouchableOpacity>
+                  </>
+                ) : (
+                  <>
+                    <TouchableHighlight underlayColor={ThemeColors['touchable']} onPress={()=>prevPage()} style={[styles.BottomButton]}>
+                      <>
+                        <Ionicons name="chevron-back-outline" size={RFPercentage(3)} color={ThemeColors['white']} />
+                        <Animated.Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginRight: 10}]}>
+                          Back
+                        </Animated.Text>
+                      </>
+                    </TouchableHighlight>
+                    <TouchableHighlight underlayColor={ThemeColors['touchable']} onPress={()=>nextPage()} style={styles.BottomButton}>
+                      <>
+                        <Animated.Text style={[{fontSize: RFPercentage(2), fontFamily: "MerriweatherBoldItalic", color: ThemeColors['white'], marginLeft: 10}]}>
+                          Next
+                        </Animated.Text>
+                        <Ionicons name="chevron-forward-outline" size={RFPercentage(3)} color={ThemeColors['white']} />
+                      </>
+                    </TouchableHighlight>
+                  </>
+                )} 
+            </View>
           </Animated.View>
-       </AnimatedTouchableHighlight>
+        ) : (
+          <AnimatedTouchableHighlight underlayColor={ThemeColors['aquamarine']} onPress={() => {setScrollable(false); setToggleCard(true); }} style={[styles.touchableHighlight, AnimatedHighlightStyle]} disabled={toggleCard}>
+            <Animated.View pointerEvents={'none'} style={[{flex: 1}, AnimatedCoverContentStyle]}>
+              <Animated.View pointerEvents={'none'} style={[styles.cardTopContainer, AnimatedCoverContainer]}>
+                <Animated.Text ellipsizeMode={'clip'} numberOfLines={1} style={[styles.cardTitle, AnimatedCoverTitle]}>
+                  {info['intro'][idx]['title']}
+                </Animated.Text>
+              </Animated.View>
+              <Animated.View pointerEvents={'none'} style={[styles.cardMiddleContainer, AnimatedCoverContainer]}>
+                <Image source={images.intro[idx][0]} style={styles.cardImg}/>
+              </Animated.View>
+              <Animated.View pointerEvents={'none'} style={[styles.cardBottomContainer, AnimatedDetailsContainer]}>
+                <View pointerEvents={'none'} style={styles.detailsContainer}>
+                  <Animated.Text style={[styles.details, AnimatedCoverDetails]}>
+                  More Details
+                  </Animated.Text>
+                  <Ionicons name="chevron-forward-outline" size={RFPercentage(2)} color={ThemeColors['aquamarine']} style={styles.detailsIcon} />
+                </View>
+              </Animated.View>
+            </Animated.View>
+        </AnimatedTouchableHighlight>
+        )}
 
     </Animated.View>
   );
@@ -260,27 +282,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
   },
-  backBottom: {
-    position: "absolute",
-    left: 40,
-    top: 20,
+  BottomButton: {
     backgroundColor: ThemeColors['aquamarine'],
-    borderRadius: 20,
+    borderRadius: 100,
     padding: 10,
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
-  },
-  nextBottom: {
-    position: "absolute",
-    right: 40,
-    top: 20,
-    backgroundColor: ThemeColors['aquamarine'],
-    borderRadius: 20,
-    padding: 10,
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "center",
+    marginTop: 20
   },
   indicator: {
     position: "absolute",

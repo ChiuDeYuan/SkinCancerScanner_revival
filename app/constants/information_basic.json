@@ -4,7 +4,7 @@
     ],
     "intro":[
         {
-            "title":"What is Melanoma?",
+            "title":"What Is Melanoma?",
             "content":[
                 "Melanoma is a kind of skin cancer. Although Melanoma only accounts for 1-2% of skin cancer cases, it is easily the most deadly type of skin cancer.",
                 "It can grow rapidly over weeks or months and it may spread to other parts of the body and potentially become fatal.",
@@ -35,7 +35,7 @@
             ]
         },
         {
-            "title":"Risk factors",
+            "title":"Risk Factors",
             "content":[
                 "A risk factor is anything that raises your risk of getting a disease such as cancer. Risk factors include a variety of things such as personal lifestyle, age or family history.The major risk factors of Melanoma are as follows:",
                 "1. UV Light Exposure",
@@ -44,6 +44,26 @@
                 "4. Weakened Immune System",
                 "5. Being Older"
             ]
+        },
+        {
+            "title":"Risk group",
+            "content":[
+                "According to the American Cancer Society, genetics are a huge factor the affects your lifetime chance of developing Melanoma.",
+                "For example, while Melanoma incidence ranges from 1.0 (per 100000) in Black individuals and 1.3 in Asian/Pacific Islanders, it reaches 4.8 in the Hispanic demographic, 10.3 in Native Americans  and an astonishing 30.6 in White individuals.",
+                "What this implies is that, if you are born as a White individual, you are likely 30 times more susceptible to Melanoma than the average Black individual or 10 times more than the majority of the world's populations.",
+                "Further more, due to how genes function, people with a hint of red to their hair are 10 times more susceptible to Melanoma and 100 times more than the average individual for people with bright red colored hair. This chance is further amplified for people with many freckles present on their body."
+            ] 
+        },
+        {
+           "title":"To Prevent Melanoma",
+            "content":[
+                "On a daily basis, using sunscreen more regularly and refraining from common carcinogens such as Tobacco or Alcohol can be helpful.",
+                "However, it is also of upmost importance that you grasp the personal chances you're dealing with (test provided in the Self-diagnosis section of the app) and make a cohesive plan with your local Dermatologist before proceeding with any action.",
+                "For people with a high lifetime risk of developing Melanoma, it is recommended that you commit yourself to regular self-checkups or clinic visits.",
+                "For people with signs of Melanoma already developing within their body, it is heavily advised that you visit the local Dermatology immediately. ",
+                "Melanoma have drastic differences in mortality rates within different stages of development, which is why you should pay your visit to the clinic as soon as you can.",
+                "Despite Melanoma's deadliness, it is much more curable than other types of cancer if caught early. It is within our best interest that you stay informed and alert on this topic. Thanks for using this app and our development team hereby wishes the best for your health."
+            ] 
         }
     ],
     "about":[
